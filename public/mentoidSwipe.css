@@ -110,3 +110,13 @@ body {
 #heading {
     text-align: center;
 }
+
+/* Information for each profile Box */
+#profileInfoDiv{
+    margin-top: 25px;
+    width: 500px;
+    height: 200px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
