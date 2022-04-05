@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="./mentoidLogin.css">
+</head>
+<body>
+
+    <div id="loginDiv" class="center">
+        <form action="http://localhost:3000/authenticate" form method="POST">
+
+            <div>
+                <h1>Login</h1>
+            </div>
+
+            <div class="inputWrapper">
+                <input type="text" name="username" id="username" class="inputs" placeholder="Username">
+                <br>
+            </div>
+
+            <div class="inputWrapper">
+                <input type="text" name="password" id="password" class="inputs" placeholder="Enter Password">
+                <br>
+            </div>
+            <input type="submit" value="Login" class="buttons">
+        </form> 
+            
+
+
+        <form action="http://localhost:3000/mentoidProfile.html">
+            <input type="submit" value="Create Account" class="buttons">
+        </form>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+    text-align: center;
+    background-color: #DBE2EF;
+    color: #F9F7F7;
+}
+
+#loginDiv {
+    border: 2px solid #112D4E;
+    border-radius: 20px;
+    width: 30vw;
+    margin: auto;
+    height: 40vh;
+    background-color: #3F72AF;
+    padding: 15px;
+    position: absolute;
+}
+
+.inputWrapper label{
+    display: inline-block;
+    width: 200px;
+    text-align: right;
+}
+
+.center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+    padding: 80px;
+  }
+
+  .inputWrapper {
+      margin-top: 20px;
+  }
+
+  .buttons {
+      margin-top: 10px;
+      color: #F9F7F7;
+      background-color: #112D4E;
+      border-color: #112D4E;
+      border-radius: 5px;
+      font-size: 20px;
+      padding: 5px 5px;
+  }
+
+  .inputs {
+      width: 200px;
+      height: 25px;
+  }
+
+  h1 {
+      font-size: 3em;
+  }
+
+
+  .profileButtons {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #3F72AF;
+    border-radius: 6px;
+    outline: none;
+  }
+  

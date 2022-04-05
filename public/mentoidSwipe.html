@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="mentoidSwipe.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentoid Match</title>
+</head>
+
+<body onload="fetchMentors()">
+    <h1 id="heading">Match page</h1>
+
+    <!-- holds the current and next profile -->
+    <div id="profilesContainer">
+
+        <div class="currentProfile" id="currentProfileID">
+            <p id="currentFName">First</p>
+            <p id="currentLName">Last</p>
+            <p id="currentUsername">Username</p>
+            <p id="currentInterests">Interests</p>
+        </div>
+
+        <div class="nextProfile" id="nextProfileID">
+            <p id="nextFName">First</p>
+            <p id="nextLName">Last</p>
+            <p id="nextUsername">Username</p>
+            <p id="nextInterests">Interests</p>
+        </div>
+
+    </div>
+
+    <div id="buttonDiv">
+        <div id="swipeLeft" class="swipeButton" onclick="swipeLeft()"></div>
+
+        <div id="swipeRight" class="swipeButton" onclick="swipeRight()"></div>
+    </div>
+
+    <a href="http://localhost:3000/logout">Logout</a>
+
+    <script src="mentoidSwipe.js"></script>
+    
+</body>
+
+</html>

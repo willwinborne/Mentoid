@@ -1,0 +1,85 @@
+
+/* animation to swipe right */
+@keyframes right {
+    0%   {left:0%; top:0%;}
+    100% {left:1000%; top:-25%; transform: rotate(120deg);}
+}
+
+/* animation to swipe left */
+@keyframes left {
+    0%   {right:0%; top:0%;}
+    100% {right:1000%; top:-25%; transform: rotate(-120deg);}
+}
+
+/* holds the current and next profile */
+#profilesContainer {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* shown below the current profile, this is the next one to be rendered */
+#nextProfileID {
+    width: 100%;
+    height: 100%;           
+     /* what */
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color:  white;
+    border: 2px solid #3F72AF;
+    border-radius: 10px;
+}
+
+/* shown at the top, this is the element that animates */
+.currentProfile {
+    position: relative;
+    width: 100%;
+    height: 100%;   
+    /* what */
+    z-index: 9;
+    background-color:  white;
+    border: 2px solid #3F72AF;
+    border-radius: 10px;
+    box-shadow: 5px 5px lightgray
+}
+
+/* don't allow animating elements to create a horizontal scrollbar */
+body {
+    overflow-x: hidden;
+    background-color: #F9F7F7;
+}
+
+/* class for swipe buttons at the bottom */
+.swipeButton {
+    width: 50px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px;
+}
+
+/* hold buttons towards the middle */
+#swipeLeft {
+    margin-left: 40%;
+    background-color: red;
+}
+
+#swipeRight {
+    margin-right: 40%;
+    background-color: green;
+}
+
+/* flex flow to make aligning buttons easier */
+#buttonDiv {
+    margin-top: 50px;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 5px;
+    padding: 10px 0;
+}
+
+#heading {
+    text-align: center;
+}

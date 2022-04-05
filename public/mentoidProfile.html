@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="mentoidProfile.css">
+</head>
+
+<body>
+    <h1>Create Profile</h1>
+    <!-- enctype="multipart/form-data" allows file sending. https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data -->
+    <!-- then, we also have to use middleware to understand these different forms. what a headache -->
+    <form action="http://localhost:3000/makenewprofile" form method="POST" enctype="multipart/form-data" id="createProfileForm">
+        <br><br>
+        <div class="row Idiv" >
+            <label for="fname">First name:</label>
+            <input type="text" id="fname" name="fname" placeholder="John"><br><br>
+            <label for="lname">Last name:</label>
+            <input type="text" id="lname" name="lname" placeholder="Doe"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="johnDoe@yahoo.com"><br><br>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="user1" oninput="checkUsername()">
+            <p id="usernameCheck">&#10008;</p>
+            <br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="iLuvCatz81"><br><br>
+            <label for="interests">Select your interests:</label><br> 
+        </div>
+       
+        <div class="row" >
+            <!-- <div class="col-03" id="leftInterestDiv"> -->
+                <div class="col-02"></div>
+                <div class="col-03 Idiv" >
+                    <input type="checkbox" id="intrest1" name="interest1" value="accounting">
+                    <label for="interest1"> Accounting</label><br>
+                    <input type="checkbox" id="interest2" name="interest2" value="entrepreneurship">
+                    <label for="interest2"> Entrepreneurship</label><br>
+                    <input type="checkbox" id="interest3" name="interest3" value="businessStrategy">
+                    <label for="interest3"> Business Strategy</label><br>
+                </div>
+                <div class="col-03 Idiv"  >
+                    <input type="checkbox" id="interest4" name="interest4" value="informationSystems">
+                    <label for="interest4"> Information Systems</label><br>
+                    <input type="checkbox" id="interest5" name="interest5" value="humanResources">
+                    <label for="interest5"> Human Resources</label><br>
+                    <input type="checkbox" id="interest6" name="interest6" value="talentAcquisition">
+                    <label for="interest6"> Talent Acquisition</label><br>
+                </div>
+                <div class="col-03 Idiv" id="rightInterestDiv">
+                    <input type="checkbox" id="interest7" name="interest7" value="performanceManagement">
+                    <label for="interest7"> Performance Management</label><br>
+                    <input type="checkbox" id="interest8" name="interest8" value="supplyChain">
+                    <label for="interest8"> Supply Chain Management</label><br>
+                    <input type="checkbox" id="interest9" name="interest9" value="marketing">
+                    <label for="interest9"> Marketing</label>
+                </div> 
+                <div class="col-01"></div>   
+        </div>
+        
+        <br>
+        <div class="row" id="bottomHalf">
+            <p>Add a description for your profile!</p>
+            <textarea id="description" maxlength="300" name="postContent" wrap="hard"></textarea><br><br>
+
+            <label for="img">Select profile picture: </label><br><br>
+            <!-- Look at this weird thing going on -->
+            <input type="file" id="img" name="img" accept="image/*"><br><br>
+
+            <input type="reset" value="Clear">
+            <input type="submit" value="Submit" id="submitButton" disabled>
+            <br><br>
+        </div>
+        
+    </form>
+    <script src="mentoidProfile.js"></script>
+</body>
+
+</html>
