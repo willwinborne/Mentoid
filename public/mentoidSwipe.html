@@ -10,7 +10,13 @@
 </head>
 
 <body onload="fetchMentors()">
-    <h1 id="heading">Match page</h1>
+
+    <ul>
+        <li><a href="default.asp">Home</a></li>
+        <li><a href="news.asp">News</a></li>
+        <li><a href="contact.asp">Contact</a></li>
+        <li><a href="http://localhost:3000/logout">Logout</a></li>
+      </ul>
 
     <!-- holds the current and next profile -->
     <div id="profilesContainer">
@@ -37,7 +43,7 @@
         <div id="swipeRight" class="swipeButton" onclick="swipeRight()"></div>
     </div>
 
-    <a href="http://localhost:3000/logout">Logout</a>
+    
 
     <script src="mentoidSwipe.js"></script>
     
