@@ -39,7 +39,8 @@ app.post('/authenticate', bodyParser.urlencoded({extended: true}), async (req, r
     host: '107.180.1.16',
     user: 'springog2022team',
     password: 'springog2022team4',
-    database: 'springog2022team4'
+    database: 'springog2022team4',
+    port: 3306
   });
 
   connection.connect();
@@ -74,7 +75,8 @@ app.get('/getmentors', (req, res) => {
       host: '107.180.1.16',
       user: 'springog2022team',
       password: 'springog2022team4',
-      database: 'springog2022team4'
+      database: 'springog2022team4',
+      port: 3306
     });
 
     connection.connect();
@@ -104,7 +106,8 @@ app.post('/checkUsername', (req, res) => {
     host: '107.180.1.16',
     user: 'springog2022team',
     password: 'springog2022team4',
-    database: 'springog2022team4'
+    database: 'springog2022team4',
+    port: 3306
   });
 
   connection.connect();
@@ -144,7 +147,8 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
     host: '107.180.1.16',
     user: 'springog2022team',
     password: 'springog2022team4',
-    database: 'springog2022team4'
+    database: 'springog2022team4',
+    port: 3306
   });
 
   connection.connect();
