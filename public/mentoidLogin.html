@@ -24,8 +24,12 @@
             <div class="inputWrapper">
                 <input type="text" name="password" id="password" class="inputs" placeholder="Enter Password">
                 <br>
+                <input type="checkbox" name="mentor" id="mentor" class="checkbox" onchange="check(mentor)" checked>
+                <label for="mentor" class="checkboxLabel">Login as mentor</label><br>
+                <input type="checkbox" name="mentee" id="mentee" class="checkbox" onchange="check(mentee)">
+                <label for="mentee" class="checkboxLabel">Login as mentee</label>
             </div>
-            <input type="submit" value="Login" class="buttons">
+            <input type="submit" value="Login" id="login" class="buttons">
         </form> 
             
 
@@ -35,5 +39,7 @@
         </form>
 
     </div>
+
+    <script src="mentoidLogin.js"></script>
 </body>
 </html>

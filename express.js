@@ -127,6 +127,37 @@ app.post('/checkUsername', (req, res) => {
 
 });
 
+// dynamically check for a match between two people
+app.post('/checkForMatch', (req, res) => {
+
+  user = req.session.username;
+
+  const connection = mysql.createConnection({
+    host: '107.180.1.16',
+    user: 'springog2022team',
+    password: 'springog2022team4',
+    database: 'springog2022team4',
+    port: 3306
+  });
+
+  connection.connect();
+
+  // check for existing usernames
+  connection.query(`SELECT mentorUsername FROM mentorsTable WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
+    if (err) throw err.code;
+    if (typeof results[0] !== 'undefined') {
+      res.json({ usernameTaken: 'true' });
+    } else {
+      res.json({ usernameTaken: 'false' });
+    }
+
+  });
+
+  connection.end();
+
+});
+
+
 // return the username of the user
 // not accessible without login, so no check required
 app.post('/getUsername', (req, res) => {
