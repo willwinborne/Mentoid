@@ -1,12 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
 /* navbar */
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #DBE2EF;
     border-radius: 25px;
     box-shadow: 2px 2px #3F72AF;
+    background: linear-gradient(270deg, #dbe2ef, #3f72af);
+    background-size: 400% 400%;
+    animation: AnimationName 30s ease infinite;
+    margin-top: 10px;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 li {
@@ -31,6 +44,15 @@ li a:hover {
     background-color: #112D4E;
     color: #DBE2EF;
     text-decoration: underline;
+}
+
+.infoDiv {
+    background: linear-gradient(270deg, #8296bd, #3f72af);
+    border: 2px solid #3F72AF;
+    border-radius: 10px;
+    box-shadow: 5px 5px lightgray;
+    width: 100%;
+
 }
 
 
@@ -123,6 +145,7 @@ body {
 #swipeLeft {
     margin-left: 40%;
     background-color: red;
+
 }
 
 #swipeRight {
@@ -132,7 +155,7 @@ body {
 
 /* flex flow to make aligning buttons easier */
 #buttonDiv {
-    margin-top: 50px;
+    margin-top: 10px;
     display: flex;
     flex-flow: row nowrap;
     gap: 5px;
@@ -145,10 +168,22 @@ body {
 
 /* Information for each profile Box */
 #profileInfoDiv {
+    width: 50%;
     margin-top: 25px;
-    width: 500px;
-    height: 200px;
-    position: relative;
     margin-left: auto;
     margin-right: auto;
 }
+
+#currentFName {
+    font-size: 3em;
+    display: inline;
+    margin-left: 10px;
+}
+
+#currentUsername {
+    font-size: 3em;
+    display: inline;
+    float: right;
+    margin-right: 10px;
+}
+

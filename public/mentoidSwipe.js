@@ -5,16 +5,12 @@ profile.style.animationDuration = "1s";
 
 // variables to edit the current profile
 const currentFName = document.getElementById("currentFName");
-const currentLName = document.getElementById("currentLName");
 const currentUsername = document.getElementById("currentUsername");
 const currentInterests = document.getElementById("currentInterests");
+const currentDescription = document.getElementById("currentDescription");
 const currentProfilePicture = document.getElementById("currentProfilePicture");
 
 // variables to edit the next profile
-const nextFName = document.getElementById("nextFName");
-const nextLName = document.getElementById("nextLName");
-const nextUsername = document.getElementById("nextUsername");
-const nextInterests = document.getElementById("nextInterests");
 const nextProfilePicture = document.getElementById("nextProfilePicture");
 
 // an array to hold all possible mentors this person matched with and an index
@@ -74,10 +70,10 @@ async function fetchMentors() {
 
 // draw the current profile "top of stack" as the provided mentor 
 function drawCurrentProfile(mentor) {
-    currentFName.innerHTML = mentor.FName;
-    currentLName.innerHTML = mentor.LName;
+    currentFName.innerHTML = `${mentor.FName} ${mentor.LName}`;
     currentUsername.innerHTML = mentor.mentorUsername;
     currentInterests.innerHTML = mentor.Interests;
+    currentDescription.innerHTML = mentor.Description;
     profile.style.backgroundImage = `url(${mentor.profilePictureID})`;
     mentorIndex++;
 }
