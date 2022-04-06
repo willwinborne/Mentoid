@@ -64,12 +64,6 @@ async function fetchMentors() {
     if (response.status === 200) {
         let data = await response.json();
 
-        // convert each base64 string into a png image URI
-        for (i = 0; i < data.length; i++) {
-            data[i].Photo = "data:image/png;base64," + data[i].Photo;
-            console.log(data[i].Photo);
-        }
-
         data.forEach(data => mentors.push(data));
     }
     // hardcode: draw the first two available profiles
@@ -85,31 +79,16 @@ function drawCurrentProfile(mentor) {
     currentUsername.innerHTML = mentor.mentorUsername;
     currentInterests.innerHTML = mentor.Interests;
     profile.style.backgroundImage = `url(${mentor.profilePictureID})`;
-    console.log(`drawing current profile as ${mentorIndex}`);
     mentorIndex++;
 }
 
 // draw the next profile "second card" as the provided mentor 
 function drawNextProfile(mentor) {
-    //nextFName.innerHTML = mentor.FName;
-    //nextLName.innerHTML = mentor.LName;
-    //nextUsername.innerHTML = mentor.mentorUsername;
-    //nextInterests.innerHTML = mentor.Interests;
     nextProfile.style.backgroundImage = `url(${mentor.profilePictureID})`;
-    console.log(`drawing next profile as ${mentorIndex}`);
-    // mentorIndex++;
 }
-
-function testNextProfile() {
-    drawNextProfile(mentors[0]);
-}
-
-
 
 // get the username of the current session from the server
 async function getUsername() {
-
-    console.log("getting username")
 
     // get the current username
     const response = await fetch("http://localhost:3000/getUsername", {
