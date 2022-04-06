@@ -14,9 +14,7 @@ ul {
     overflow: hidden;
     border-radius: 25px;
     box-shadow: 2px 2px #3F72AF;
-    background: linear-gradient(270deg, #dbe2ef, #3f72af);
-    background-size: 400% 400%;
-    animation: AnimationName 30s ease infinite;
+    background: linear-gradient(270deg, #8cabe6, #3f72af);
     margin-top: 10px;
     margin-left: 15%;
     margin-right: 15%;
