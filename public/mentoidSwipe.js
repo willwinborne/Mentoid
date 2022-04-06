@@ -1,7 +1,3 @@
-// PROJECT 2 JS: SWIPE PAGE
-// written by William Winborne (wwinborn)
-
-// variables to edit each profile
 const profile = document.getElementById("currentProfileID");
 const nextProfile = document.getElementById("nextProfileID");
 // set the time the swipe animation takes
@@ -28,8 +24,8 @@ let mentorIndex = 1;
 // remove the top profile, then re-draw the "next profile" as the top profile, 
 // and bring in the next person to fill the new "next profile."
 // do not trigger a "match"
-// (add async for experimental feature)
 function swipeLeft() {
+    console.log("swipe left");
     if (profile.style.animationName != "left") {
         profile.style.animationName = "left";
     } else {
@@ -38,22 +34,16 @@ function swipeLeft() {
         void profile.offsetWidth;
         profile.style.animation = "left 1s";
     }
-    
-    drawNextProfile(mentors[mentorIndex - 1]);
+    drawCurrentProfile(mentors[mentorIndex - 1]);
 
-    // experimental:
-    // sleep for 750ms before drawing the current profile
-    // this gives it time to animate off the screen
-    // await new Promise(r => setTimeout(r, 750));
-    drawCurrentProfile(mentors[mentorIndex - 2]);
-
-    
+    drawNextProfile(mentors[mentorIndex - 2]);
 }
 
 // remove the top profile, then re-draw the "next profile" as the top profile, 
 // and bring in the next person to fill the new "next profile."
 // trigger a "match" 
 function swipeRight() {
+    console.log("swipe right");
     if (profile.style.animationName != "right") {
         profile.style.animationName = "right";
     } else {
@@ -62,7 +52,6 @@ function swipeRight() {
         void profile.offsetWidth;
         profile.style.animation = "right 1s";
     }
-    
     drawCurrentProfile(mentors[mentorIndex - 1]);
 
     drawNextProfile(mentors[mentorIndex - 2]);
@@ -85,7 +74,6 @@ async function fetchMentors() {
     }
     // hardcode: draw the first two available profiles
     // TODO: this could cause problems if there aren't two profiles to display
-    getUsername();
     drawCurrentProfile(mentors[0]);
     drawNextProfile(mentors[1]);
 }
@@ -103,14 +91,20 @@ function drawCurrentProfile(mentor) {
 
 // draw the next profile "second card" as the provided mentor 
 function drawNextProfile(mentor) {
-    nextFName.innerHTML = mentor.FName;
-    nextLName.innerHTML = mentor.LName;
-    nextUsername.innerHTML = mentor.mentorUsername;
-    nextInterests.innerHTML = mentor.Interests;
+    //nextFName.innerHTML = mentor.FName;
+    //nextLName.innerHTML = mentor.LName;
+    //nextUsername.innerHTML = mentor.mentorUsername;
+    //nextInterests.innerHTML = mentor.Interests;
     nextProfile.style.backgroundImage = `url(${mentor.profilePictureID})`;
     console.log(`drawing next profile as ${mentorIndex}`);
     // mentorIndex++;
 }
+
+function testNextProfile() {
+    drawNextProfile(mentors[0]);
+}
+
+
 
 // get the username of the current session from the server
 async function getUsername() {

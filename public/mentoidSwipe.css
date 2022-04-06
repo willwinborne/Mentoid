@@ -69,7 +69,7 @@ ul {
     background-color:  white;
     border: 2px solid #3F72AF;
     border-radius: 10px;
-    box-shadow: 5px 5px lightgray
+    box-shadow: 5px 5px lightgray;
 }
 
 /* don't allow animating elements to create a horizontal scrollbar */
