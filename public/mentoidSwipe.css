@@ -83,6 +83,9 @@ li a:hover {
     background-color: white;
     border: 2px solid #3F72AF;
     border-radius: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 /* shown at the top, this is the element that animates */
@@ -96,6 +99,9 @@ li a:hover {
     border: 2px solid #3F72AF;
     border-radius: 10px;
     box-shadow: 5px 5px lightgray;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 /* don't allow animating elements to create a horizontal scrollbar */
