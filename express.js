@@ -45,6 +45,7 @@ app.post('/authenticate', bodyParser.urlencoded({extended: true}), async (req, r
 
   connection.connect();
 
+  console.log(req.body.mentor)
   connection.query(`SELECT Password FROM mentorsTable WHERE mentorUsername ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
 
