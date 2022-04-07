@@ -158,6 +158,9 @@ body {
     padding: 10px 0;
 }
 
+#currentUsername {
+    visibility: hidden;
+}
 
 #heading {
     text-align: center;

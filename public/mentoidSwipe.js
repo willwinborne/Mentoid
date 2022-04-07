@@ -122,15 +122,6 @@ async function sendLeftSwipe() {
     })
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
-            console.log(data.usernameTaken);
-            if (data.usernameTaken == 'false' && document.getElementById("username").value.length > 0) {
-                document.getElementById("usernameCheck").innerHTML = '&#10003;'
-                document.getElementById("usernameCheck").style.color = "green";
-                document.getElementById("submitButton").disabled = false;
-            } else {
-                document.getElementById("usernameCheck").innerHTML = '&#10008;'
-                document.getElementById("usernameCheck").style.color = "red";
-                document.getElementById("submitButton").disabled = true;
-            }
+            console.log(data);
         })
 }
