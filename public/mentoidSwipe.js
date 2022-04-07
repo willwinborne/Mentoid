@@ -17,10 +17,18 @@ const nextProfilePicture = document.getElementById("nextProfilePicture");
 let mentors = [];
 let mentorIndex = 1;
 
+let clientUsername = "";
+
+function start() {
+    fetchMentors();
+    getUsername();
+}
+
 // remove the top profile, then re-draw the "next profile" as the top profile, 
 // and bring in the next person to fill the new "next profile."
 // do not trigger a "match"
 function swipeLeft() {
+    sendLeftSwipe();
     console.log("swipe left");
     if (profile.style.animationName != "left") {
         profile.style.animationName = "left";
@@ -33,6 +41,8 @@ function swipeLeft() {
     drawCurrentProfile(mentors[mentorIndex - 1]);
 
     drawNextProfile(mentors[mentorIndex - 2]);
+
+    
 }
 
 // remove the top profile, then re-draw the "next profile" as the top profile, 
@@ -85,19 +95,42 @@ function drawNextProfile(mentor) {
 
 // get the username of the current session from the server
 async function getUsername() {
-
+    console.log("getting client username from webserver.")
     // get the current username
     const response = await fetch("http://localhost:3000/getUsername", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
     })
-      
+
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
             console.log(data.username);
-            
+            clientUsername = data.username;
         })
 }
 
+async function sendLeftSwipe() {
+    // check if the username entered exists
+    console.log(clientUsername);
+    let match = currentUsername.innerHTML;
+    const matchData = { match: `${match}`, username: `${clientUsername}` }
 
-
+    const response = await fetch("http://localhost:3000/swipeLeft", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(matchData),
+    })
+        // handle the DOM based on the server's response
+        .then(response => response.json()).then(data => {
+            console.log(data.usernameTaken);
+            if (data.usernameTaken == 'false' && document.getElementById("username").value.length > 0) {
+                document.getElementById("usernameCheck").innerHTML = '&#10003;'
+                document.getElementById("usernameCheck").style.color = "green";
+                document.getElementById("submitButton").disabled = false;
+            } else {
+                document.getElementById("usernameCheck").innerHTML = '&#10008;'
+                document.getElementById("usernameCheck").style.color = "red";
+                document.getElementById("submitButton").disabled = true;
+            }
+        })
+}
