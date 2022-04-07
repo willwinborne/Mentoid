@@ -154,9 +154,7 @@ body {
 /* flex flow to make aligning buttons easier */
 #buttonDiv {
     margin-top: 10px;
-    display: flex;
-    flex-flow: row nowrap;
-    gap: 5px;
+
     padding: 10px 0;
 }
 

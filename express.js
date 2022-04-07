@@ -47,13 +47,14 @@ app.post('/authenticate', bodyParser.urlencoded({extended: true}), async (req, r
 
   // is the user logging in as a mentor or mentee?
   let table = "";
-  if (req.body.mentor == on) {
-    table = "mentors";
+  console.log(req.body.mentor)
+  if (req.body.mentor == "on") {
+    table = "mentor";
   } else {
-    table = "mentees";
+    table = "mentee";
   }
-
-  connection.query(`SELECT Password FROM ${table}Table WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
+  console.log(table);
+  connection.query(`SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
 
     if (results[0].Password == req.body.password) {
