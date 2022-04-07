@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="mentoidProfile.css">
+    <title>Profile Edit</title>
+    <link rel="stylesheet" href="mentoidEdit.css">
 </head>
-
 <body>
-    <h1>Create Profile</h1>
+    <h1>Edit Profile</h1>
     <!-- enctype="multipart/form-data" allows file sending. https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data -->
     <!-- then, we also have to use middleware to understand these different forms. what a headache -->
     <form action="http://localhost:3000/makenewprofile" form method="POST" enctype="multipart/form-data" id="createProfileForm">
@@ -23,11 +21,11 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="johnDoe@yahoo.com"><br><br>
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="user1" oninput="checkUsername()">
-            <p id="usernameCheck">&#10008;</p>
+            <!-- <input type="text" id="username" name="username" placeholder="user1" oninput="checkUsername()">
+            <p id="usernameCheck">&#10008;</p> -->
             <br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="iLuvCatz81"><br><br>
+            <!-- <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="iLuvCatz81"><br><br> -->
             <label for="interests">Select your interests:</label><br> 
         </div>
        
@@ -70,18 +68,12 @@
             <!-- Look at this weird thing going on -->
             <input type="file" id="img" name="img" accept="image/*"><br><br>
 
-            <input type="radio" id="mentor" name="profileType" value="Mentor">
-            <label for="mentor">Mentor</label><br>
-            <input type="radio" id="mentee" name="profileType" value="Mentee">
-            <label for="mentee">Mentee</label><br>
-            <br>
-            <input type="reset" value="Clear">
+            <input type="reset" value="clear">
             <input type="submit" value="Submit" id="submitButton" disabled>
-            <br>
+            <br><br>
         </div>
         
     </form>
     <script src="mentoidProfile.js"></script>
 </body>
-
 </html>
