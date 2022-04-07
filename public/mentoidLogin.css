@@ -12,6 +12,20 @@ body {
     color: #F9F7F7;
 }
 
+#mentor {
+    margin-top: 10px;
+}
+
+.checkboxLabel {
+    text-align: left;
+}
+
+.checkbox {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 #loginDiv {
     border: 2px solid #112D4E;
     border-radius: 20px;
@@ -21,12 +35,6 @@ body {
     background-color: #3F72AF;
     padding: 15px;
     position: absolute;
-}
-
-.inputWrapper label{
-    display: inline-block;
-    width: 200px;
-    text-align: right;
 }
 
 .center{
@@ -53,11 +61,13 @@ body {
       border-radius: 5px;
       font-size: 20px;
       padding: 5px 5px;
+      width: 200px;
   }
 
   .inputs {
       width: 200px;
       height: 25px;
+
   }
 
   h1 {

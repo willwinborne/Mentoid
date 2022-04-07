@@ -45,7 +45,16 @@ app.post('/authenticate', bodyParser.urlencoded({extended: true}), async (req, r
 
   connection.connect();
 
-  connection.query(`SELECT Password FROM mentorsTable WHERE mentorUsername ='${req.body.username}'`, function (err, results) {
+  // is the user logging in as a mentor or mentee?
+  let table = "";
+  console.log(req.body.mentor)
+  if (req.body.mentor == "on") {
+    table = "mentor";
+  } else {
+    table = "mentee";
+  }
+  console.log(table);
+  connection.query(`SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
 
     if (results[0].Password == req.body.password) {
@@ -126,6 +135,37 @@ app.post('/checkUsername', (req, res) => {
   connection.end();
 
 });
+
+// dynamically check for a match between two people
+app.post('/checkForMatch', (req, res) => {
+
+  user = req.session.username;
+
+  const connection = mysql.createConnection({
+    host: '107.180.1.16',
+    user: 'springog2022team',
+    password: 'springog2022team4',
+    database: 'springog2022team4',
+    port: 3306
+  });
+
+  connection.connect();
+
+  // check for existing usernames
+  connection.query(`SELECT mentorUsername FROM mentorsTable WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
+    if (err) throw err.code;
+    if (typeof results[0] !== 'undefined') {
+      res.json({ usernameTaken: 'true' });
+    } else {
+      res.json({ usernameTaken: 'false' });
+    }
+
+  });
+
+  connection.end();
+
+});
+
 
 // return the username of the user
 // not accessible without login, so no check required
