@@ -143,6 +143,7 @@ body {
 #swipeLeft {
     margin-left: 40%;
     background-color: red;
+     float: left;
 
 }
 
