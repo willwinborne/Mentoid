@@ -27,12 +27,13 @@ app.use(express.static('profile_pictures'));
 // not accessible without login, so no check required
 app.get('/logout', (req, res) => {
   req.session.destroy((err) => { })
-  // TODO: more graceful logout
-  res.send('Thank you! Visit again');
+  // redirect after logout
+  res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidLogin.html', });
+  res.end();
 })
 
 // login to the app
-app.post('/authenticate', bodyParser.urlencoded({extended: true}), async (req, res, next) => {
+app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
 
   const connection = mysql.createConnection({
     host: '107.180.1.16',
@@ -87,8 +88,14 @@ app.get('/getmentors', (req, res) => {
 
     connection.connect();
 
+    let desiredType = "mentee";
+
+    if (req.session.profileType == "mentee") {
+      desiredType = "mentor";
+    }
+
     // WHERE interests ???
-    connection.query('SELECT * FROM mentorsTable', function (err, results) {
+    connection.query(`SELECT * FROM ${desiredType}sTable`, function (err, results) {
       if (err) throw err.code;
 
       res.send(results);
@@ -200,7 +207,7 @@ app.post('/getUsername', (req, res) => {
   console.log(`getUsername: ${req.session.username}`)
   console.log(`getUsername: profileType is ${req.session.profileType}`)
 
-  let values = {username: "tom"};
+  let values = { username: "tom" };
   values.username = req.session.username;
   res.json(values);
 
@@ -248,12 +255,12 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
   });
 
   connection.connect();
-  
+
   connection.query(`INSERT INTO ${req.body.profileType} VALUES ('${req.body.username}','${req.body.fname}', '${req.body.lname}', '${req.body.password}', '${req.body.email}', '${interestsString}', '${req.body.description}', '${req.file.filename}', '');`, (err) => {
     if (err) throw err.code;
 
-        connection.end();
-    });
+    connection.end();
+  });
 
   // redirect after creation of the account
   res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidLogin.html', });
