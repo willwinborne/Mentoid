@@ -222,8 +222,8 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
   });
 
   connection.connect();
-
-  connection.query(`INSERT INTO ${req.body.profileTypes} VALUES ('${req.body.username}','${req.body.fname}', '${req.body.lname}', '${req.body.password}', '${req.body.email}', 'accounting', '${req.body.description}', '${req.file.filename}');`, (err) => {
+  
+  connection.query(`INSERT INTO ${req.body.profileType} VALUES ('${req.body.username}','${req.body.fname}', '${req.body.lname}', '${req.body.password}', '${req.body.email}', 'accounting', '${req.body.description}', '${req.file.filename}', '');`, (err) => {
     if (err) throw err.code;
 
         connection.end();
