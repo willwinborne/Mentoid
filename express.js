@@ -54,6 +54,7 @@ app.post('/authenticate', bodyParser.urlencoded({extended: true}), async (req, r
     table = "mentee";
   }
   console.log(table);
+  console.log(`Authenticate password query: SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`)
   connection.query(`SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
 
@@ -62,6 +63,7 @@ app.post('/authenticate', bodyParser.urlencoded({extended: true}), async (req, r
       res.locals.username = req.body.username;
       req.session.loggedIn = true;
       req.session.username = res.locals.username;
+      req.session.profileType = table;
       res.redirect("http://localhost:3000/mentoidSwipe.html");
     } else {
       console.log("password check failed.");
@@ -201,6 +203,7 @@ app.post('/checkForMatch', (req, res) => {
 // not accessible without login, so no check required
 app.post('/getUsername', (req, res) => {
   console.log(`getUsername: ${req.session.username}`)
+  console.log(`getUsername: profileType is ${req.session.profileType}`)
 
   let values = {username: "tom"};
   values.username = req.session.username;
@@ -259,7 +262,7 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
     });
 
   // redirect after creation of the account
-  res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidSwipe.html', });
+  res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidLogin.html', });
   res.end();
 
 });
