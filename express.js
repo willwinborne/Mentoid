@@ -1,4 +1,3 @@
-
 // ############## Project 2 JS ##############
 // Express branch: serverside JS
 // this is based on sprint2.js from our first project.
@@ -47,32 +46,28 @@ app.post('/authenticate', bodyParser.urlencoded({extended: true}), async (req, r
 
   // is the user logging in as a mentor or mentee?
   let table = "";
-  console.log(req.body.mentor)
   if (req.body.mentor == "on") {
     table = "mentor";
   } else {
     table = "mentee";
   }
-  console.log(table);
-  console.log(`Authenticate password query: SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`)
   connection.query(`SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
 
     if (results[0].Password == req.body.password) {
-      console.log("password check passed.")
+      console.log("Authenticate: password check passed.")
       res.locals.username = req.body.username;
       req.session.loggedIn = true;
       req.session.username = res.locals.username;
       req.session.profileType = table;
       res.redirect("http://localhost:3000/mentoidSwipe.html");
     } else {
-      console.log("password check failed.");
+      console.log("Authenticate: password check failed.");
       res.sendStatus(401);
     }
 
   });
   connection.end();
-
 });
 
 // currently gets ALL mentors, we need to eventually change this to only retrieve the mentors the user "matched" with
@@ -103,7 +98,7 @@ app.get('/getmentors', (req, res) => {
     connection.end();
 
   } else {
-    console.log("USER IS NOT LOGGED IN")
+    console.log("Authenticate: user is not logged in.")
     res.send("You're not logged in.")
   }
 
@@ -243,7 +238,6 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
   if (req.body.interest9 != undefined) {
     interestsString += "marketing"
   }
-  console.log(interestsString);
 
   const connection = mysql.createConnection({
     host: '107.180.1.16',
