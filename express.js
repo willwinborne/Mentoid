@@ -209,9 +209,38 @@ app.post('/getUsername', (req, res) => {
 });
 
 // create a new mentor's profile in the database
-// TODO: generate a comma-separated interests string from the selections on the profile page, and store in place of 'accounting'
 // upload.single('img') uploads the file input with the name 'img' to the /profile_pictures directory on the webserver (multer)
 app.post('/makenewprofile', upload.single('img'), async (req, res) => {
+
+  let interestsString = "";
+  if (req.body.interest1 != undefined) {
+    interestsString += "accounting, "
+  }
+  if (req.body.interest2 != undefined) {
+    interestsString += "entrepreneurship, "
+  }
+  if (req.body.interest3 != undefined) {
+    interestsString += "businessStrategy, "
+  }
+  if (req.body.interest4 != undefined) {
+    interestsString += "informationSystems, "
+  }
+  if (req.body.interest5 != undefined) {
+    interestsString += "humanResources, "
+  }
+  if (req.body.interest6 != undefined) {
+    interestsString += "talentAcquisition, "
+  }
+  if (req.body.interest7 != undefined) {
+    interestsString += "performanceManagement, "
+  }
+  if (req.body.interest8 != undefined) {
+    interestsString += "supplyChain, "
+  }
+  if (req.body.interest9 != undefined) {
+    interestsString += "marketing"
+  }
+  console.log(interestsString);
 
   const connection = mysql.createConnection({
     host: '107.180.1.16',
@@ -223,7 +252,7 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
 
   connection.connect();
   
-  connection.query(`INSERT INTO ${req.body.profileType} VALUES ('${req.body.username}','${req.body.fname}', '${req.body.lname}', '${req.body.password}', '${req.body.email}', 'accounting', '${req.body.description}', '${req.file.filename}', '');`, (err) => {
+  connection.query(`INSERT INTO ${req.body.profileType} VALUES ('${req.body.username}','${req.body.fname}', '${req.body.lname}', '${req.body.password}', '${req.body.email}', '${interestsString}', '${req.body.description}', '${req.file.filename}', '');`, (err) => {
     if (err) throw err.code;
 
         connection.end();
