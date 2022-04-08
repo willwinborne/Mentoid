@@ -52,14 +52,9 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
   } else {
     table = "mentee";
   }
-  console.log(`Authenticate query: SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`)
+
   connection.query(`SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
-
-    if (results[0] == undefined) {
-      console.log("password wrong")
-
-    }
 
     if (results[0].Password == req.body.password) {
       console.log("Authenticate: password check passed.")
