@@ -31,7 +31,7 @@ body {
     border-radius: 20px;
     width: 30vw;
     margin: auto;
-    height: 40vh;
+
     background-color: #3F72AF;
     padding: 15px;
     position: absolute;
@@ -74,6 +74,10 @@ body {
       font-size: 3em;
   }
 
+  #passwordRemind {
+      color: red;
+      visibility:hidden
+  }
 
   .profileButtons {
     display: inline-block;

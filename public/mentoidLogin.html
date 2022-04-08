@@ -7,7 +7,7 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="./mentoidLogin.css">
 </head>
-<body>
+<body onload="passwordReminder()">
 
     <div id="loginDiv" class="center">
         <form action="http://localhost:3000/authenticate" form method="POST">
@@ -23,7 +23,8 @@
 
             <div class="inputWrapper">
                 <input type="text" name="password" id="password" class="inputs" placeholder="Enter Password">
-                <br>
+                <p id="passwordRemind">Password incorrect.</p>
+                
                 <input type="checkbox" name="mentor" id="mentor" class="checkbox" onchange="check(mentor)" checked>
                 <label for="mentor" class="checkboxLabel">Login as mentor</label><br>
                 <input type="checkbox" name="mentee" id="mentee" class="checkbox" onchange="check(mentee)">

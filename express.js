@@ -52,8 +52,14 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
   } else {
     table = "mentee";
   }
+  console.log(`Authenticate query: SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`)
   connection.query(`SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
+
+    if (results[0] == undefined) {
+      console.log("password wrong")
+
+    }
 
     if (results[0].Password == req.body.password) {
       console.log("Authenticate: password check passed.")
@@ -64,7 +70,8 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
       res.redirect("http://localhost:3000/mentoidSwipe.html");
     } else {
       console.log("Authenticate: password check failed.");
-      res.sendStatus(401);
+      res.writeHead(302, { 'Location': `http://localhost:3000/mentoidLogin.html?passwordIncorrect=true&attemptedLogin=${req.body.username}`, });
+      res.end();
     }
 
   });
