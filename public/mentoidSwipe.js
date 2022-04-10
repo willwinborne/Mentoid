@@ -30,7 +30,6 @@ function start() {
 // do not trigger a "match"
 function swipeLeft() {
     sendLeftSwipe();
-    console.log("swipe left");
     if (profile.style.animationName != "left") {
         profile.style.animationName = "left";
     } else {
@@ -40,17 +39,14 @@ function swipeLeft() {
         profile.style.animation = "left 1s";
     }
     drawCurrentProfile(mentors[mentorIndex - 1]);
-
     drawNextProfile(mentors[mentorIndex - 2]);
-
-    
 }
 
 // remove the top profile, then re-draw the "next profile" as the top profile, 
 // and bring in the next person to fill the new "next profile."
 // trigger a "match" 
 function swipeRight() {
-    console.log("swipe right");
+    sendRightSwipe();
     if (profile.style.animationName != "right") {
         profile.style.animationName = "right";
     } else {
@@ -60,7 +56,6 @@ function swipeRight() {
         profile.style.animation = "right 1s";
     }
     drawCurrentProfile(mentors[mentorIndex - 1]);
-
     drawNextProfile(mentors[mentorIndex - 2]);
 }
 
@@ -116,7 +111,6 @@ async function getUsername() {
 }
 
 async function sendLeftSwipe() {
-    // check if the username entered exists
     console.log(clientUsername);
    
     let match = currentUsername.innerHTML;
@@ -124,6 +118,24 @@ async function sendLeftSwipe() {
     const matchData = { match: `${match}`, username: `${clientUsername}` }
 
     const response = await fetch("http://localhost:3000/swipeLeft", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(matchData),
+    })
+        // handle the DOM based on the server's response
+        .then(response => response.json()).then(data => {
+            console.log(data);
+        })
+}
+
+async function sendRightSwipe() {
+    console.log(clientUsername);
+   
+    let match = currentUsername.innerHTML;
+    console.log(match);
+    const matchData = { match: `${match}`, username: `${clientUsername}` }
+
+    const response = await fetch("http://localhost:3000/swipeRight", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(matchData),

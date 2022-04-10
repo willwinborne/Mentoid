@@ -178,16 +178,73 @@ app.post('/swipeLeft', (req, res) => {
   });
 
   // first, skip the target for the client so this person won't be shown again
-  clientSkips += `${req.body.match},`;
-  connection.query(`UPDATE ${req.session.profileType}sTable SET Skips = '${clientSkips}' WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
-    if (err) throw err.code;
-  });
+  if (!clientSkips.includes(req.body.match)) {
+    clientSkips += `'${req.body.match}', `;
+    connection.query(`UPDATE ${req.session.profileType}sTable SET Skips = '${clientSkips}' WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
+      if (err) throw err.code;
+    });
+  }
 
   // next, skip the client for the target so it won't show them
-  targetSkips += `${req.body.username},`;
-  connection.query(`UPDATE ${matchType}sTable SET Skips = '${targetSkips}' WHERE mentorUsername = '${req.body.match}';`, function (err, results) {
-    if (err) throw err.code;
+  if (!targetSkips.includes(req.body.username)) {
+    targetSkips += `'${req.body.username}', `;
+    connection.query(`UPDATE ${matchType}sTable SET Skips = '${targetSkips}' WHERE mentorUsername = '${req.body.match}';`, function (err, results) {
+      if (err) throw err.code;
+    });
+  }
+
+  connection.end();
+
+});
+
+// a user swiped right.
+app.post('/swipeRight', (req, res) => {
+
+  let matchType = "mentor";
+  let clientMatches = "";
+  let targetMatches = "";
+
+  if (req.session.profileType == "mentor") {
+    matchType = "mentee";
+  }
+
+  const connection = mysql.createConnection({
+    host: '107.180.1.16',
+    user: 'springog2022team',
+    password: 'springog2022team4',
+    database: 'springog2022team4',
+    port: 3306
   });
+
+  connection.connect();
+
+  // get the current matches of the client
+  connection.query(`SELECT Matches FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}username = '${req.body.username}';`, function (err, results) {
+    if (err) throw err.code;
+    clientMatches = results[0].Skips;
+  });
+
+  // get the current matches of the target
+  connection.query(`SELECT Matches FROM ${matchType}sTable WHERE ${matchType}username = '${req.body.match}';`, function (err, results) {
+    if (err) throw err.code;
+    targetMatches = results[0].Skips;
+  });
+
+  // first, match the target for the client
+  if (!clientMatches.includes(req.body.match)) {
+    clientMatches += `'${req.body.match}', `;
+    connection.query(`UPDATE ${req.session.profileType}sTable SET Matches = '${clientMatches}' WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
+      if (err) throw err.code;
+    });
+  }
+
+  // next, match the client for the target
+  if (!clientMatches.includes(req.body.username)) {
+    targetMatches += `'${req.body.username}', `;
+    connection.query(`UPDATE ${matchType}sTable SET Matches = '${targetMatches}' WHERE mentorUsername = '${req.body.match}';`, function (err, results) {
+      if (err) throw err.code;
+    });
+  }
 
   connection.end();
 
