@@ -18,6 +18,7 @@ let mentors = [];
 let mentorIndex = 1;
 
 let clientUsername = "";
+let clientProfileType = "";
 
 function start() {
     fetchMentors();
@@ -81,7 +82,11 @@ async function fetchMentors() {
 // draw the current profile "top of stack" as the provided mentor 
 function drawCurrentProfile(mentor) {
     currentFName.innerHTML = `${mentor.FName} ${mentor.LName}`;
-    currentUsername.innerHTML = mentor.mentorUsername;
+    if (clientProfileType == "mentor") {
+        currentUsername.innerHTML = mentor.menteeUsername;
+    } else {
+        currentUsername.innerHTML = mentor.mentorUsername;
+    }
     currentInterests.innerHTML = mentor.Interests;
     currentDescription.innerHTML = mentor.Description;
     profile.style.backgroundImage = `url(${mentor.profilePictureID})`;
@@ -106,13 +111,16 @@ async function getUsername() {
         .then(response => response.json()).then(data => {
             console.log(data.username);
             clientUsername = data.username;
+            clientProfileType = data.profileType;
         })
 }
 
 async function sendLeftSwipe() {
     // check if the username entered exists
     console.log(clientUsername);
+   
     let match = currentUsername.innerHTML;
+    console.log(match);
     const matchData = { match: `${match}`, username: `${clientUsername}` }
 
     const response = await fetch("http://localhost:3000/swipeLeft", {

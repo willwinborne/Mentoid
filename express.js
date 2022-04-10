@@ -74,6 +74,8 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
 });
 
 // currently gets ALL mentors, we need to eventually change this to only retrieve the mentors the user "matched" with
+// TODO: only show people that do not have the client in their Skips
+// TODO: only show people that the client does NOT have in their Matches
 // login is required for this. 
 app.get('/getmentors', (req, res) => {
 
@@ -145,8 +147,13 @@ app.post('/checkUsername', (req, res) => {
 // a user swiped left.
 app.post('/swipeLeft', (req, res) => {
 
-  console.log(`Client: ${req.body.username}`);
-  console.log(`Swiped on user: ${req.body.match}`);
+  let matchType = "mentor";
+  let clientSkips = "";
+  let targetSkips = "";
+
+  if (req.session.profileType == "mentor") {
+    matchType = "mentee";
+  }
 
   const connection = mysql.createConnection({
     host: '107.180.1.16',
@@ -156,20 +163,33 @@ app.post('/swipeLeft', (req, res) => {
     port: 3306
   });
 
-  // connection.connect();
+  connection.connect();
 
-  // check for existing usernames
-  // connection.query(`SELECT mentorUsername FROM mentorsTable WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
-  //   if (err) throw err.code;
-  //   if (typeof results[0] !== 'undefined') {
-  //     res.json({ usernameTaken: 'true' });
-  //   } else {
-  //     res.json({ usernameTaken: 'false' });
-  //   }
+  // get the current skips of the client
+  connection.query(`SELECT Skips FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}username = '${req.body.username}';`, function (err, results) {
+    if (err) throw err.code;
+    clientSkips = results[0].Skips;
+  });
 
-  // });
+  // get the current skips of the target
+  connection.query(`SELECT Skips FROM ${matchType}sTable WHERE ${matchType}username = '${req.body.match}';`, function (err, results) {
+    if (err) throw err.code;
+    targetSkips = results[0].Skips;
+  });
 
-  // connection.end();
+  // first, skip the target for the client so this person won't be shown again
+  clientSkips += `${req.body.match},`;
+  connection.query(`UPDATE ${req.session.profileType}sTable SET Skips = '${clientSkips}' WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
+    if (err) throw err.code;
+  });
+
+  // next, skip the client for the target so it won't show them
+  targetSkips += `${req.body.username},`;
+  connection.query(`UPDATE ${matchType}sTable SET Skips = '${targetSkips}' WHERE mentorUsername = '${req.body.match}';`, function (err, results) {
+    if (err) throw err.code;
+  });
+
+  connection.end();
 
 });
 
@@ -209,7 +229,8 @@ app.post('/getUsername', (req, res) => {
   console.log(`getUsername: ${req.session.username}`)
   console.log(`getUsername: profileType is ${req.session.profileType}`)
 
-  let values = { username: "tom" };
+  let values = { username: "tom", profileType: "jim" };
+  values.profileType = req.session.profileType;
   values.username = req.session.username;
   res.json(values);
 
