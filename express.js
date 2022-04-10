@@ -221,13 +221,13 @@ app.post('/swipeRight', (req, res) => {
   // get the current matches of the client
   connection.query(`SELECT Matches FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}username = '${req.body.username}';`, function (err, results) {
     if (err) throw err.code;
-    clientMatches = results[0].Skips;
+    clientMatches = results[0].Matches;
   });
 
   // get the current matches of the target
   connection.query(`SELECT Matches FROM ${matchType}sTable WHERE ${matchType}username = '${req.body.match}';`, function (err, results) {
     if (err) throw err.code;
-    targetMatches = results[0].Skips;
+    targetMatches = results[0].Matches;
   });
 
   // first, match the target for the client
