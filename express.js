@@ -262,16 +262,22 @@ app.post('/swipeRight', async (req, res) => {
           if (err) throw err.code;
         });
       } else {
-        connection.query(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`, function (err, results) {
+        connection.query(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '', '1')`, function (err, results) {
           if (err) throw err.code;
         });
       }
 
     }
     // if we DO find a match, & target has already matched, give the user feedback and set both swipes to 1
-    if (=results[0] != undefined && results[0].menteeSwipe == 1 || results[0].mentorSwipe == 1) {
+    if (matchType == "mentee" && results[0] != undefined && results[0].menteeSwipe == 1) {
       console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
-      connection.query(`INSERT INTO matchingTable(mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES('${req.body.username}', '${req.body.match}', '1', '1')`, function (err, results) {
+      connection.query(`UPDATE matchingTable(mentorSwipe, menteeSwipe) VALUES('1', '1') WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
+      });
+    }
+
+    if (matchType == "mentor" && results[0] != undefined && results[0].mentorSwipe == 1) {
+      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
+      connection.query(`UPDATE matchingTable(mentorSwipe, menteeSwipe) VALUES('1', '1') WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
       });
     }
     connection.end();
