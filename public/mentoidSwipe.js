@@ -145,3 +145,9 @@ async function sendRightSwipe() {
             console.log(data);
         })
 }
+
+function newMatch() {
+    if (match.style.visibility = 'hidden') {
+        match.style.visibility = 'visible';
+    }
+}

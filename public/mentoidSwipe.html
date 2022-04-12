@@ -15,15 +15,17 @@
         <li><a onclick="testNextProfile()">Chat</a></li>
         <li><a href="http://localhost:3000/mentoidProfile.html">My profile</a></li>
         <li id="logout"><a href="http://localhost:3000/logout">Logout</a></li>
-      </ul>
+    </ul>
 
     <!-- holds the current and next profile -->
     <div id="profilesContainer">
-
+        
         <div class="currentProfile" id="currentProfileID">
         </div>
-
         <div class="nextProfile" id="nextProfileID">
+        </div>
+        <div id="match">
+            <h1>New Match!</h1>
         </div>
 
     </div>
@@ -40,6 +42,8 @@
         <div id="swipeLeft" class="swipeButton" onclick="swipeLeft()"></div>
 
         <div id="swipeRight" class="swipeButton" onclick="swipeRight()"></div>
+
+        <div onclick="newMatch()">click to test visibility </div>
     </div>
 
     <script src="mentoidSwipe.js"></script>
