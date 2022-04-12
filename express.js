@@ -257,12 +257,14 @@ app.post('/swipeRight', (req, res) => {
   connection.connect();
 
   // get the current matches of the client
+  console.log(`SELECT Matches FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}username = '${req.body.username}';`);
   connection.query(`SELECT Matches FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}username = '${req.body.username}';`, function (err, results) {
     if (err) throw err.code;
     clientMatches = results[0].Matches;
   });
 
   // get the current matches of the target
+  console.log(`SELECT Matches FROM ${matchType}sTable WHERE ${matchType}username = '${req.body.match}';`)
   connection.query(`SELECT Matches FROM ${matchType}sTable WHERE ${matchType}username = '${req.body.match}';`, function (err, results) {
     if (err) throw err.code;
     targetMatches = results[0].Matches;
@@ -271,7 +273,9 @@ app.post('/swipeRight', (req, res) => {
   // first, match the target for the client
   if (!clientMatches.includes(req.body.match)) {
     clientMatches += `'${req.body.match}', `;
-    connection.query(`UPDATE ${req.session.profileType}sTable SET Matches = '${clientMatches}' WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
+    console.log(clientMatches);
+    console.log(`UPDATE ${req.session.profileType}sTable SET Matches = ${clientMatches} WHERE mentorUsername = '${req.body.username}';`)
+    connection.query(`UPDATE ${req.session.profileType}sTable SET Matches = ${clientMatches} WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
       if (err) throw err.code;
     });
   }
