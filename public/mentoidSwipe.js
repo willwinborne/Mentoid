@@ -141,18 +141,25 @@ async function sendRightSwipe() {
         body: JSON.stringify(matchData),
     })
         // handle the DOM based on the server's response
+        // in this case, I am triggering the new match dialog to show 
         .then(response => response.json()).then(data => {
             console.log(data.newMatch);
             if (data.newMatch == "true") {
-                console.log("newMatch is true!");
-                const matchDialog = document.getElementById("match");
-                matchDialog.style.visibility = "visible";
+                newMatch();
             }
         })
 }
 
+// property of colin cassidy
 function newMatch() {
     if (match.style.visibility = 'hidden') {
         match.style.visibility = 'visible';
+    }
+}
+
+// hide the match dialog when done
+function hideDialog() {
+    if (match.style.visibility = 'visible') {
+        match.style.visibility = 'hidden';
     }
 }

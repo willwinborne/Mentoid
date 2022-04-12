@@ -187,22 +187,33 @@ body {
     margin-right: 10px;
 }
 
-#match{
+#match {
     position: absolute; 
-    left: 20%; 
     top: 20%;
-    /* right: 0;  */
-    margin-top: 10%;
+    left: 0;
+    right: 0; 
     margin-left: auto; 
     margin-right: auto; 
-    height: 45%;
+    height: 25%;
     visibility: hidden;
-    background: lightgray;
-    width: 65%;
+    background: linear-gradient(270deg, #8296bd, #3f72af);
+    width: 35%;
     text-align: center;
     /* offset-x | offset-y | blur-radius | color */
     box-shadow: 25px 25px 25px black;
     border-radius: 10px;
     padding-top: 25px;
     border: 2px solid black;
+
+
+}
+
+#matchButton {
+    margin-top: 25px;
+    width: 100px;
+    height: 50px;
+}
+
+#matchHeading {
+    color: white;
 }
