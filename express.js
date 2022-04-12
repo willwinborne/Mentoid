@@ -115,7 +115,7 @@ app.get('/getmentors', (req, res) => {
 
 });
 
-app.get('/getuser', (req, res) => {
+app.get('/getUser', (req, res) => {
 
   //check if this user is logged in (standard for most functions!)
   if (req.session.loggedIn) {
@@ -131,7 +131,7 @@ app.get('/getuser', (req, res) => {
     connection.connect();
 
     let desiredType = "mentee";
-    
+
     if (req.session.profileType == "mentee") {
       desiredType = "mentor";
     }
@@ -140,7 +140,7 @@ app.get('/getuser', (req, res) => {
     connection.query(`SELECT * FROM ${desiredType}sTable WHERE ${desiredType}Username = '${req.body.username}'`, function (err, results) {
       if (err) throw err.code;
 
-      res.send(results);
+      res.json(results);
 
     });
 
@@ -236,8 +236,9 @@ app.post('/swipeLeft', (req, res) => {
 });
 
 // a user swiped right.
-app.post('/swipeRight', (req, res) => {
+app.post('/swipeRight', async (req, res) => {
 
+  console.log("user swiped right")
   let matchType = "mentor";
   let clientMatches = "";
   let targetMatches = "";
@@ -251,38 +252,35 @@ app.post('/swipeRight', (req, res) => {
     user: 'springog2022team',
     password: 'springog2022team4',
     database: 'springog2022team4',
-    port: 3306
+    port: 3306,
   });
 
   connection.connect();
 
-  // get the current matches of the client
-  console.log(`SELECT Matches FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}username = '${req.body.username}';`);
-  connection.query(`SELECT Matches FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}username = '${req.body.username}';`, function (err, results) {
+  // if the user is a mentor,
+  connection.query(`SELECT * FROM matchingTable WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
     if (err) throw err.code;
-    clientMatches = results[0].Matches;
+    if (results[0] == undefined) {
+      console.log("match not found, making one.");
+      console.log(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`)
+      connection.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`, function (err, results) {
+        if (err) throw err.code;
+      });
+    }
+    // if we find a match, & mentee has already matched, give the user feedback
+    if (results[0] != undefined && results[0].menteeSwipe == 1) {
+      console.log("found a match, the mentee has already swiped. this is now an actual match");
+      connection.query(`INSERT INTO matchingTable(mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES('${req.body.username}', '${req.body.match}', '1', '1')`, function (err, results) {
+      });
+    }
+    connection.end();
   });
 
-  // get the current matches of the target
-  console.log(`SELECT Matches FROM ${matchType}sTable WHERE ${matchType}username = '${req.body.match}';`)
-  connection.query(`SELECT Matches FROM ${matchType}sTable WHERE ${matchType}username = '${req.body.match}';`, function (err, results) {
-    if (err) throw err.code;
-    targetMatches = results[0].Matches;
-  });
-
-  // first, match the target for the client
-  if (!clientMatches.includes(req.body.match)) {
-    clientMatches += `'${req.body.match}', `;
-    console.log(clientMatches);
-    console.log(`UPDATE ${req.session.profileType}sTable SET Matches = ${clientMatches} WHERE mentorUsername = '${req.body.username}';`)
-    connection.query(`UPDATE ${req.session.profileType}sTable SET Matches = ${clientMatches} WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
-      if (err) throw err.code;
-    });
-  }
-
-  connection.end();
+  
 
 });
+
+
 
 // dynamically check for a match between two people
 app.post('/checkForMatch', (req, res) => {

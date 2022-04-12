@@ -14,7 +14,6 @@ const currentProfilePicture = document.getElementById("currentProfilePicture");
 const nextProfilePicture = document.getElementById("nextProfilePicture");
 
 // an array to hold all possible mentors this person matched with and an index
-let user = [];
 let userIndex = 1;
 
 let clientUsername = "";
