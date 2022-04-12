@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="mentoidUserProfile.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentoid Match</title>
+</head>
+
+<body onload="start()">
+
+    <ul>
+        <li><a onclick="testNextProfile()">Chat</a></li>
+        <li><a href="contact.asp">My profile</a></li>
+        <li id="logout"><a href="http://localhost:3000/logout">Logout</a></li>
+      </ul>
+
+    <!-- holds the current and next profile -->
+    <div id="profilesContainer">
+
+        <div class="currentProfile" id="currentProfileID">
+        </div>
+
+    </div>
+    <div id="profileInfoDiv">
+        <div class="infoDiv">
+            <p id="currentFName"></p>
+            <p id="currentUsername"></p>
+            <p id="currentInterests"></p>
+            <p id="currentDescription"></p>
+        </div>
+    </div>
+
+    <script src="mentoidUserProfile.js"></script>
+    
+</body>
+
+</html>

@@ -115,6 +115,44 @@ app.get('/getmentors', (req, res) => {
 
 });
 
+app.get('/getuser', (req, res) => {
+
+  //check if this user is logged in (standard for most functions!)
+  if (req.session.loggedIn) {
+
+    const connection = mysql.createConnection({
+      host: '107.180.1.16',
+      user: 'springog2022team',
+      password: 'springog2022team4',
+      database: 'springog2022team4',
+      port: 3306
+    });
+
+    connection.connect();
+
+    let desiredType = "mentee";
+    
+    if (req.session.profileType == "mentee") {
+      desiredType = "mentor";
+    }
+
+    // WHERE interests ???
+    connection.query(`SELECT * FROM ${desiredType}sTable WHERE ${desiredType}Username = '${req.body.username}'`, function (err, results) {
+      if (err) throw err.code;
+
+      res.send(results);
+
+    });
+
+    connection.end();
+
+  } else {
+    console.log("Authenticate: user is not logged in.")
+    res.send("You're not logged in.")
+  }
+
+});
+
 // dynamically check a given username's availability
 // no login check required
 app.post('/checkUsername', (req, res) => {
