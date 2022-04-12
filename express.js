@@ -238,14 +238,6 @@ app.post('/swipeRight', (req, res) => {
     });
   }
 
-  // next, match the client for the target
-  if (!clientMatches.includes(req.body.username)) {
-    targetMatches += `'${req.body.username}', `;
-    connection.query(`UPDATE ${matchType}sTable SET Matches = '${targetMatches}' WHERE mentorUsername = '${req.body.match}';`, function (err, results) {
-      if (err) throw err.code;
-    });
-  }
-
   connection.end();
 
 });
