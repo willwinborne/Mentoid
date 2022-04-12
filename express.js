@@ -180,9 +180,8 @@ app.post('/checkUsername', (req, res) => {
 // a user swiped left.
 app.post('/swipeLeft', (req, res) => {
 
+  console.log(`${req.body.username} swiped left on ${req.body.match}!`)
   let matchType = "mentor";
-  let clientSkips = "";
-  let targetSkips = "";
 
   if (req.session.profileType == "mentor") {
     matchType = "mentee";
@@ -193,47 +192,52 @@ app.post('/swipeLeft', (req, res) => {
     user: 'springog2022team',
     password: 'springog2022team4',
     database: 'springog2022team4',
-    port: 3306
+    port: 3306,
   });
 
   connection.connect();
 
-  // get the current skips of the client
-  connection.query(`SELECT Skips FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}username = '${req.body.username}';`, function (err, results) {
+  // first, try to find a match for this client and this target
+  connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.body.username}' AND ${matchType}Username = '${req.body.match}'`, function (err, results) {
     if (err) throw err.code;
-    clientSkips = results[0].Skips;
+    // if a match is not found,
+    if (results[0] == undefined) {
+      console.log("no match found. creating one with the client swipe as 0, target swipe as null.")
+      // create one with the client having swiped on the target, but the target swipe is still zero
+      if (matchType == "mentee") {
+        connection.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '0', '')`, function (err, results) {
+          if (err) throw err.code;
+        });
+      } else {
+        connection.query(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '', '0')`, function (err, results) {
+          if (err) throw err.code;
+        });
+      }
+
+    }
+    // if we DO find a match, & target has already matched,set both swipes to 0
+    if (matchType == "mentee" && results[0] != undefined && results[0].menteeSwipe == 1) {
+      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
+      connection.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
+      });
+      res.json({ newMatch: 'false' });
+    }
+
+    if (matchType == "mentor" && results[0] != undefined && results[0].mentorSwipe == 1) {
+      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
+      connection.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
+      });
+      res.json({ newMatch: 'false' });
+    }
+    connection.end();
   });
-
-  // get the current skips of the target
-  connection.query(`SELECT Skips FROM ${matchType}sTable WHERE ${matchType}username = '${req.body.match}';`, function (err, results) {
-    if (err) throw err.code;
-    targetSkips = results[0].Skips;
-  });
-
-  // first, skip the target for the client so this person won't be shown again
-  if (!clientSkips.includes(req.body.match)) {
-    clientSkips += `'${req.body.match}', `;
-    connection.query(`UPDATE ${req.session.profileType}sTable SET Skips = '${clientSkips}' WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
-      if (err) throw err.code;
-    });
-  }
-
-  // next, skip the client for the target so it won't show them
-  if (!targetSkips.includes(req.body.username)) {
-    targetSkips += `'${req.body.username}', `;
-    connection.query(`UPDATE ${matchType}sTable SET Skips = '${targetSkips}' WHERE mentorUsername = '${req.body.match}';`, function (err, results) {
-      if (err) throw err.code;
-    });
-  }
-
-  connection.end();
 
 });
 
 // a user swiped right.
 app.post('/swipeRight', async (req, res) => {
 
-  console.log("user swiped right")
+  console.log(`${req.body.username} swiped right on ${req.body.match}!`)
   let matchType = "mentor";
 
   if (req.session.profileType == "mentor") {
