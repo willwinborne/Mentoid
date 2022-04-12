@@ -124,7 +124,7 @@ async function sendLeftSwipe() {
     })
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
-            console.log(data);
+            // nothing really needs to be done here
         })
 }
 
@@ -142,7 +142,11 @@ async function sendRightSwipe() {
     })
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
-            console.log(data);
+            console.log(data.newMatch);
+            if (data.newMatch == true) {
+                const matchDialog = document.getElementById("match");
+                matchDialog.style.visibility = "visible";
+            }
         })
 }
 
