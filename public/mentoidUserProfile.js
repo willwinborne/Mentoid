@@ -14,6 +14,7 @@ const currentProfilePicture = document.getElementById("currentProfilePicture");
 const nextProfilePicture = document.getElementById("nextProfilePicture");
 
 // an array to hold all possible mentors this person matched with and an index
+let user = []
 let userIndex = 1;
 
 let clientUsername = "";
@@ -51,22 +52,27 @@ async function getUserProfile() {
     if (response.status === 200) {
         let data = await response.json();
         console.log(data)
-        data.forEach(drawCurrentProfile);
+        data.forEach(data => user.push(data));
+        
     }
+
+    console.log(user[0]);
     // hardcode: draw the first two available profiles
     // TODO: this could cause problems if there aren't two profiles to display
-    // drawCurrentProfile(user);
+    drawCurrentProfile(user[0]);
 }
 
-function drawCurrentProfile(user) {
-    currentFName.innerHTML = `${user.FName} ${user.LName}`;
+function drawCurrentProfile(client) {
+
+    console.log(client);
+    currentFName.innerHTML = `${client.FName} ${client.LName}`;
     if (clientProfileType == "mentor") {
         currentUsername.innerHTML = user.menteeUsername;
     } else {
-        currentUsername.innerHTML = user.mentorUsername;
+        currentUsername.innerHTML = client.mentorUsername;
     }
-    currentInterests.innerHTML = user.Interests;
-    currentDescription.innerHTML = user.Description;  
-    profile.style.backgroundImage = `url(${user.profilePictureID})`;   
+    currentInterests.innerHTML = client.Interests;
+    currentDescription.innerHTML = client.Description;  
+    profile.style.backgroundImage = `url(${client.profilePictureID})`;   
     console.log('GOT THROUGH');
 }
