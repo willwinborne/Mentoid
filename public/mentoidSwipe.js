@@ -143,7 +143,8 @@ async function sendRightSwipe() {
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
             console.log(data.newMatch);
-            if (data.newMatch == true) {
+            if (data.newMatch == "true") {
+                console.log("newMatch is true!");
                 const matchDialog = document.getElementById("match");
                 matchDialog.style.visibility = "visible";
             }

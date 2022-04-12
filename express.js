@@ -271,14 +271,14 @@ app.post('/swipeRight', async (req, res) => {
     // if we DO find a match, & target has already matched, give the user feedback and set both swipes to 1
     if (matchType == "mentee" && results[0] != undefined && results[0].menteeSwipe == 1) {
       console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
-      connection.query(`UPDATE matchingTable(mentorSwipe, menteeSwipe) VALUES('1', '1') WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
+      connection.query(`UPDATE matchingTable SET mentorSwipe = '1', menteeSwipe = '1' WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
       });
       res.json({ newMatch: 'true' });
     }
 
     if (matchType == "mentor" && results[0] != undefined && results[0].mentorSwipe == 1) {
       console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
-      connection.query(`UPDATE matchingTable(mentorSwipe, menteeSwipe) VALUES('1', '1') WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
+      connection.query(`UPDATE matchingTable SET mentorSwipe = '1', menteeSwipe = '1' WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
       });
       res.json({ newMatch: 'true' });
     }
