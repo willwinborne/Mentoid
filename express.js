@@ -235,8 +235,6 @@ app.post('/swipeRight', async (req, res) => {
 
   console.log("user swiped right")
   let matchType = "mentor";
-  let clientMatches = "";
-  let targetMatches = "";
 
   if (req.session.profileType == "mentor") {
     matchType = "mentee";
@@ -252,30 +250,34 @@ app.post('/swipeRight', async (req, res) => {
 
   connection.connect();
 
-  // if the user is a mentor,
-  connection.query(`SELECT * FROM matchingTable WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
+  // first, try to find a match for this client and this target
+  connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.body.username}' AND ${matchType}Username = '${req.body.match}'`, function (err, results) {
     if (err) throw err.code;
+    // if a match is not found,
     if (results[0] == undefined) {
-      console.log("match not found, making one.");
-      console.log(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`)
-      connection.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`, function (err, results) {
-        if (err) throw err.code;
-      });
+      console.log("no match found. creating one with the client swipe as 1, target swipe as 0.")
+      // create one with the client having swiped on the target, but the target swipe is still zero
+      if (matchType == "mentee") {
+        connection.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`, function (err, results) {
+          if (err) throw err.code;
+        });
+      } else {
+        connection.query(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`, function (err, results) {
+          if (err) throw err.code;
+        });
+      }
+
     }
-    // if we find a match, & mentee has already matched, give the user feedback
-    if (results[0] != undefined && results[0].menteeSwipe == 1) {
-      console.log("found a match, the mentee has already swiped. this is now an actual match");
+    // if we DO find a match, & target has already matched, give the user feedback and set both swipes to 1
+    if (=results[0] != undefined && results[0].menteeSwipe == 1 || results[0].mentorSwipe == 1) {
+      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
       connection.query(`INSERT INTO matchingTable(mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES('${req.body.username}', '${req.body.match}', '1', '1')`, function (err, results) {
       });
     }
     connection.end();
   });
 
-  
-
 });
-
-
 
 // dynamically check for a match between two people
 app.post('/checkForMatch', (req, res) => {
