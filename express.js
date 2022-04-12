@@ -115,7 +115,7 @@ app.get('/getmentors', (req, res) => {
 
 });
 
-app.get('/getuser', (req, res) => {
+app.get('/getUser', (req, res) => {
 
   //check if this user is logged in (standard for most functions!)
   if (req.session.loggedIn) {
@@ -130,14 +130,9 @@ app.get('/getuser', (req, res) => {
 
     connection.connect();
 
-    let desiredType = "mentee";
-    
-    if (req.session.profileType == "mentee") {
-      desiredType = "mentor";
-    }
-
     // WHERE interests ???
-    connection.query(`SELECT * FROM ${desiredType}sTable WHERE ${desiredType}Username = '${req.body.username}'`, function (err, results) {
+    console.log(`SELECT * FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}Username = '${req.session.username}'`)
+    connection.query(`SELECT * FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}Username = '${req.session.username}'`, function (err, results) {
       if (err) throw err.code;
 
       res.send(results);
