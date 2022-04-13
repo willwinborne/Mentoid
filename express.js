@@ -15,7 +15,7 @@ const app = express();
 const port = 3000;
 // middleware init
 app.use(express.json());
-app.use(session({ secret: 'cis440group2project2', name: 'uniqueSessionID', resave: false, saveUninitialized: false }))
+app.use(session({ secret: 'cis440group4project2', name: 'uniqueSessionID', resave: false, saveUninitialized: false }))
 
 // all this does is allow access to all files in the public folder. put all JS, CSS, and HTML files in there
 // these are accessed by a URL, localhost:3000/name_of_file_or_command
