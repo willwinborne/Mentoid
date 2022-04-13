@@ -9,6 +9,8 @@ const currentUsername = document.getElementById("currentUsername");
 const currentInterests = document.getElementById("currentInterests");
 const currentDescription = document.getElementById("currentDescription");
 const currentProfilePicture = document.getElementById("currentProfilePicture");
+const profilePicOverlay = document.getElementById("profilePicOverlay");
+let lastProfilePhotoID = "";
 
 // variables to edit the next profile
 const nextProfilePicture = document.getElementById("nextProfilePicture");
@@ -85,6 +87,7 @@ function drawCurrentProfile(mentor) {
     currentInterests.innerHTML = mentor.Interests;
     currentDescription.innerHTML = mentor.Description;
     profile.style.backgroundImage = `url(${mentor.profilePictureID})`;
+    lastProfilePhotoID = mentor.profilePictureID;
     mentorIndex++;
 }
 
@@ -145,7 +148,8 @@ async function sendRightSwipe() {
         .then(response => response.json()).then(data => {
             console.log(data.newMatch);
             if (data.newMatch == "true") {
-                newMatch();
+                newMatch(); 
+                profilePicOverlay.style.backgroundImage = `url(${lastProfilePhotoID})`;
             }
         })
 }
@@ -154,6 +158,7 @@ async function sendRightSwipe() {
 function newMatch() {
     if (match.style.visibility = 'hidden') {
         match.style.visibility = 'visible';
+        
     }
 }
 

@@ -1,9 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    
+}
+
+body {
+    background-color: #121212;
 }
 
 /* navbar */
@@ -18,6 +24,7 @@ ul {
     margin-top: 10px;
     margin-left: 15%;
     margin-right: 15%;
+    box-shadow: 3px 3px #252958;
 }
 
 li {
@@ -31,6 +38,7 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
     border-radius: 25px;
+    /* box-shadow: 1px 1px #252958; */
 }
 
 #logout {
@@ -48,7 +56,7 @@ li a:hover {
     background: linear-gradient(270deg, #8296bd, #3f72af);
     border: 2px solid #3F72AF;
     border-radius: 10px;
-    box-shadow: 5px 5px lightgray;
+    box-shadow: 3px 5px #252958;
     width: 100%;
 
 }
@@ -101,7 +109,8 @@ li a:hover {
     top: 0;
     left: 0;
     background-color: white;
-    border: 2px solid #3F72AF;
+    border: 15px solid #212766;
+    box-shadow: 5px 5px #101333;
     border-radius: 10px;
     background-repeat: no-repeat;
     background-position: center;
@@ -116,9 +125,9 @@ li a:hover {
     /* what */
     /* z-index: 9; */
     background-color: white;
-    border: 2px solid #3F72AF;
+    border: 15px solid #070921;
     border-radius: 10px;
-    box-shadow: 5px 5px lightgray;
+    box-shadow: 5px 5px #252958;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -127,7 +136,7 @@ li a:hover {
 /* don't allow animating elements to create a horizontal scrollbar */
 body {
     overflow-x: hidden;
-    background-color: #F9F7F7;
+    background-color: #67809f
 }
 
 /* class for swipe buttons at the bottom */
@@ -137,7 +146,19 @@ body {
     margin-left: auto;
     margin-right: auto;
     border-radius: 25px;
+    border: 2px solid #3F72AF;
+    box-shadow: 5px 5px #252958;
 }
+
+.swipeButton:active {
+    width: 50px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 25px;
+    border: 2px solid #3F72AF;
+}
+
 
 /* hold buttons towards the middle */
 #swipeLeft {
@@ -149,12 +170,12 @@ body {
 #swipeRight {
     margin-right: 40%;
     background-color: green;
+    
 }
 
 /* flex flow to make aligning buttons easier */
 #buttonDiv {
     margin-top: 10px;
-
     padding: 10px 0;
 }
 
@@ -188,32 +209,60 @@ body {
 }
 
 #match {
-    position: absolute; 
-    top: 20%;
+    position: absolute;
+    top: 8%;
     left: 0;
-    right: 0; 
-    margin-left: auto; 
-    margin-right: auto; 
-    height: 25%;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    height: 55%;
     visibility: hidden;
-    background: linear-gradient(270deg, #8296bd, #3f72af);
-    width: 35%;
+    background-color: black;
+    width: 45%;
     text-align: center;
     /* offset-x | offset-y | blur-radius | color */
     box-shadow: 25px 25px 25px black;
     border-radius: 10px;
-    padding-top: 25px;
-    border: 2px solid black;
-
-
+    border: 15px solid #3F72AF;
 }
 
 #matchButton {
-    margin-top: 25px;
-    width: 100px;
-    height: 50px;
+    color: white;
+    margin-bottom: 30px;
 }
 
 #matchHeading {
     color: white;
+
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+#canvas {
+    position: relative; 
+    width:100%;
+    height: 80%;
+}
+
+#check {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    font-size: 1.8em;
+    color: rgb(103, 0, 0);
+}
+
+#x {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
+    font-size: 2.0em;
+    color: rgb(0, 54, 0);
 }

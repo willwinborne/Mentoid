@@ -37,19 +37,26 @@
     </div>
 
     <div id="buttonDiv">
-        <div id="swipeLeft" class="swipeButton" onclick="swipeLeft()"></div>
+        <div id="swipeLeft" class="swipeButton" onclick="swipeLeft()">
+            <p id="check">&#10008;</p>
+        </div>
 
-        <div id="swipeRight" class="swipeButton" onclick="swipeRight()"></div>
+        <div id="swipeRight" class="swipeButton" onclick="swipeRight()">
+            <p id="x">&#10003;</p>
+        </div>
 
         <div onclick="newMatch()">click to test visibility </div>
     </div>
 
     <div id="match">
         <h1 id="matchHeading">New Match!</h1>
-        <button onclick="hideDialog()" id="matchButton">Hide</button>
+        <canvas id="canvas"></canvas>
+        <h1 onclick="hideDialog()" id="matchButton">Exit</h1>
+
     </div>
 
     <script src="mentoidSwipe.js"></script>
+    <script src="mentoidFireworks.js"></script>
     
 </body>
 

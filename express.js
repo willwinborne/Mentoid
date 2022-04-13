@@ -217,14 +217,14 @@ app.post('/swipeLeft', (req, res) => {
     }
     // if we DO find a match, & target has already matched,set both swipes to 0
     if (matchType == "mentee" && results[0] != undefined && results[0].menteeSwipe == 1) {
-      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
+      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 0.");
       connection.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
       });
       res.json({ newMatch: 'false' });
     }
 
     if (matchType == "mentor" && results[0] != undefined && results[0].mentorSwipe == 1) {
-      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
+      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 0.");
       connection.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
       });
       res.json({ newMatch: 'false' });
@@ -292,6 +292,7 @@ app.post('/swipeRight', async (req, res) => {
 });
 
 // dynamically check for a match between two people
+// TODO: do we even use this anymore?
 app.post('/checkForMatch', (req, res) => {
 
   user = req.session.username;
