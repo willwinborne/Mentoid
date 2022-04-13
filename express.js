@@ -390,7 +390,7 @@ app.get('/getmatches', (req, res) => {
     }
 
     // Select all matches for the client
-    console.log(`GETTING MATCHES: SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND menteeSwipe = '1' AND mentorSwipe = '1';`)
+    // console.log(`GETTING MATCHES: SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND menteeSwipe = '1' AND mentorSwipe = '1';`)
     connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND menteeSwipe = '1' AND mentorSwipe = '1';`, function (err, results) {
       if (err) throw err.code;
 
