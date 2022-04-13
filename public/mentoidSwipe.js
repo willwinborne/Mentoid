@@ -105,7 +105,6 @@ async function getUsername() {
 
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
-            console.log(data.username);
             clientUsername = data.username;
             clientProfileType = data.profileType;
         })
@@ -156,7 +155,6 @@ async function sendRightSwipe() {
 function newMatch() {
     if (match.style.visibility = 'hidden') {
         match.style.visibility = 'visible';
-        
     }
 }
 
@@ -167,14 +165,13 @@ function hideDialog() {
     }
 }
 
+// next 4 methods are for button animation
 function mouseDownLeft() {
-    console.log("mousedownleft");
     let left = document.getElementById("swipeLeft");
     left.style.backgroundColor = "white";
 }
 
 function mouseUpLeft() {
-    console.log("mouseupleft");
     let left = document.getElementById("swipeLeft");
     left.style.backgroundColor = "red";
 }

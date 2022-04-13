@@ -322,6 +322,46 @@ app.post('/checkForMatch', (req, res) => {
 
 });
 
+// login is required for this. 
+app.get('/getmatches', (req, res) => {
+
+  //check if this user is logged in (standard for most functions!)
+  if (req.session.loggedIn) {
+
+    const connection = mysql.createConnection({
+      host: '107.180.1.16',
+      user: 'springog2022team',
+      password: 'springog2022team4',
+      database: 'springog2022team4',
+      port: 3306
+    });
+
+    connection.connect();
+
+    let desiredType = "mentee";
+
+    if (req.session.profileType == "mentee") {
+      desiredType = "mentor";
+    }
+
+    // Select all matches for the client
+    console.log(`GETTING MATCHES: SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND menteeSwipe = '1' AND mentorSwipe = '1';`)
+    connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND menteeSwipe = '1' AND mentorSwipe = '1';`, function (err, results) {
+      if (err) throw err.code;
+
+      res.send(results);
+
+    });
+
+    connection.end();
+
+  } else {
+    console.log("Authenticate: user is not logged in.")
+    res.send("You're not logged in.")
+  }
+
+});
+
 // return the username of the user
 // not accessible without login, so no check required
 app.post('/getUsername', (req, res) => {
