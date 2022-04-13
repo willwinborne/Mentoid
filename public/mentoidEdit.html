@@ -7,7 +7,7 @@
     <title>Profile Edit</title>
     <link rel="stylesheet" href="mentoidEdit.css">
 </head>
-<body>
+<body onload="getUsername()">
     <h1>Edit Profile</h1>
     <!-- enctype="multipart/form-data" allows file sending. https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data -->
     <!-- then, we also have to use middleware to understand these different forms. what a headache -->
@@ -74,6 +74,6 @@
         </div>
         
     </form>
-    <script src="mentoidProfile.js"></script>
+    <script src="mentoidEdit.js"></script>
 </body>
 </html>

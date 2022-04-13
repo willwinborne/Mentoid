@@ -109,8 +109,7 @@ app.get('/getmentors', (req, res) => {
     connection.end();
 
   } else {
-    console.log("Authenticate: user is not logged in.")
-    res.send("You're not logged in.")
+    console.log("user is not logged in")
   }
 
 });

@@ -7,6 +7,19 @@ let clientProfileType = "";
 const matches = document.getElementById("matchesDiv");
 const chat = document.getElementById("chat");
 
+// Get the input field
+var input = document.getElementById("chatEntry");
+
+input.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.key === 'Enter') {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("chatSend").click();
+  }
+});
+
 // a function that will ask for, then wait for the database to return all applicable matches
 // the function also stores them in the mentors array declared above
 async function fetchMentors() {
@@ -44,7 +57,15 @@ async function getUsername() {
 
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
+            if (data.username == undefined) {
+                window.location.replace("http://localhost:3000/mentoidLogin.html");
+            }
             clientUsername = data.username;
             clientProfileType = data.profileType;
         })
+}
+
+// send the chat to the database
+async function sendChat() {
+    console.log(`sending chat with value ${input.value}`)
 }

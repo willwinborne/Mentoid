@@ -24,6 +24,7 @@ let clientProfileType = "";
 function start() {
     fetchMentors();
     getUsername();
+
 }
 
 // remove the top profile, then re-draw the "next profile" as the top profile, 
@@ -105,8 +106,12 @@ async function getUsername() {
 
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
+            if (data.username == undefined) {
+                window.location.replace("http://localhost:3000/mentoidLogin.html");
+            }
             clientUsername = data.username;
             clientProfileType = data.profileType;
+
         })
 }
 
