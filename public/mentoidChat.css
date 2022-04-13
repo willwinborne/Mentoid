@@ -41,7 +41,7 @@ body {
     box-shadow: 5px 5px #252958;
     background-color: #252958;
     height: 85%;
-    width: 45%;
+    width: 20%;
     margin-left: 2%;
     margin-right: auto;
     margin-top: 0px;
@@ -56,7 +56,7 @@ body {
     box-shadow: 5px 5px #252958;
     background-color: #252958;
     height: 85%;
-    width: 45%;
+    width: 73%;
     margin-left: auto;
     margin-right: 2%;
     margin-top: 0px;
@@ -103,6 +103,13 @@ li a {
     float: right;
 }
 
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #112D4E;
+    color: #DBE2EF;
+    text-decoration: underline;
+}
+
 .heading {
     margin-left: auto;
     margin-right: auto;
@@ -116,10 +123,17 @@ li a {
 }
 
 
+#myMatches {
+    margin-top: 8%;
+    width: 80%;
+}
+
+
 #chatEntry {
     width: 75%;
     border-radius: 15px;
     margin-left: 4%;
+
 }
 
 #chatSend {
@@ -136,9 +150,10 @@ li a {
 }
 
 #messagesDiv {
-    height: 80%;
+    height: 81%;
     border-radius: 25px;
     margin: 20px 20px 20px 20px;
+    margin-bottom: 8px;
     border: 5px solid #1b1e3f;
 }
 
