@@ -110,10 +110,6 @@ li a:hover {
     text-decoration: underline;
 }
 
-#username {
-
-}
-
 .heading {
     margin-left: auto;
     margin-right: auto;
@@ -162,7 +158,7 @@ li a:hover {
 }
 
 #matchesDiv {
-    height: 86%;
+    height: 83%;
     border-radius: 25px;
     margin: 20px 20px 20px 20px;
     border: 5px solid #1b1e3f;

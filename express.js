@@ -176,6 +176,29 @@ app.post('/checkUsername', (req, res) => {
 
 });
 
+// send a chat to the database
+app.post('/sendChat', upload.single('img'), async (req, res) => {
+
+  const connection = mysql.createConnection({
+    host: '107.180.1.16',
+    user: 'springog2022team',
+    password: 'springog2022team4',
+    database: 'springog2022team4',
+    port: 3306
+  });
+
+  connection.connect();
+
+  // check for existing usernames
+  console.log(`NEW CHAT QUERY: INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`)
+  connection.query(`INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`, function (err, results) {
+    if (err) throw err.code;
+    res.json({});
+  });
+
+  connection.end();
+});
+
 // a user swiped left.
 app.post('/swipeLeft', (req, res) => {
 
