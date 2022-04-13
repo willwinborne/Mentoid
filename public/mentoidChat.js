@@ -6,6 +6,7 @@ let clientProfileType = "";
 
 // chat selection
 let activeChat = "";
+let chats = [];
 
 const matches = document.getElementById("matchesDiv");
 const chat = document.getElementById("chat");
@@ -59,7 +60,6 @@ function loadMatch(data) {
 
 // get the username of the current session from the server
 async function getUsername() {
-    console.log("getting client username from webserver.")
     // get the current username
     const response = await fetch("http://localhost:3000/getUsername", {
         method: 'POST',
@@ -104,4 +104,26 @@ function chatWith(user) {
     buttonReference.style.backgroundColor = "#1b1e3f"
     activeChat = user;
     chatWithLabel.innerHTML = `Chat with ${activeChat}`
+}
+
+var intervalId = window.setInterval(function(){
+    getChats();
+}, 2000);
+
+async function getChats() {
+    chats = [];
+    if (clientUsername != "" && clientUsername != undefined && activeChat != "") {
+        // get the current username
+        let response = await fetch(`http://localhost:3000/getChats?activeChat=${activeChat}`);
+        if (response.status === 200) {
+            let data = await response.json();
+            data.forEach(data => chats.push(data));
+            drawChats();
+        }
+    }
+
+}
+
+function drawChats() {
+    console.log(`There are ${chats.length} chats to draw. let's get started`)
 }

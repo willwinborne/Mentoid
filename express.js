@@ -177,7 +177,7 @@ app.post('/checkUsername', (req, res) => {
 });
 
 // send a chat to the database
-app.post('/sendChat', upload.single('img'), async (req, res) => {
+app.post('/sendChat', (req, res) => {
 
   const connection = mysql.createConnection({
     host: '107.180.1.16',
@@ -190,10 +190,33 @@ app.post('/sendChat', upload.single('img'), async (req, res) => {
   connection.connect();
 
   // check for existing usernames
-  console.log(`NEW CHAT QUERY: INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`)
+  // console.log(`NEW CHAT QUERY: INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`)
   connection.query(`INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`, function (err, results) {
     if (err) throw err.code;
     res.json({});
+  });
+
+  connection.end();
+});
+
+// send all relevant chats to the client
+app.get('/getChats', (req, res) => {
+
+  const connection = mysql.createConnection({
+    host: '107.180.1.16',
+    user: 'springog2022team',
+    password: 'springog2022team4',
+    database: 'springog2022team4',
+    port: 3306
+  });
+
+  connection.connect();
+
+  // check for existing usernames
+  // console.log(`NEW CHAT QUERY: SELECT * FROM ChatTable WHERE SenderUsername = '${req.session.username}' AND ReceiverUsername = '${req.query.activeChat}';`);
+  connection.query(`SELECT * FROM ChatTable WHERE SenderUsername = '${req.session.username}' AND ReceiverUsername = '${req.query.activeChat}';`, function (err, results) {
+    if (err) throw err.code;
+    res.send(results);
   });
 
   connection.end();
