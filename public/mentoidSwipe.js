@@ -9,7 +9,7 @@ const currentUsername = document.getElementById("currentUsername");
 const currentInterests = document.getElementById("currentInterests");
 const currentDescription = document.getElementById("currentDescription");
 const currentProfilePicture = document.getElementById("currentProfilePicture");
-const profilePicOverlay = document.getElementById("profilePicOverlay");
+const profilePicOverlay = document.getElementById("profilePicDiv");
 const match = document.getElementById("match");
 let lastProfilePhotoID = "";
 
@@ -74,7 +74,7 @@ async function fetchMentors() {
     // hardcode: draw the first two available profiles
     // TODO: this could cause problems if there aren't two profiles to display
     drawCurrentProfile(mentors[0]);
-    drawNextProfile(mentors[1]);
+    drawNextProfile(mentors[0]);
 }
 
 // draw the current profile "top of stack" as the provided mentor 

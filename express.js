@@ -325,8 +325,6 @@ app.post('/checkForMatch', (req, res) => {
 // return the username of the user
 // not accessible without login, so no check required
 app.post('/getUsername', (req, res) => {
-  console.log(`getUsername: ${req.session.username}`)
-  console.log(`getUsername: profileType is ${req.session.profileType}`)
 
   let values = { username: "tom", profileType: "jim" };
   values.profileType = req.session.profileType;
