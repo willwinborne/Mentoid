@@ -147,7 +147,6 @@ async function sendRightSwipe() {
             console.log(data.newMatch);
             if (data.newMatch == "true") {
                 newMatch(); 
-
                 profilePicOverlay.style.backgroundImage = `url(${mentors[mentorIndex - 3].profilePictureID})`;
             }
         })
@@ -166,4 +165,26 @@ function hideDialog() {
     if (match.style.visibility = 'visible') {
         match.style.visibility = 'hidden';
     }
+}
+
+function mouseDownLeft() {
+    console.log("mousedownleft");
+    let left = document.getElementById("swipeLeft");
+    left.style.backgroundColor = "white";
+}
+
+function mouseUpLeft() {
+    console.log("mouseupleft");
+    let left = document.getElementById("swipeLeft");
+    left.style.backgroundColor = "red";
+}
+
+function mouseDownRight() {
+    let right = document.getElementById("swipeRight");
+    right.style.backgroundColor = "white";
+}
+
+function mouseUpRight() {
+    let right = document.getElementById("swipeRight");
+    right.style.backgroundColor = "green";
 }

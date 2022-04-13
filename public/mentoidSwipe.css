@@ -150,16 +150,6 @@ body {
     box-shadow: 5px 5px #252958;
 }
 
-.swipeButton:active {
-    width: 50px;
-    height: 50px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 25px;
-    border: 2px solid #3F72AF;
-}
-
-
 /* hold buttons towards the middle */
 #swipeLeft {
     margin-left: 40%;
@@ -277,11 +267,10 @@ html {
     text-align: center;
     font-size: 2.0em;
     color: rgb(0, 54, 0);
-    position: absolute;
 }
 
 #profilePicDiv {
-    background-image: url("http://localhost:3000/6c858722822b011aa4c0832dfbb6ab2a.png");
+    /* background-image: url("http://localhost:3000/6c858722822b011aa4c0832dfbb6ab2a.png"); */
     background-repeat: no-repeat;
     background-size: cover;
     background-color: red;
