@@ -372,6 +372,58 @@ app.post('/getUsername', (req, res) => {
 
 });
 
+// get the client's data to pass back to the edit page
+app.post('/getClientData', (req, res) => {
+  //check if this user is logged in (standard for most functions!)
+  if (req.session.loggedIn) {
+
+    const connection = mysql.createConnection({
+      host: '107.180.1.16',
+      user: 'springog2022team',
+      password: 'springog2022team4',
+      database: 'springog2022team4',
+      port: 3306
+    });
+
+    connection.connect();
+
+    let desiredType = "mentee";
+
+    if (req.session.profileType == "mentee") {
+      desiredType = "mentor";
+    }
+
+    // Send all data about the client
+    connection.query(`SELECT * FROM ${req.session.profileType}sTable WHERE ${req.session.profileType}Username = '${req.session.username}';`, function (err, results) {
+      if (err) throw err.code;
+      let values = {};
+      if (req.session.profileType == "mentee") {
+        values = { menteeUsername: "", FName: "", LName: "", Password: "", Email: "", Interests: "", Description: "", profilePictureID: ""};
+        values.menteeUsername = results[0].menteeUsername;
+      } else {
+        values = { mentorUsername: "", FName: "", LName: "", Password: "", Email: "", Interests: "", Description: "", profilePictureID: ""};
+        values.mentorUsername = results[0].mentorUsername;
+      }
+      values.FName = results[0].FName;
+      values.LName = results[0].LName;
+      values.Password = results[0].Password;
+      values.Email = results[0].Email;
+      values.Interests = results[0].Interests
+      values.Description = results[0].Description;
+      values.profilePictureID = results[0].profilePictureID;
+      res.json(values);
+
+    });
+
+    connection.end();
+
+  } else {
+    console.log("Authenticate: user is not logged in.")
+    res.send("You're not logged in.")
+  }
+
+});
+
 // create a new mentor's profile in the database
 // upload.single('img') uploads the file input with the name 'img' to the /profile_pictures directory on the webserver (multer)
 app.post('/makenewprofile', upload.single('img'), async (req, res) => {
@@ -423,6 +475,70 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
 
   // redirect after creation of the account
   res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidLogin.html', });
+  res.end();
+
+});
+
+// create a new mentor's profile in the database
+// upload.single('img') uploads the file input with the name 'img' to the /profile_pictures directory on the webserver (multer)
+app.post('/editprofile', upload.single('img'), async (req, res) => {
+
+  let interestsString = "";
+  if (req.body.interest1 != undefined) {
+    interestsString += "accounting, "
+  }
+  if (req.body.interest2 != undefined) {
+    interestsString += "entrepreneurship, "
+  }
+  if (req.body.interest3 != undefined) {
+    interestsString += "businessStrategy, "
+  }
+  if (req.body.interest4 != undefined) {
+    interestsString += "informationSystems, "
+  }
+  if (req.body.interest5 != undefined) {
+    interestsString += "humanResources, "
+  }
+  if (req.body.interest6 != undefined) {
+    interestsString += "talentAcquisition, "
+  }
+  if (req.body.interest7 != undefined) {
+    interestsString += "performanceManagement, "
+  }
+  if (req.body.interest8 != undefined) {
+    interestsString += "supplyChain, "
+  }
+  if (req.body.interest9 != undefined) {
+    interestsString += "marketing"
+  }
+
+  const connection = mysql.createConnection({
+    host: '107.180.1.16',
+    user: 'springog2022team',
+    password: 'springog2022team4',
+    database: 'springog2022team4',
+    port: 3306
+  });
+
+  connection.connect();
+  if (req.body.updatePicture == undefined) {
+    console.log('updating user. did not want to edit profile picture')
+    connection.query(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}');`, (err) => {
+      if (err) throw err.code;
+  
+      connection.end();
+    });
+  } else {
+    console.log('updating user. did want to edit profile picture')
+    connection.query(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}', profilePictureID = '${req.file.filename}');`, (err) => {
+      if (err) throw err.code;
+  
+      connection.end();
+    });
+  }
+  
+  // redirect after creation of the account
+  res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidSwipe.html', });
   res.end();
 
 });

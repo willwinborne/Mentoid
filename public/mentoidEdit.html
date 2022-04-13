@@ -8,19 +8,24 @@
     <link rel="stylesheet" href="mentoidEdit.css">
 </head>
 <body onload="getUsername()">
+    <ul>
+        <li><a href="http://localhost:3000/mentoidSwipe.html">Swipe</a></li>
+        <li><a href="http://localhost:3000/mentoidEdit.html">My profile</a></li>
+        <li id="logout"><a href="http://localhost:3000/logout">Logout</a></li>
+    </ul>
     <h1>Edit Profile</h1>
     <!-- enctype="multipart/form-data" allows file sending. https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data -->
     <!-- then, we also have to use middleware to understand these different forms. what a headache -->
-    <form action="http://localhost:3000/makenewprofile" form method="POST" enctype="multipart/form-data" id="createProfileForm">
-        <br><br>
+    <form action="http://localhost:3000/editprofile" form method="POST" enctype="multipart/form-data" id="createProfileForm">
         <div class="row Idiv" >
+            <p id="username">Username:</p>
             <label for="fname">First name:</label>
             <input type="text" id="fname" name="fname" placeholder="John"><br><br>
             <label for="lname">Last name:</label>
             <input type="text" id="lname" name="lname" placeholder="Doe"><br><br>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="johnDoe@yahoo.com"><br><br>
-            <label for="username">Username:</label>
+            
             <!-- <input type="text" id="username" name="username" placeholder="user1" oninput="checkUsername()">
             <p id="usernameCheck">&#10008;</p> -->
             <br><br>
@@ -32,15 +37,15 @@
         <div class="row" >
             <!-- <div class="col-03" id="leftInterestDiv"> -->
                 <div class="col-02"></div>
-                <div class="col-03 Idiv" >
-                    <input type="checkbox" id="intrest1" name="interest1" value="accounting">
+                <div class="col-03 Ldiv" >
+                    <input type="checkbox" id="interest1" name="interest1" value="accounting">
                     <label for="interest1"> Accounting</label><br>
                     <input type="checkbox" id="interest2" name="interest2" value="entrepreneurship">
                     <label for="interest2"> Entrepreneurship</label><br>
                     <input type="checkbox" id="interest3" name="interest3" value="businessStrategy">
                     <label for="interest3"> Business Strategy</label><br>
                 </div>
-                <div class="col-03 Idiv"  >
+                <div class="col-03 Ldiv"  >
                     <input type="checkbox" id="interest4" name="interest4" value="informationSystems">
                     <label for="interest4"> Information Systems</label><br>
                     <input type="checkbox" id="interest5" name="interest5" value="humanResources">
@@ -48,7 +53,7 @@
                     <input type="checkbox" id="interest6" name="interest6" value="talentAcquisition">
                     <label for="interest6"> Talent Acquisition</label><br>
                 </div>
-                <div class="col-03 Idiv" id="rightInterestDiv">
+                <div class="col-03 Ldiv" id="rightInterestDiv">
                     <input type="checkbox" id="interest7" name="interest7" value="performanceManagement">
                     <label for="interest7"> Performance Management</label><br>
                     <input type="checkbox" id="interest8" name="interest8" value="supplyChain">
@@ -66,10 +71,13 @@
 
             <label for="img">Select profile picture: </label><br><br>
             <!-- Look at this weird thing going on -->
-            <input type="file" id="img" name="img" accept="image/*"><br><br>
+           
+            <input type="checkbox" id="updatePicture" name="updatePicture" value="updatePicture" onchange="check()">
+            <label for="updatePicture">Update profile picture</label><br>
+            <input type="file" id="img" name="img" id="img" accept="image/*"><br><br>
 
             <input type="reset" value="clear">
-            <input type="submit" value="Submit" id="submitButton" disabled>
+            <input type="submit" value="Submit" id="submitButton">
             <br><br>
         </div>
         

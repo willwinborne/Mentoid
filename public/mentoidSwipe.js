@@ -112,7 +112,7 @@ async function getUsername() {
             clientUsername = data.username;
             clientProfileType = data.profileType;
 
-        })
+        });
 }
 
 async function sendLeftSwipe() {

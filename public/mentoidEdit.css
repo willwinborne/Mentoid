@@ -35,44 +35,50 @@ body {
     width: auto;
     margin-left: auto;
     margin-right: auto;
-    background-color: #3F72AF;
+    background-color: #252958;
 }
-
 form {
-    background-color:#DBE2EF;
+    background-color: #67809f;
     margin: auto;
     text-align: center;
 }
 .Idiv{
     text-align: center;
 }
+.Ldiv {
+    text-align: left;
+}
 h1 {
     font-family: sans-serif;
-    color: #112D4E;
+    color: white;
     text-align: center;
+    margin-bottom: 20px;
 }
-/* #allInterestDiv{
+
+#allInterestDiv {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    /* width: 90%; */
-/* }
-#leftInterestDiv{
-    /* float: center; */
-    /* text-align: justify; */
- 
-    /* margin-left: 100px;  */
-/* }
-#centerInterestDiv{
-    float: center;
-   
-    text-align: justify; 
+    width: 90%;
 }
-#rightInterestDiv{
+
+#leftInterestDiv {
     float: center;
-    
-    text-align: justify; 
-} */ 
+    text-align: left;
+    margin-left: 100px;
+}
+
+#centerInterestDiv {
+    float: center;
+
+    text-align: left;
+}
+
+#rightInterestDiv {
+    float: center;
+
+    text-align: left;
+}
 
 
 #description{
@@ -96,4 +102,57 @@ h1 {
     display: inline;
     font-size: 15pt;
     color: red;
+}
+
+/* navbar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 25px;
+    box-shadow: 2px 2px #3F72AF;
+    background: linear-gradient(270deg, #8cabe6, #3f72af);
+    margin-top: 10px;
+    margin-left: 15%;
+    margin-right: 15%;
+    box-shadow: 3px 3px #252958;
+    margin-bottom: 25px;
+}
+
+li {
+    float: left;
+    
+}
+
+#username {
+    font-size: 40pt;
+
+
+}
+
+li a {
+    display: block;
+    color: #112D4E;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-radius: 25px;
+    /* box-shadow: 1px 1px #252958; */
+}
+
+#logout {
+    float: right;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #112D4E;
+    color: #DBE2EF;
+    text-decoration: underline;
+}
+
+#img {
+    visibility: hidden;
+
 }
