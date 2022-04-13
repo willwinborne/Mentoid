@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <h1>Create Profile</h1>
+    <h1>Create a new Profile</h1>
     <!-- enctype="multipart/form-data" allows file sending. https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data -->
     <!-- then, we also have to use middleware to understand these different forms. what a headache -->
     <form action="http://localhost:3000/makenewprofile" form method="POST" enctype="multipart/form-data" id="createProfileForm">
@@ -34,7 +34,7 @@
         <div class="row" >
             <!-- <div class="col-03" id="leftInterestDiv"> -->
                 <div class="col-02"></div>
-                <div class="col-03 Idiv" >
+                <div class="col-03 Ldiv" >
                     <input type="checkbox" id="interest1" name="interest1" value="accounting">
                     <label for="interest1"> Accounting</label><br>
                     <input type="checkbox" id="interest2" name="interest2" value="entrepreneurship">
@@ -42,7 +42,7 @@
                     <input type="checkbox" id="interest3" name="interest3" value="businessStrategy">
                     <label for="interest3"> Business Strategy</label><br>
                 </div>
-                <div class="col-03 Idiv"  >
+                <div class="col-03 Ldiv"  >
                     <input type="checkbox" id="interest4" name="interest4" value="informationSystems">
                     <label for="interest4"> Information Systems</label><br>
                     <input type="checkbox" id="interest5" name="interest5" value="humanResources">
@@ -50,7 +50,7 @@
                     <input type="checkbox" id="interest6" name="interest6" value="talentAcquisition">
                     <label for="interest6"> Talent Acquisition</label><br>
                 </div>
-                <div class="col-03 Idiv" id="rightInterestDiv">
+                <div class="col-03 Ldiv" id="rightInterestDiv">
                     <input type="checkbox" id="interest7" name="interest7" value="performanceManagement">
                     <label for="interest7"> Performance Management</label><br>
                     <input type="checkbox" id="interest8" name="interest8" value="supplyChain">
