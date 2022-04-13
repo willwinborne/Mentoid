@@ -10,6 +10,7 @@ const currentInterests = document.getElementById("currentInterests");
 const currentDescription = document.getElementById("currentDescription");
 const currentProfilePicture = document.getElementById("currentProfilePicture");
 const profilePicOverlay = document.getElementById("profilePicOverlay");
+const match = document.getElementById("match");
 let lastProfilePhotoID = "";
 
 // variables to edit the next profile

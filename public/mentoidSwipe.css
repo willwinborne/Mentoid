@@ -210,20 +210,20 @@ body {
 
 #match {
     position: absolute;
-    top: 8%;
+    top: 15%;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    height: 55%;
+    height: 35%;
     visibility: hidden;
-    background-color: black;
-    width: 45%;
+    width: 23%;
     text-align: center;
     /* offset-x | offset-y | blur-radius | color */
-    box-shadow: 25px 25px 25px black;
+    border: 15px solid #070921;
     border-radius: 10px;
-    border: 15px solid #3F72AF;
+    box-shadow: 5px 5px #252958;
+    background-color: #252958;
 }
 
 #matchButton {
@@ -245,8 +245,12 @@ html {
 
 #canvas {
     position: relative; 
-    width:100%;
-    height: 80%;
+    width: 80%;
+    height: 67%;
+    background-color: #fafbff;
+    border: 15px solid #070921;
+    border-radius: 10px;
+    box-shadow: 5px 5px #252958;
 }
 
 #check {
@@ -265,4 +269,11 @@ html {
     text-align: center;
     font-size: 2.0em;
     color: rgb(0, 54, 0);
+}
+
+#profilePicDiv {
+    background-image: url("http://localhost:3000/6c858722822b011aa4c0832dfbb6ab2a.png");
+    width: 50%;
+    width: 50%;
+    
 }
