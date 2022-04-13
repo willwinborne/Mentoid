@@ -5,6 +5,7 @@ let clientProfileType = "";
 // a function that will ask for, then wait for the database to return all applicable matches
 // the function also stores them in the mentors array declared above
 async function fetchMentors() {
+    await getUsername();
     let response = await fetch('http://localhost:3000/getmatches');
     if (response.status === 200) {
         let data = await response.json();
@@ -17,6 +18,7 @@ function loadMatches(data) {
     const div = document.createElement("div");
     div.setAttribute("class", "div");
     const username = document.createElement("p");
+    console.log(clientProfileType)
     if (clientProfileType == "mentor") {
         username.innerHTML = `${data.menteeUsername}`;
     } else {
