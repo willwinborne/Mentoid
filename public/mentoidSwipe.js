@@ -11,8 +11,6 @@ const currentDescription = document.getElementById("currentDescription");
 const currentProfilePicture = document.getElementById("currentProfilePicture");
 const profilePicOverlay = document.getElementById("profilePicDiv");
 const match = document.getElementById("match");
-let lastProfilePhotoID = "";
-
 // variables to edit the next profile
 const nextProfilePicture = document.getElementById("nextProfilePicture");
 
@@ -88,7 +86,6 @@ function drawCurrentProfile(mentor) {
     currentInterests.innerHTML = mentor.Interests;
     currentDescription.innerHTML = mentor.Description;
     profile.style.backgroundImage = `url(${mentor.profilePictureID})`;
-    lastProfilePhotoID = mentor.profilePictureID;
     mentorIndex++;
 }
 
@@ -150,7 +147,8 @@ async function sendRightSwipe() {
             console.log(data.newMatch);
             if (data.newMatch == "true") {
                 newMatch(); 
-                profilePicOverlay.style.backgroundImage = `url(${lastProfilePhotoID})`;
+
+                profilePicOverlay.style.backgroundImage = `url(${mentors[mentorIndex - 3].profilePictureID})`;
             }
         })
 }
