@@ -190,7 +190,7 @@ app.post('/sendChat', (req, res) => {
   connection.connect();
 
   // check for existing usernames
-  // console.log(`NEW CHAT QUERY: INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`)
+   console.log(`NEW CHAT QUERY: INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`)
   connection.query(`INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`, function (err, results) {
     if (err) throw err.code;
     res.json({});
@@ -213,8 +213,8 @@ app.get('/getChats', (req, res) => {
   connection.connect();
 
   // check for existing usernames
-  // console.log(`NEW CHAT QUERY: SELECT * FROM ChatTable WHERE SenderUsername = '${req.session.username}' AND ReceiverUsername = '${req.query.activeChat}';`);
-  connection.query(`SELECT * FROM ChatTable WHERE SenderUsername = '${req.session.username}' AND ReceiverUsername = '${req.query.activeChat}';`, function (err, results) {
+  // console.log(`NEW CHAT QUERY: SELECT * FROM ChatTable WHERE SenderUsername = '${req.session.username}' AND ReceiverUsername = '${req.query.activeChat}' OR SenderUsername = '${req.query.activeChat}' AND ReceiverUsername = '${req.session.username}';`);
+  connection.query(`SELECT * FROM ChatTable WHERE SenderUsername = '${req.session.username}' AND ReceiverUsername = '${req.query.activeChat}' OR SenderUsername = '${req.query.activeChat}' AND ReceiverUsername = '${req.session.username}';`, function (err, results) {
     if (err) throw err.code;
     res.send(results);
   });

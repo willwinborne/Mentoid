@@ -35,6 +35,7 @@ body {
     width: 95%;
 }
 
+
 #matches {
     border-radius: 25px;
     border: 2px solid #3F72AF;
@@ -150,11 +151,15 @@ li a:hover {
 }
 
 #messagesDiv {
+    display: inline-block;
     height: 81%;
+    width: 92%;
     border-radius: 25px;
     margin: 20px 20px 20px 20px;
     margin-bottom: 8px;
     border: 5px solid #1b1e3f;
+    overflow: scroll;
+    overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 #matchesDiv {
@@ -162,4 +167,40 @@ li a:hover {
     border-radius: 25px;
     margin: 20px 20px 20px 20px;
     border: 5px solid #1b1e3f;
+}
+
+.senderChat {
+    font-size: 20pt;
+    background-color: #3F72AF;
+    width: fit-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 5%;
+    margin-top: 5%;
+    float: left;
+    border-radius: 25px;
+    text-align: center;
+    padding-top: 5px;
+    clear: both;
+
+}
+
+.recieverChat {
+    font-size: 20pt;
+    background-color: #3faf61;
+    width: fit-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 5%;
+    margin-top: 5%;
+    float: right;
+    border-radius: 25px;
+    text-align: center;
+    padding-top: 5px;
+    clear: both;
+
+}
+
+.containerClass {
+
 }

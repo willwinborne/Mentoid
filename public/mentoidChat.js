@@ -1,4 +1,5 @@
 // MENTOID CHAT dual page prototype
+// written by William Winborne (wwinborn)
 
 // stores client information
 let clientUsername = "";
@@ -6,23 +7,25 @@ let clientProfileType = "";
 
 // chat selection
 let activeChat = "";
+let lastChatLength = 0;
 let chats = [];
 
 const matches = document.getElementById("matchesDiv");
+const messages = document.getElementById("messagesDiv");
 const chat = document.getElementById("chat");
 const chatWithLabel = document.getElementById("chatWith");
 
 // Get the input field
 var input = document.getElementById("chatEntry");
 
-input.addEventListener("keyup", function(event) {
-  // Number 13 is the "Enter" key on the keyboard
-  if (event.key === 'Enter') {
-    // Cancel the default action, if needed
-    event.preventDefault();
-    // Trigger the button element with a click
-    document.getElementById("chatSend").click();
-  }
+input.addEventListener("keyup", function (event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.key === 'Enter') {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("chatSend").click();
+    }
 });
 
 // a function that will ask for, then wait for the database to return all applicable matches
@@ -38,23 +41,26 @@ async function fetchMatches() {
 
 // for each match, draw a div with the name of the match
 function loadMatch(data) {
-    const div = document.createElement("div");
     
+    const div = document.createElement("div");
+
     div.setAttribute("class", "div");
+
     const username = document.createElement("p");
     console.log(clientProfileType)
     if (clientProfileType == "mentor") {
         username.innerHTML = `${data.menteeUsername}`;
-        div.onclick = function() { chatWith(`${data.menteeUsername}`); };
+        div.onclick = function () { chatWith(`${data.menteeUsername}`); };
         div.setAttribute("id", `${data.menteeUsername}Div`);
-        
+
     } else {
         username.innerHTML = `${data.mentorUsername}`;
-        div.onclick = function() { chatWith(`${data.mentorUsername}`); };
+        div.onclick = function () { chatWith(`${data.mentorUsername}`); };
         div.setAttribute("id", `${data.mentorUsername}Div`);
     }
-    div.appendChild(username);
     
+    div.appendChild(username);
+
     matches.appendChild(div);
 }
 
@@ -77,39 +83,45 @@ async function getUsername() {
 
 // send the chat to the database
 async function sendChat() {
-    const data = { chat: `${input.value}`, client: `${clientUsername}`, target: `${activeChat}` };
-    // send the chat to the database chat table
-    const response = await fetch("http://localhost:3000/sendChat", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-    })
-        // handle the DOM based on the server's response
-        .then(response => response.json()).then(data => {
-        
-        });
+    if (input.value != "") {
+        const data = { chat: `${input.value}`, client: `${clientUsername}`, target: `${activeChat}` };
+        // send the chat to the database chat table
+        const response = await fetch("http://localhost:3000/sendChat", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        })
+            // handle the DOM based on the server's response
+            .then(response => response.json()).then(data => {
+    
+            });
+    }
+    input.value = "";
 }
 
+// change the active chat
 function chatWith(user) {
-    console.log(`Chatting with ${user}.`);
+
+    messages.innerHTML = "";
+    lastChatLength = 0;
+
     if (activeChat != "") {
-        console.log(`resetting old button whose id is ${activeChat}Div`)
         const oldButtonReference = document.getElementById(`${activeChat}Div`);
         oldButtonReference.style.color = "#1b1e3f";
         oldButtonReference.style.backgroundColor = "#3F72AF"
     }
-    
     const buttonReference = document.getElementById(`${user}Div`);
     buttonReference.style.color = "white";
     buttonReference.style.backgroundColor = "#1b1e3f"
     activeChat = user;
     chatWithLabel.innerHTML = `Chat with ${activeChat}`
+    console.log(`chatting with ${activeChat}`);
 }
 
-var intervalId = window.setInterval(function(){
-    getChats();
-}, 2000);
+// refresh chats every 2 seconds
+var intervalId = window.setInterval(function () { getChats(); }, 1000);
 
+// get the applicable chats from the server
 async function getChats() {
     chats = [];
     if (clientUsername != "" && clientUsername != undefined && activeChat != "") {
@@ -124,6 +136,29 @@ async function getChats() {
 
 }
 
+// draw all retrieved chats in the window
 function drawChats() {
-    console.log(`There are ${chats.length} chats to draw. let's get started`)
+    if (chats.length != lastChatLength) {
+        for (i = lastChatLength; i < chats.length; i++) {
+            const container = document.createElement("div");
+            container.setAttribute("class", "containerClass");
+            const div = document.createElement("div");
+            div.setAttribute("class", "div");
+            const content = document.createElement("p");
+
+            if (chats[i].SenderUsername == clientUsername) {
+                content.innerHTML = `${chats[i].Content}`;
+                div.setAttribute("class", "senderChat");
+
+            } else {
+                content.innerHTML = `${chats[i].Content}`;
+                div.setAttribute("class", "recieverChat");
+            }
+
+            div.appendChild(content);
+            container.appendChild(div);
+            messages.appendChild(container);
+            lastChatLength = chats.length;
+        }
+    }
 }
