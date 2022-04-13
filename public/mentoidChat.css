@@ -24,11 +24,15 @@ body {
     margin-right: auto;
     margin-top: 25px;
     margin-bottom: 25px;
-    border: 2px solid black;
+    border: 2px solid #1b1e3f;
     width: 85%;
-    background-color: white;
     border-radius: 10px;
     height: fit-content;
+    background-color: #3F72AF;
+    border-radius: 25px;
+    text-align: center;
+    color: #1b1e3f;
+    width: 95%;
 }
 
 #matches {
@@ -100,11 +104,47 @@ li a {
 }
 
 .heading {
-    margin-left: 2%;
-    margin-right: 2%;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 2%;
     margin-bottom: 0px;
     background-color: #3F72AF;
     border-radius: 25px;
     text-align: center;
+    color: #1b1e3f;
+    width: 95%;
+}
+
+
+#chatEntry {
+    width: 75%;
+    border-radius: 15px;
+    margin-left: 4%;
+}
+
+#chatSend {
+    width: 12%;
+    float: right;
+    margin-right: 4%;
+    margin-top: 2px;
+}
+
+#chatDiv {
+    
+    height: 5%;
+    border-radius: 25px;
+}
+
+#messagesDiv {
+    height: 80%;
+    border-radius: 25px;
+    margin: 20px 20px 20px 20px;
+    border: 5px solid #1b1e3f;
+}
+
+#matchesDiv {
+    height: 86%;
+    border-radius: 25px;
+    margin: 20px 20px 20px 20px;
+    border: 5px solid #1b1e3f;
 }

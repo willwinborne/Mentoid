@@ -4,7 +4,7 @@
 let clientUsername = "";
 let clientProfileType = "";
 
-const matches = document.getElementById("matches");
+const matches = document.getElementById("matchesDiv");
 const chat = document.getElementById("chat");
 
 // a function that will ask for, then wait for the database to return all applicable matches

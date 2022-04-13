@@ -20,11 +20,21 @@
     <div id="container">
 
         <div id="matches">
-            <h1 class="heading">Matches</h1>
+            <h1 class="heading">My matches</h1>
+            <div id="matchesDiv">
+                
+            </div>
         </div>
 
         <div id="chat">
-            <h1 class="heading">Chat</h1>
+            <h1 id="chatWith" class="heading">Chat</h1>
+            <div id="messagesDiv">
+
+            </div>
+            <div id="chatDiv">
+                <input type="text" id="chatEntry">
+                <button onclick="sendChat()" id="chatSend">Send</button>
+            </div>
         </div>
     </div>
     <script src="mentoidChat.js"></script>
