@@ -1,0 +1,110 @@
+/* ali's rules */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
+
+html, body { height: 100%; }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+    font-family: "Poppins", sans-serif;
+    
+}
+
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(90deg, #67809f, #252958);
+}
+
+/* the div that holds any given post */
+.div {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border: 2px solid black;
+    width: 85%;
+    background-color: white;
+    border-radius: 10px;
+    height: fit-content;
+}
+
+#matches {
+    border-radius: 25px;
+    border: 2px solid #3F72AF;
+    box-shadow: 5px 5px #252958;
+    background-color: #252958;
+    height: 85%;
+    width: 45%;
+    margin-left: 2%;
+    margin-right: auto;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    float: left;
+    clear: right;
+}
+
+#chat {
+    border-radius: 25px;
+    border: 2px solid #3F72AF;
+    box-shadow: 5px 5px #252958;
+    background-color: #252958;
+    height: 85%;
+    width: 45%;
+    margin-left: auto;
+    margin-right: 2%;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    float: right;
+}
+
+#container {
+    height: 100%;
+}
+
+/* navbar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 25px;
+    box-shadow: 2px 2px #3F72AF;
+    background: linear-gradient(270deg, #8cabe6, #3f72af);
+    margin-top: 10px;
+    margin-left: 15%;
+    margin-right: 15%;
+    box-shadow: 3px 3px #252958;
+    margin-bottom: 25px;
+}
+
+li {
+    float: left;
+    
+}
+
+li a {
+    display: block;
+    color: #112D4E;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-radius: 25px;
+    /* box-shadow: 1px 1px #252958; */
+}
+
+#logout {
+    float: right;
+}
+
+.heading {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+    margin-bottom: 0px;
+    background-color: #3F72AF;
+    border-radius: 25px;
+    text-align: center;
+}

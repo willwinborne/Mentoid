@@ -1,6 +1,11 @@
+// MENTOID CHAT homepage prototype
 
+// stores client information
 let clientUsername = "";
 let clientProfileType = "";
+
+const matches = document.getElementById("matches");
+const chat = document.getElementById("chat");
 
 // a function that will ask for, then wait for the database to return all applicable matches
 // the function also stores them in the mentors array declared above
@@ -25,7 +30,7 @@ function loadMatches(data) {
         username.innerHTML = `${data.mentorUsername}`;
     }
     div.appendChild(username);
-    document.body.appendChild(div);
+    matches.appendChild(div);
 }
 
 // get the username of the current session from the server
