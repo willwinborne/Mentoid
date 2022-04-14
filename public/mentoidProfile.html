@@ -10,6 +10,9 @@
 </head>
 
 <body>
+    <ul>
+        <li><a href="http://localhost:3000/mentoidLogin.html">Login</a></li>
+      </ul>
     <h1>Create a new Profile</h1>
     <!-- enctype="multipart/form-data" allows file sending. https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data -->
     <!-- then, we also have to use middleware to understand these different forms. what a headache -->
@@ -64,7 +67,7 @@
         <br>
         <div class="row" id="bottomHalf">
             <p>Add a description for your profile!</p>
-            <textarea id="description" maxlength="300" name="postContent" wrap="hard"></textarea><br><br>
+            <textarea id="description" maxlength="300" name="description" wrap="hard"></textarea><br><br>
 
             <label for="img">Select profile picture: </label><br><br>
             <!-- Look at this weird thing going on -->

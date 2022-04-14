@@ -25,6 +25,10 @@ function start() {
     getUserProfile();
 }
 
+function edit() {
+    window.location.href = "http://localhost:3000/mentoidEdit.html";
+}
+
 // // draw the current profile "top of stack" as the provided mentor 
 // function drawCurrentProfile(clientUsername) {
     
@@ -44,6 +48,7 @@ async function getUsername() {
             console.log(data.username);
             clientUsername = data.username;
             clientProfileType = data.profileType;
+            document.getElementById("username").innerHTML = `Hello, ${clientUsername}`;
         })     
 }
 

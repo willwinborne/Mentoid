@@ -13,7 +13,7 @@
 
     <ul>
         <li><a href="http://localhost:3000/mentoidSwipe.html">Swipe</a></li>
-        <li><a href="http://localhost:3000/mentoidEdit.html">My profile</a></li>
+        <li><a href="http://localhost:3000/mentoidUserProfile.html">My profile</a></li>
         <li id="logout"><a href="http://localhost:3000/logout">Logout</a></li>
     </ul>
 
@@ -27,13 +27,13 @@
         </div>
 
         <div id="chat">
-            <h1 id="chatWith" class="heading">Chat</h1>
-            <div id="messagesDiv">
+            <h1 id="chatWith" class="heading">Select a Chat</h1>
+            <div id="messagesDiv" class="blur">
 
             </div>
             <div id="chatDiv">
-                <input type="text" id="chatEntry" name="chat">
-                <button onclick="sendChat()" id="chatSend">Send</button>
+                <input type="text" id="chatEntry" name="chat" class="blur">
+                <button onclick="sendChat()" id="chatSend" class="blur">Send</button>
             </div>
         </div>
     </div>

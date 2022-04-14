@@ -48,7 +48,7 @@ body {
     margin-top: 0px;
     margin-bottom: 20px;
     float: left;
-    clear: right;
+    height: fit-content;
 }
 
 #chat {
@@ -56,14 +56,24 @@ body {
     border: 2px solid #3F72AF;
     box-shadow: 5px 5px #252958;
     background-color: #252958;
-    height: 85%;
+    height: 89%;
     width: 73%;
     margin-left: auto;
-    margin-right: 2%;
+    margin-right: auto;
     margin-top: 0px;
-    margin-bottom: 20px;
     float: right;
+
 }
+
+.blur {
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);
+    width: 100px;
+    height: 100px;
+  }
 
 #container {
     height: 100%;
@@ -127,6 +137,7 @@ li a:hover {
 #myMatches {
     margin-top: 8%;
     width: 80%;
+    
 }
 
 
@@ -152,10 +163,12 @@ li a:hover {
 
 #messagesDiv {
     display: inline-block;
-    height: 81%;
+    height: 75%;
     width: 92%;
-    border-radius: 25px;
-    margin: 20px 20px 20px 20px;
+    /* border-radius: 25px; */
+    margin: 2% 3.5% 3.5% 3.5%;
+
+    max-height: 65vh;
     margin-bottom: 8px;
     border: 5px solid #1b1e3f;
     overflow: scroll;
@@ -163,7 +176,7 @@ li a:hover {
 }
 
 #matchesDiv {
-    height: 83%;
+    height: fit-content;
     border-radius: 25px;
     margin: 20px 20px 20px 20px;
     border: 5px solid #1b1e3f;
@@ -204,3 +217,43 @@ li a:hover {
 .containerClass {
 
 }
+
+#chatEntry {
+    margin-top: 10px;
+    height: 50px;
+    background-color: #1b1e3f;
+    color: white;
+    font-size: 25pt;
+}
+
+#chatSend {
+    margin-top: 10px;
+    height: 50px;
+    width: 15%;
+    border-radius: 25px;
+    font-size: 25pt;
+    color:#1b1e3f;
+    background-color:#3F72AF;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #3F72AF; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1b1e3f;
+  }

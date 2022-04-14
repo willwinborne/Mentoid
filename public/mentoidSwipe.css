@@ -132,6 +132,10 @@ li a:hover {
     background-size: cover;
 }
 
+#currentUsername {
+    text-align: center;
+}
+
 /* don't allow animating elements to create a horizontal scrollbar */
 body {
     overflow-x: hidden;

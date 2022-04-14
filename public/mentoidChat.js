@@ -14,6 +14,7 @@ const matches = document.getElementById("matchesDiv");
 const messages = document.getElementById("messagesDiv");
 const chat = document.getElementById("chat");
 const chatWithLabel = document.getElementById("chatWith");
+const chatSend = document.getElementById("chatSend")
 
 // Get the input field
 var input = document.getElementById("chatEntry");
@@ -24,13 +25,14 @@ input.addEventListener("keyup", function (event) {
         // Cancel the default action, if needed
         event.preventDefault();
         // Trigger the button element with a click
-        document.getElementById("chatSend").click();
+        chatSend.click();
     }
 });
 
 // a function that will ask for, then wait for the database to return all applicable matches
 // the function also stores them in the mentors array declared above
 async function fetchMatches() {
+    addDummyMessages();
     await getUsername();
     let response = await fetch('http://localhost:3000/getmatches');
     if (response.status === 200) {
@@ -39,9 +41,40 @@ async function fetchMatches() {
     }
 }
 
+function addDummyMessages() {
+    messages.setAttribute("class", "blur");
+    for (let i = 0; i < 7; i++) {
+        const container = document.createElement("div");
+        container.setAttribute("class", "containerClass");
+        const div = document.createElement("div");
+        div.setAttribute("class", "div");
+        const content = document.createElement("p");
+
+        if (i % 2 == 0) {
+            if (Math.random() <= 0.5) {
+                content.innerHTML = `this is a test message`;
+            } else {
+                content.innerHTML = `so is this`;
+            }
+            div.setAttribute("class", "senderChat");
+        } else {
+            if (Math.random() <= 0.5) {
+                content.innerHTML = `this is a test message`;
+            } else {
+                content.innerHTML = `so is this`;
+            }
+            div.setAttribute("class", "recieverChat");
+        }
+
+        div.appendChild(content);
+        container.appendChild(div);
+        messages.appendChild(container);
+    }
+}
+
 // for each match, draw a div with the name of the match
 function loadMatch(data) {
-    
+
     const div = document.createElement("div");
 
     div.setAttribute("class", "div");
@@ -58,7 +91,7 @@ function loadMatch(data) {
         div.onclick = function () { chatWith(`${data.mentorUsername}`); };
         div.setAttribute("id", `${data.mentorUsername}Div`);
     }
-    
+
     div.appendChild(username);
 
     matches.appendChild(div);
@@ -93,7 +126,7 @@ async function sendChat() {
         })
             // handle the DOM based on the server's response
             .then(response => response.json()).then(data => {
-    
+
             });
     }
     input.value = "";
@@ -102,6 +135,22 @@ async function sendChat() {
 // change the active chat
 function chatWith(user) {
 
+    if (activeChat == user) {
+        messages.innerHTML = "";
+        addDummyMessages();
+        chatWithLabel.innerHTML = `Select a chat`
+        const oldButtonReference1 = document.getElementById(`${activeChat}Div`);
+        oldButtonReference1.style.color = "#1b1e3f";
+        oldButtonReference1.style.backgroundColor = "#3F72AF"
+        activeChat = "";
+        input.setAttribute("class", "blur");
+        chatSend.setAttribute("class", "blur");
+        return;
+    }
+
+    chatSend.setAttribute("class", "");
+    input.setAttribute("class", "");
+    messages.setAttribute("class", "");
     messages.innerHTML = "";
     lastChatLength = 0;
 
@@ -137,6 +186,7 @@ async function getChats() {
 
 // draw all retrieved chats in the window
 function drawChats() {
+
     if (chats.length != lastChatLength) {
         for (i = lastChatLength; i < chats.length; i++) {
             const container = document.createElement("div");

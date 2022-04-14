@@ -12,15 +12,17 @@
 <body onload="start()">
 
     <ul>
-        <li><a onclick="testNextProfile()">Chat</a></li>
-        <li><a href="contact.asp">My profile</a></li>
+        <li><a href="http://localhost:3000/mentoidSwipe.html">Swipe</a></li>
+        <li><a href="http://localhost:3000/mentoidChat.html">Chat</a></li>
         <li id="logout"><a href="http://localhost:3000/logout">Logout</a></li>
       </ul>
 
     <!-- holds the current and next profile -->
+    <p id="username">Username:</p>
+    <p id="info">Click your profile picture to edit your profile.</p>
     <div id="profilesContainer">
 
-        <div class="currentProfile" id="currentProfileID">
+        <div class="currentProfile" id="currentProfileID" onclick="edit()">
         </div>
 
     </div>

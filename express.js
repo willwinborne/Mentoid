@@ -76,6 +76,7 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
 // currently gets ALL mentors, we need to eventually change this to only retrieve the mentors the user "matched" with
 // TODO: only show people that do not have the client in their Skips
 // TODO: only show people that the client does NOT have in their Matches
+// TODO: dont show the client
 // login is required for this. 
 app.get('/getmentors', (req, res) => {
 
@@ -568,15 +569,14 @@ app.post('/editprofile', upload.single('img'), async (req, res) => {
 
   connection.connect();
   if (req.body.updatePicture == undefined) {
-    console.log(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}');`);
-    connection.query(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}');`, (err) => {
+  
+    connection.query(`UPDATE ${req.session.profileType}sTable SET FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}' WHERE ${req.session.profileType}Username = '${req.session.username}';`, (err) => {
       if (err) throw err.code;
   
       connection.end();
     });
   } else {
-    console.log(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}', profilePictureID = '${req.file.filename}');`);
-    connection.query(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}', profilePictureID = '${req.file.filename}');`, (err) => {
+    connection.query(`UPDATE ${req.session.profileType}sTable SET FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}', profilePictureID = '${req.file.filename}' WHERE ${req.session.profileType}Username = '${req.session.username}';`, (err) => {
       if (err) throw err.code;
   
       connection.end();
