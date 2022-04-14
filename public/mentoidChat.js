@@ -15,16 +15,22 @@ const messages = document.getElementById("messagesDiv");
 const chat = document.getElementById("chat");
 const chatWithLabel = document.getElementById("chatWith");
 const chatSend = document.getElementById("chatSend")
+const remainingCharContent = document.getElementById("remainingCharContent");
 
 // Get the input field
 var input = document.getElementById("chatEntry");
 
+input.addEventListener("input", (event) => newPostTextAreaChanged());
+function newPostTextAreaChanged() {
+    remainingCharContent.innerHTML = `${input.value.length}/50`
+}
+
+
 input.addEventListener("keyup", function (event) {
-    // Number 13 is the "Enter" key on the keyboard
     if (event.key === 'Enter') {
-        // Cancel the default action, if needed
+        // cancel the default action, if needed
         event.preventDefault();
-        // Trigger the button element with a click
+        // trigger the button element with a click
         chatSend.click();
     }
 });
@@ -43,7 +49,7 @@ async function fetchMatches() {
 
 function addDummyMessages() {
     messages.setAttribute("class", "blur");
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 6; i++) {
         const container = document.createElement("div");
         container.setAttribute("class", "containerClass");
         const div = document.createElement("div");

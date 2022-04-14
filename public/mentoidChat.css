@@ -64,7 +64,7 @@ body {
 
 }
 
-.blur {
+/* .blur {
     -webkit-filter: blur(10px);
     -moz-filter: blur(10px);
     -o-filter: blur(10px);
@@ -72,7 +72,7 @@ body {
     filter: blur(10px);
     width: 100px;
     height: 100px;
-  }
+  } */
 
 #container {
     height: 100%;
@@ -184,7 +184,7 @@ li a:hover {
 }
 
 .senderChat {
-    font-size: 20pt;
+    font-size: 16pt;
     background-color: #3F72AF;
     width: fit-content;
     padding-left: 20px;
@@ -200,7 +200,7 @@ li a:hover {
 }
 
 .recieverChat {
-    font-size: 20pt;
+    font-size: 16pt;
     background-color: #3faf61;
     width: fit-content;
     padding-left: 20px;
@@ -219,20 +219,29 @@ li a:hover {
 
 }
 
+#remainingCharContent {
+    margin-left: 1.25%;
+    color: #8cabe6;
+    font-size: 15pt;
+}
+
 #chatEntry {
-    margin-top: 10px;
+    margin-top: 25px;
     height: 50px;
     background-color: #1b1e3f;
     color: white;
     font-size: 25pt;
+    width: 65%;
+    border: 2px solid #8cabe6;
 }
 
 #chatSend {
-    margin-top: 10px;
+    margin-top: 25px;
     height: 50px;
     width: 15%;
     border-radius: 25px;
-    font-size: 25pt;
+    border: 2px solid #8cabe6;
+    font-size: 18pt;
     color:#1b1e3f;
     background-color:#3F72AF;
 }

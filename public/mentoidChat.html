@@ -27,12 +27,13 @@
         </div>
 
         <div id="chat">
-            <h1 id="chatWith" class="heading">Select a Chat</h1>
+            <h1 id="chatWith" class="heading" onclick="viewProfile()">Select a Chat</h1>
             <div id="messagesDiv" class="blur">
 
             </div>
             <div id="chatDiv">
-                <input type="text" id="chatEntry" name="chat" class="blur">
+                <input type="text" id="chatEntry" name="chat" class="blur" maxlength="50">
+                <label id="remainingCharContent">(0/50)</label>
                 <button onclick="sendChat()" id="chatSend" class="blur">Send</button>
             </div>
         </div>
