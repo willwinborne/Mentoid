@@ -138,3 +138,9 @@ h1 {
   .inputWrapper input:valid ~ span::before{
     width: 100%;
   }
+  input[type="submit"]:hover{
+    
+    cursor: pointer;
+    color: #000;
+    transition: .5s;
+  }
