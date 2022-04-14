@@ -471,6 +471,51 @@ app.post('/getClientData', (req, res) => {
 
 });
 
+// get the client's data to pass back to the edit page
+app.post('/getSpecificClientData', (req, res) => {
+  //check if this user is logged in (standard for most functions!)
+  if (req.session.loggedIn) {
+
+    const connection = mysql.createConnection({
+      host: '107.180.1.16',
+      user: 'springog2022team',
+      password: 'springog2022team4',
+      database: 'springog2022team4',
+      port: 3306
+    });
+
+    connection.connect();
+
+    let desiredType = "mentee";
+
+    if (req.session.profileType == "mentee") {
+      desiredType = "mentor";
+    }
+
+    // Send all data about the client
+    connection.query(`SELECT * FROM ${desiredType}sTable WHERE ${desiredType}Username = '${req.body.target}';`, function (err, results) {
+      if (err) throw err.code;
+      let values = {};
+      values.FName = results[0].FName;
+      values.LName = results[0].LName;
+      values.Password = results[0].Password;
+      values.Email = results[0].Email;
+      values.Interests = results[0].Interests
+      values.Description = results[0].Description;
+      values.profilePictureID = results[0].profilePictureID;
+      res.json(values);
+
+    });
+
+    connection.end();
+
+  } else {
+    console.log("Authenticate: user is not logged in.")
+    res.send("You're not logged in.")
+  }
+
+});
+
 // create a new mentor's profile in the database
 // upload.single('img') uploads the file input with the name 'img' to the /profile_pictures directory on the webserver (multer)
 app.post('/makenewprofile', upload.single('img'), async (req, res) => {

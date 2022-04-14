@@ -64,6 +64,74 @@ body {
 
 }
 
+#profilePicDiv {
+    width: 50%;
+    height: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 250px;
+    background-color: white;
+    border: 15px solid #070921;
+    border-radius: 10px;
+    box-shadow: 5px 5px #252958;
+}
+
+#exit {
+    margin-bottom: 10px;
+    margin-right: 10px;
+    width: 100px;
+    height: 30px;
+    float: right;
+    border-radius: 25px;
+    border: 2px solid #8cabe6;
+    font-size: 15pt;
+    color:#1b1e3f;
+    background-color:#3F72AF;
+}
+
+#name {
+    text-align: center;
+    width: fit-content;
+    display: inline-block;
+    font-size: 25pt;
+    margin-bottom: 10px;
+}
+
+#interests {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 16pt;
+}
+
+#description {
+    margin-left: 20px;
+    text-align: left;
+    margin-right: 20px;
+    height: 22%;
+}
+
+/* a div that pops up to allow new post entry */
+#newPostDiv {
+    position: absolute; 
+    left: 0; 
+    right: 0; 
+    margin-top: 10%;
+    margin-left: auto; 
+    margin-right: auto; 
+    visibility: hidden;
+    background: #3F72AF;
+    width: 45%;
+    height: 65%;
+    /* offset-x | offset-y | blur-radius | color */
+    box-shadow: 25px 25px 25px black;
+    border-radius: 10px;
+    padding-top: 25px;
+    border: 2px solid black;
+    text-align: center;
+}
+
 .blur {
     -webkit-filter: blur(10px);
     -moz-filter: blur(10px);

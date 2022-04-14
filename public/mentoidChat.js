@@ -11,6 +11,13 @@ let lastChatLength = 0;
 let chats = [];
 let drawnChats = []
 
+let viewingProfile = false;
+const profile = document.getElementById("newPostDiv");
+const profilePicDiv = document.getElementById("profilePicDiv");
+const nameP = document.getElementById("name");
+const interests = document.getElementById("interests");
+const description = document.getElementById("description");
+
 const matches = document.getElementById("matchesDiv");
 const messages = document.getElementById("messagesDiv");
 const chat = document.getElementById("chat");
@@ -170,6 +177,7 @@ function chatWith(user) {
 
     activeChat = user;
     getChats();
+    fetchMentor();
 
     const buttonReference = document.getElementById(`${user}Div`);
     buttonReference.style.color = "white";
@@ -234,3 +242,38 @@ function drawChats() {
         }
     }
 }
+
+function viewProfile() {
+    if (viewingProfile == false && activeChat != "") {
+        profile.style.visibility = "visible";
+        viewingProfile = true;
+    }
+}
+
+function hideProfile() {
+    if (viewingProfile == true) {
+        profile.style.visibility = "hidden";
+        viewingProfile = false;
+    }
+}
+
+function drawProfile(mentor) {
+    profilePicDiv.style.backgroundImage = `url(${mentor.profilePictureID})`;
+    nameP.innerHTML = `${mentor.FName} ${mentor.LName}`;
+    interests.innerHTML = mentor.Interests;
+    description.innerHTML = mentor.description;
+}
+
+async function fetchMentor() {
+    const data = { target: `${activeChat}` }
+    // get the desired user's profile
+    const response = await fetch("http://localhost:3000/getSpecificClientData", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+      
+    })
+      .then(response => response.json()).then(data => {
+        drawProfile(data);
+      });
+  }
