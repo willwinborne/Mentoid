@@ -58,10 +58,9 @@ body {
     background-color: #252958;
     height: 89%;
     width: 73%;
-    margin-left: auto;
-    margin-right: auto;
     margin-top: 0px;
     float: right;
+    margin-right:2%;
 
 }
 
@@ -162,14 +161,16 @@ li a:hover {
 }
 
 #messagesDiv {
-    display: inline-block;
+
     height: 75%;
     width: 92%;
     /* border-radius: 25px; */
-    margin: 2% 3.5% 3.5% 3.5%;
+    margin-left: auto;
+    margin-right: auto;
 
     max-height: 65vh;
-    margin-bottom: 8px;
+    margin-bottom: 15px;
+    margin-top: 15px;
     border: 5px solid #1b1e3f;
     overflow: scroll;
     overflow-x: hidden; /* Hide horizontal scrollbar */
