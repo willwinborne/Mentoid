@@ -15,16 +15,24 @@
             <div>
                 <h1>Login</h1>
             </div>
+            <br>
+            <br>
 
             <div class="inputWrapper">
-                <input type="text" name="username" id="username" class="inputs" placeholder="Username">
-                <br>
+                <input type="text" name="username" id="username" class="inputs" >
+                <span></span>
+                <label>Username</label>
+                
             </div>
 
             <div class="inputWrapper">
-                <input type="text" name="password" id="password" class="inputs" placeholder="Enter Password">
+                <input type="text" name="password" id="password" class="inputs" >
+                <span></span>
+                <label>password</label>
+
                 <p id="passwordRemind">Password incorrect.</p>
-                
+                </div>
+                <div>
                 <input type="checkbox" name="mentor" id="mentor" class="checkbox" onchange="check(mentor)" checked>
                 <label for="mentor" class="checkboxLabel">Login as mentor</label><br>
                 <input type="checkbox" name="mentee" id="mentee" class="checkbox" onchange="check(mentee)">
