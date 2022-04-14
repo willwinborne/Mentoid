@@ -134,7 +134,7 @@ async function sendChat() {
 
 // change the active chat
 function chatWith(user) {
-
+    chats = [];
     if (activeChat == user) {
         messages.innerHTML = "";
         addDummyMessages();
@@ -148,66 +148,82 @@ function chatWith(user) {
         return;
     }
 
+    if (activeChat != "") {
+        const oldButtonReference = document.getElementById(`${activeChat}Div`);
+        oldButtonReference.style.color = "#1b1e3f";
+        oldButtonReference.style.backgroundColor = "#3F72AF"
+    }
+
     chatSend.setAttribute("class", "");
     input.setAttribute("class", "");
     messages.setAttribute("class", "");
     messages.innerHTML = "";
     lastChatLength = 0;
 
-    if (activeChat != "") {
-        const oldButtonReference = document.getElementById(`${activeChat}Div`);
-        oldButtonReference.style.color = "#1b1e3f";
-        oldButtonReference.style.backgroundColor = "#3F72AF"
-    }
+    activeChat = user;
+    getChats();
+
     const buttonReference = document.getElementById(`${user}Div`);
     buttonReference.style.color = "white";
     buttonReference.style.backgroundColor = "#1b1e3f"
-    activeChat = user;
+
     chatWithLabel.innerHTML = `Chat with ${activeChat}`
     console.log(`chatting with ${activeChat}`);
 }
 
 // refresh chats every 1 second
-var intervalId = window.setInterval(function () { getChats(); }, 1000);
+var intervalId = window.setInterval(function () { getChats(); }, 750);
 
 // get the applicable chats from the server
 async function getChats() {
-    chats = [];
-    if (clientUsername != "" && clientUsername != undefined && activeChat != "") {
-        // get the current username
-        let response = await fetch(`http://localhost:3000/getChats?activeChat=${activeChat}`);
-        if (response.status === 200) {
-            let data = await response.json();
-            data.forEach(data => chats.push(data));
-            drawChats();
+
+    if (activeChat != "") {
+        chats = [];
+
+        if (clientUsername != "" && clientUsername != undefined && activeChat != "") {
+            // get the current username
+            let response = await fetch(`http://localhost:3000/getChats?activeChat=${activeChat}`);
+            if (response.status === 200) {
+                let data = await response.json();
+                data.forEach(data => chats.push(data));
+                drawChats();
+            }
         }
     }
 }
 
 // draw all retrieved chats in the window
 function drawChats() {
-
+    //console.log(chats[0].ChatID)
     if (chats.length != lastChatLength) {
         for (i = lastChatLength; i < chats.length; i++) {
-            const container = document.createElement("div");
-            container.setAttribute("class", "containerClass");
-            const div = document.createElement("div");
-            div.setAttribute("class", "div");
-            const content = document.createElement("p");
 
-            if (chats[i].SenderUsername == clientUsername) {
-                content.innerHTML = `${chats[i].Content}`;
-                div.setAttribute("class", "senderChat");
+            console.log('drawing a chat:')
+            console.log(`SenderUsername: ${chats[i].SenderUsername}`)
+            console.log(`RecieverUsername: ${chats[i].ReceiverUsername}`)
+            console.log(`Active Chat: ${activeChat}`)
+            if (chats[i].SenderUsername == activeChat || chats[i].ReceiverUsername == activeChat) {
 
-            } else {
-                content.innerHTML = `${chats[i].Content}`;
-                div.setAttribute("class", "recieverChat");
+                const container = document.createElement("div");
+                container.setAttribute("class", "containerClass");
+                const div = document.createElement("div");
+                div.setAttribute("class", "div");
+                const content = document.createElement("p");
+
+                if (chats[i].SenderUsername == clientUsername) {
+                    content.innerHTML = `${chats[i].Content} (ID: ${chats[i].ChatID})`;
+                    div.setAttribute("class", "senderChat");
+
+                } else {
+                    content.innerHTML = `${chats[i].Content}`;
+                    div.setAttribute("class", "recieverChat");
+                }
+
+                div.appendChild(content);
+                container.appendChild(div);
+                messages.appendChild(container);
+                lastChatLength = chats.length;
             }
-
-            div.appendChild(content);
-            container.appendChild(div);
-            messages.appendChild(container);
-            lastChatLength = chats.length;
         }
     }
 }
