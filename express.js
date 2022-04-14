@@ -525,7 +525,7 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
 
 });
 
-// create a new mentor's profile in the database
+// edit an existing mentor's profile in the database
 // upload.single('img') uploads the file input with the name 'img' to the /profile_pictures directory on the webserver (multer)
 app.post('/editprofile', upload.single('img'), async (req, res) => {
 
@@ -568,14 +568,14 @@ app.post('/editprofile', upload.single('img'), async (req, res) => {
 
   connection.connect();
   if (req.body.updatePicture == undefined) {
-    console.log('updating user. did not want to edit profile picture')
+    console.log(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}');`);
     connection.query(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}');`, (err) => {
       if (err) throw err.code;
   
       connection.end();
     });
   } else {
-    console.log('updating user. did want to edit profile picture')
+    console.log(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}', profilePictureID = '${req.file.filename}');`);
     connection.query(`UPDATE ${req.session.profileType}sTable SET ${req.session.profileType}Username = '${req.body.username}', FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}', profilePictureID = '${req.file.filename}');`, (err) => {
       if (err) throw err.code;
   

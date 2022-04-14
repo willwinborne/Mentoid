@@ -118,7 +118,7 @@ function chatWith(user) {
     console.log(`chatting with ${activeChat}`);
 }
 
-// refresh chats every 2 seconds
+// refresh chats every 1 second
 var intervalId = window.setInterval(function () { getChats(); }, 1000);
 
 // get the applicable chats from the server
@@ -133,7 +133,6 @@ async function getChats() {
             drawChats();
         }
     }
-
 }
 
 // draw all retrieved chats in the window
