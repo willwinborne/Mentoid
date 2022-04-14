@@ -9,6 +9,7 @@ let clientProfileType = "";
 let activeChat = "";
 let lastChatLength = 0;
 let chats = [];
+let drawnChats = []
 
 const matches = document.getElementById("matchesDiv");
 const messages = document.getElementById("messagesDiv");
@@ -141,6 +142,7 @@ async function sendChat() {
 // change the active chat
 function chatWith(user) {
     chats = [];
+    drawnChats = [];
     if (activeChat == user) {
         messages.innerHTML = "";
         addDummyMessages();
@@ -173,7 +175,7 @@ function chatWith(user) {
     buttonReference.style.color = "white";
     buttonReference.style.backgroundColor = "#1b1e3f"
 
-    chatWithLabel.innerHTML = `Chat with ${activeChat}`
+    chatWithLabel.innerHTML = `Chat with ${activeChat} (click for profile)`
     console.log(`chatting with ${activeChat}`);
 }
 
@@ -204,31 +206,30 @@ function drawChats() {
     if (chats.length != lastChatLength) {
         for (i = lastChatLength; i < chats.length; i++) {
 
-            console.log('drawing a chat:')
-            console.log(`SenderUsername: ${chats[i].SenderUsername}`)
-            console.log(`RecieverUsername: ${chats[i].ReceiverUsername}`)
-            console.log(`Active Chat: ${activeChat}`)
-            if (chats[i].SenderUsername == activeChat || chats[i].ReceiverUsername == activeChat) {
+            if (!drawnChats.includes(chats[i].ChatID)) {
+                if (chats[i].SenderUsername == activeChat || chats[i].ReceiverUsername == activeChat) {
 
-                const container = document.createElement("div");
-                container.setAttribute("class", "containerClass");
-                const div = document.createElement("div");
-                div.setAttribute("class", "div");
-                const content = document.createElement("p");
+                    const container = document.createElement("div");
+                    container.setAttribute("class", "containerClass");
+                    const div = document.createElement("div");
+                    div.setAttribute("class", "div");
+                    const content = document.createElement("p");
 
-                if (chats[i].SenderUsername == clientUsername) {
-                    content.innerHTML = `${chats[i].Content} (ID: ${chats[i].ChatID})`;
-                    div.setAttribute("class", "senderChat");
+                    if (chats[i].SenderUsername == clientUsername) {
+                        content.innerHTML = `${chats[i].Content}`;
+                        div.setAttribute("class", "senderChat");
 
-                } else {
-                    content.innerHTML = `${chats[i].Content}`;
-                    div.setAttribute("class", "recieverChat");
+                    } else {
+                        content.innerHTML = `${chats[i].Content}`;
+                        div.setAttribute("class", "recieverChat");
+                    }
+                    drawnChats.push(chats[i].ChatID);
+                    div.appendChild(content);
+                    container.appendChild(div);
+                    messages.appendChild(container);
+                    lastChatLength = chats.length;
+
                 }
-
-                div.appendChild(content);
-                container.appendChild(div);
-                messages.appendChild(container);
-                lastChatLength = chats.length;
             }
         }
     }

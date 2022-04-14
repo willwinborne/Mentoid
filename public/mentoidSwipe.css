@@ -139,7 +139,7 @@ li a:hover {
 /* don't allow animating elements to create a horizontal scrollbar */
 body {
     overflow-x: hidden;
-    background-color: #67809f
+    background: linear-gradient(90deg, #67809f, #252958);
 }
 
 /* class for swipe buttons at the bottom */
