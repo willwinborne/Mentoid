@@ -2,7 +2,9 @@ const mentor = document.getElementById("mentor");
 const mentee = document.getElementById("mentee");
 const loginButton = document.getElementById("login");
 const username = document.getElementById("username");
+const password = document.getElementById("password");
 const passwordRemind = document.getElementById("passwordRemind");
+const togglePassword = document.getElementById("togglePassword");
 
 function check(position) {
 
@@ -34,3 +36,9 @@ function passwordReminder() {
     }
 
 }
+
+togglePassword.addEventListener('click', function() {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    this.classList.toggle('bi-eye');
+});

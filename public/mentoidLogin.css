@@ -144,3 +144,8 @@ h1 {
     color: #000;
     transition: .5s;
   }
+
+form i {
+  margin-left: -50px; 
+  cursor: pointer;
+}
