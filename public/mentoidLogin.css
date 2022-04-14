@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
 *{
-  margin: 0;
+  margin: 4px;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
@@ -9,7 +9,7 @@
 body {
     text-align: center;
     background-color: #67809f;
-    color: #F9F7F7;
+    color: black;
 }
 
 #mentor {
@@ -27,16 +27,15 @@ body {
 
 
 #loginDiv {
-    border: 2px solid #112D4E;
-    border-radius: 20px;
-    width: 30vw;
+   /* border: 2px solid #112D4E;*/
+    border-radius: 10px;
+    /* width: 30vw; */
     margin: auto;
 
-    background-color: #3F72AF;
+    background-color: #F9F7F7;
     padding: 15px;
     position: absolute;
 }
-
 .center{
     position: absolute;
     top: 50%;
@@ -49,9 +48,9 @@ body {
     padding: 80px;
   }
 
-  .inputWrapper {
+ /* .inputWrapper {
       margin-top: 20px;
-  }
+  }*/
 
   .buttons {
       margin-top: 10px;
@@ -70,9 +69,11 @@ body {
 
   }
 
-  h1 {
-      font-size: 3em;
-  }
+h1 {
+    font-size: 3em;
+    border-bottom: 1px solid silver;
+    padding: 25px;
+}
 
   #passwordRemind {
       color: red;
@@ -90,3 +91,61 @@ body {
     outline: none;
   }
   
+
+
+
+
+  form .inputWrapper{
+    position: relative;
+   /* border-bottom: 2px solid #adadad;*/
+    margin: 10px 0;
+  }
+  .inputWrapper input{
+    width: 100%;
+    padding: 23px 5px;
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+  }
+  .inputWrapper label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: #200303;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: .5s;
+  }
+  .inputWrapper span::before{
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: #112D4E;
+    transition: .5s;
+  }
+  .inputWrapper input:focus ~ label,
+  .inputWrapper input:valid ~ label{
+    top: -5px;
+    color: #1b020a;
+  }
+  .inputWrapper input:focus ~ span::before,
+  .inputWrapper input:valid ~ span::before{
+    width: 100%;
+  }
+  input[type="submit"]:hover{
+    
+    cursor: pointer;
+    color: #000;
+    transition: .5s;
+  }
+
+form i {
+  margin-left: -50px; 
+  cursor: pointer;
+}

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" href="./mentoidLogin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
 </head>
 <body onload="passwordReminder()">
 
@@ -15,16 +16,25 @@
             <div>
                 <h1>Login</h1>
             </div>
+            <br>
+            <br>
 
             <div class="inputWrapper">
-                <input type="text" name="username" id="username" class="inputs" placeholder="Username">
-                <br>
+                <input type="text" name="username" id="username" class="inputs" >
+                <span></span>
+                <label>Username</label>
+                
             </div>
 
             <div class="inputWrapper">
-                <input type="text" name="password" id="password" class="inputs" placeholder="Enter Password">
+                <input type="password" name="password" id="password" class="inputs" >
+                <span></span>
+                <label>Password</label>
+                <i class="bi bi-eye-slash" id="togglePassword"></i>
+
                 <p id="passwordRemind">Password incorrect.</p>
-                
+                </div>
+                <div>
                 <input type="checkbox" name="mentor" id="mentor" class="checkbox" onchange="check(mentor)" checked>
                 <label for="mentor" class="checkboxLabel">Login as mentor</label><br>
                 <input type="checkbox" name="mentee" id="mentee" class="checkbox" onchange="check(mentee)">
