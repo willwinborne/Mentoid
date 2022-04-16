@@ -81,7 +81,8 @@ app.get('/getmentors', (req, res) => {
   //check if this user is logged in (standard for most functions!)
   if (req.session.loggedIn) {
 
-    exclusionQuery = "";
+    exclusionQuery = ";";
+    potentialMatches = [];
 
     const connection = mysql.createConnection({
       host: '107.180.1.16',
@@ -99,19 +100,47 @@ app.get('/getmentors', (req, res) => {
       desiredType = "mentor";
     }
 
+    // first, get all potential matches (meaning, people who have swiped right on us)
+    connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '0'`, function (err, results) {
+      if (err) throw err.code;
+      if (results.length > 0) {
+        for (let i = 0; i < results.length; i++) {
+          if (desiredType == "mentor") {
+            potentialMatches.push(results[i].mentorUsername)
+            // console.log(`found a potential match for ${req.session.username}: ${results[i].mentorUsername}`);
+          } else {
+            potentialMatches.push(results[i].menteeUsername)
+            // console.log(`found a potential match for ${req.session.username}: ${results[i].menteeUsername}`);
+          }
+        }
+      }
+    });
+
+    // exclude everyone who has skipped or already fully matched with us
     connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}'`, function (err, results) {
       if (err) throw err.code;
       if (results.length > 0) {
-        // generate SQL query string to exclude everyone user has matched with
+        // generate SQL query string to exclude everyone user has matched with, or has skipped them
+        // must make an exception for potential matches (meaning, clientSwipe = '0' AND targetSwipe = '1')
         for (let i = 0; i < results.length; i++) {
-          if (desiredType = "mentee") {
+          if (desiredType == "mentee" && potentialMatches.includes(results[i].menteeUsername)) {
+            // console.log(`found potential match: ${results[i].menteeUsername}. continuing`)
+            continue;
+          }
+          if (desiredType == "mentor" && potentialMatches.includes(results[i].mentorUsername)) {
+            // console.log(`found potential match: ${results[i].mentorUsername}. continuing`)
+            continue;
+          }
+          // this code is unreachable if continued. will only happen if there are profiles that actually need to be excluded
+          exclusionQuery = " WHERE ";
+          if (desiredType == "mentee") {
             if (i == results.length - 1) {
               exclusionQuery += `${desiredType}Username != '${results[i].menteeUsername}';`
             } else {
               exclusionQuery += `${desiredType}Username != '${results[i].menteeUsername}' AND `
             }
           } else {
-            if (i == results.length - 1) {
+            if (i == results.length - 1 && !potentialMatches.includes(results[i].menteeUsername)) {
               exclusionQuery += `${desiredType}Username != '${results[i].mentorUsername}';`
             } else {
               exclusionQuery += `${desiredType}Username != '${results[i].mentorUsername}' AND `
@@ -119,7 +148,7 @@ app.get('/getmentors', (req, res) => {
           }
           console.log(exclusionQuery);
         }
-        connection.query(`SELECT * FROM ${desiredType}sTable WHERE ${exclusionQuery}`, function (err, results) {
+        connection.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
           if (err) throw err.code;
           res.send(results);
         });
@@ -138,7 +167,7 @@ app.get('/getmentors', (req, res) => {
     console.log("user is not logged in")
   }
 
-  
+
 });
 
 app.get('/getUser', (req, res) => {
