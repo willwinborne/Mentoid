@@ -1,5 +1,7 @@
 const profile = document.getElementById("currentProfileID");
 const nextProfile = document.getElementById("nextProfileID");
+const buttonDiv = document.getElementById("buttonDiv");
+const profileInfoDiv = document.getElementById("profileInfoDiv");
 // set the time the swipe animation takes
 profile.style.animationDuration = "1s";
 
@@ -11,6 +13,7 @@ const currentDescription = document.getElementById("currentDescription");
 const currentProfilePicture = document.getElementById("currentProfilePicture");
 const profilePicOverlay = document.getElementById("profilePicDiv");
 const match = document.getElementById("match");
+const noMatches = document.getElementById("noMatches");
 // variables to edit the next profile
 const nextProfilePicture = document.getElementById("nextProfilePicture");
 
@@ -67,11 +70,19 @@ async function fetchMentors() {
     let response = await fetch('http://localhost:3000/getmentors');
     if (response.status === 200) {
         let data = await response.json();
-
-        data.forEach(data => mentors.push(data));
+        if (data[0] == undefined) {
+            noMatches.style.display = "block";
+            return;
+        } else {
+            data.forEach(data => mentors.push(data));
+            profile.style.visibility = "visible";
+            profileInfoDiv.style.visibility = "visible";
+            buttonDiv.style.visibility = "visible";
+            nextProfile.style.visibility = "visible";
+        }
+        
     }
     // hardcode: draw the first two available profiles
-    // TODO: this could cause problems if there aren't two profiles to display
     drawCurrentProfile(mentors[0]);
     drawNextProfile(mentors[0]);
 }

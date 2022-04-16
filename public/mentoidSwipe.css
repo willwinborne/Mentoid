@@ -10,6 +10,7 @@
 
 body {
     background-color: #121212;
+    overflow-y: hidden;
 }
 
 /* navbar */
@@ -114,6 +115,7 @@ li a:hover {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    visibility: hidden;
 }
 
 /* shown at the top, this is the element that animates */
@@ -130,6 +132,16 @@ li a:hover {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    visibility: hidden;
+}
+
+#noMatches {
+    display: none;
+    text-align: center;
+    margin-top: 10%;
+    font-size: 3em;
+    color: #252958;
+    text-shadow: 2px 2px #252958;
 }
 
 #currentUsername {
@@ -170,6 +182,7 @@ body {
 #buttonDiv {
     margin-top: 10px;
     padding: 10px 0;
+    visibility: hidden;
 }
 
 #currentUsername {
@@ -186,6 +199,7 @@ body {
     margin-top: 25px;
     margin-left: auto;
     margin-right: auto;
+    visibility: hidden;
 }
 
 #currentFName {
