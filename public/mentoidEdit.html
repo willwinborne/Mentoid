@@ -19,11 +19,11 @@
     <form action="http://localhost:3000/editprofile" form method="POST" enctype="multipart/form-data" id="createProfileForm">
         <div class="row Idiv" >
             <p id="username">Username:</p>
-            <label for="fname">First name:</label>
+            <label for="fname">First name:</label><br>
             <input type="text" id="fname" name="fname" placeholder="John"><br><br>
-            <label for="lname">Last name:</label>
+            <label for="lname">Last name:</label><br>
             <input type="text" id="lname" name="lname" placeholder="Doe"><br><br>
-            <label for="email">Email:</label>
+            <label for="email">Email:</label><br>
             <input type="email" id="email" name="email" placeholder="johnDoe@yahoo.com"><br><br>
             
             <!-- <input type="text" id="username" name="username" placeholder="user1" oninput="checkUsername()">
@@ -31,7 +31,7 @@
             <br><br>
             <!-- <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="iLuvCatz81"><br><br> -->
-            <label for="interests">Select your interests:</label><br> 
+            <label for="interests" id="interestsLabel">Select your interests:</label><br> 
         </div>
        
         <div class="row" >
@@ -69,7 +69,7 @@
             <p>Add a description for your profile!</p>
             <textarea id="description" maxlength="300" name="description" wrap="hard"></textarea><br><br>
 
-            <label for="img">Select profile picture: </label><br><br>
+            <label for="img" id="selectProfilePicture">Select profile picture: </label><br><br>
             <!-- Look at this weird thing going on -->
            
             <input type="checkbox" id="updatePicture" name="updatePicture" value="updatePicture" onchange="check()">

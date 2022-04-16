@@ -6,34 +6,6 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
-/* navbar */
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    border-radius: 25px;
-    box-shadow: 2px 2px #3F72AF;
-    background: linear-gradient(270deg, #8cabe6, #3f72af);
-    margin-top: 10px;
-    margin-left: 15%;
-    margin-right: 15%;
-    box-shadow: 3px 3px #252958;
-}
-
-li {
-    float: left;
-}
-
-li a {
-    display: block;
-    color: #112D4E;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    border-radius: 25px;
-    /* box-shadow: 1px 1px #252958; */
-}
 
 .col-01 {
     width: 8.33%;
@@ -79,6 +51,10 @@ li a {
     width: 91.66%;
 }
 
+.rowIdiv {
+    width: 50%;
+}
+
 .col-12 {
     width: 100.00%;
 }
@@ -99,32 +75,184 @@ body {
     width: auto;
     margin-left: auto;
     margin-right: auto;
-    background-color: #252958;;
+    background: linear-gradient(90deg, #67809f, #252958);
+}
+
+#radioDiv {
+    height: 50px;
+    width: fit-content;
+    font-size: 25px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#mentor {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+#mentorLabel {
+    margin-right: 20px;
+}
+
+#mentee {
+    margin-left: 20px;
+}
+
+#menteeLabel {
+    margin-right: 20px;
 }
 
 form {
-    background-color: #67809f;
-    margin-left: auto;
-    margin-right: auto;
+    background-color: #cbd3dd;
+    margin: auto;
     text-align: center;
 }
 
 .Idiv {
-    text-align: left;
-    margin-left: 44%;
-}
+    display: inline;
+    width: 50%;
+} 
+
+
+
 
 .Ldiv {
     text-align: left;
 }
 
 h1 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-family: sans-serif;
-    color: #67809f;
+    color: white;
     text-align: center;
+    margin-bottom: 20px;
 }
+
+
+#submitButton {
+    margin-bottom: 25px;
+    margin-left: 50px;
+    height: 80px;
+    width: 175px;
+    font-size: 40px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    color: white;
+}
+
+#clearButton {
+    margin-bottom: 25px;
+    height: 80px;
+    margin-right: 50px;
+    width: 175px;
+    font-size: 40px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    color: white;
+}
+
+#fname {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    color: white;
+}
+
+#username {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    margin-left: 1vw;
+    color: white;
+}
+
+#password {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    color: white;
+}
+
+#lname {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    color: white;
+}
+
+#email {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    color: white;
+}
+
+#description {
+    width: 65%;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 15px;
+    padding-left: 10px;
+    color: white;
+}
+
+#interestsLabel {
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+}
+
+#selectProfilePicture {
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+}
+
 
 #allInterestDiv {
     display: block;
@@ -151,11 +279,6 @@ h1 {
     text-align: left;
 }
 
-
-#description {
-    width: 50%;
-}
-
 #bottomHalf {
     clear: left;
 }
@@ -174,4 +297,47 @@ h1 {
     display: inline;
     font-size: 15pt;
     color: red;
+}
+
+/* navbar */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 25px;
+    box-shadow: 2px 2px #3F72AF;
+    background: linear-gradient(270deg, #8cabe6, #3f72af);
+    margin-top: 10px;
+    margin-left: 15%;
+    margin-right: 15%;
+    box-shadow: 3px 3px #252958;
+    margin-bottom: 25px;
+}
+
+li {
+    float: left;
+
+}
+
+
+li a {
+    display: block;
+    color: #112D4E;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-radius: 25px;
+    /* box-shadow: 1px 1px #252958; */
+}
+
+#logout {
+    float: right;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #112D4E;
+    color: #DBE2EF;
+    text-decoration: underline;
 }

@@ -1,58 +1,169 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
 
-.col-01 { width:   8.33%; }
-.col-02 { width:  16.66%; }
-.col-03 { width:  25.00%; }
-.col-04 { width:  33.33%; }
-.col-05 { width:  41.66%; }
-.col-06 { width:  50.00%; }
-.col-07 { width:  58.33%; }
-.col-08 { width:  66.66%; }
-.col-09 { width:  75.00%; }
-.col-10 { width:  83.33%; }
-.col-11 { width:  91.66%; }
-.col-12 { width: 100.00%; }
+.col-01 {
+    width: 8.33%;
+}
+
+.col-02 {
+    width: 16.66%;
+}
+
+.col-03 {
+    width: 25.00%;
+}
+
+.col-04 {
+    width: 33.33%;
+}
+
+.col-05 {
+    width: 41.66%;
+}
+
+.col-06 {
+    width: 50.00%;
+}
+
+.col-07 {
+    width: 58.33%;
+}
+
+.col-08 {
+    width: 66.66%;
+}
+
+.col-09 {
+    width: 75.00%;
+}
+
+.col-10 {
+    width: 83.33%;
+}
+
+.col-11 {
+    width: 91.66%;
+}
+
+.col-12 {
+    width: 100.00%;
+}
 
 [class*="col-"] {
-    float: 			left;
-    padding: 		2%;
+    float: left;
+    padding: 2%;
     /* border:			4px solid white; */
 }
 
 .row::after {
-    content: 		"";
-    clear: 			both;
-    display: 		block;
+    content: "";
+    clear: both;
+    display: block;
 }
+
 body {
     width: auto;
     margin-left: auto;
     margin-right: auto;
     background: linear-gradient(90deg, #67809f, #252958);
 }
+
 form {
     background-color: #cbd3dd;
     margin: auto;
     text-align: center;
 }
-.Idiv{
+
+.Idiv {
     text-align: center;
 }
+
 .Ldiv {
     text-align: left;
 }
+
 h1 {
     color: white;
     text-align: center;
     margin-bottom: 20px;
 }
+
+#fname {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    color: white;
+}
+
+#lname {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    color: white;
+}
+
+#email {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    padding-left: 10px;
+    color: white;
+}
+
+#description {
+    width: 65%;
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 15px;
+    padding-left: 10px;
+    color: white;
+}
+
+#interestsLabel {
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+}
+
+#selectProfilePicture {
+    font-size: 16px;
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+}
+
 
 #allInterestDiv {
     display: block;
@@ -79,11 +190,7 @@ h1 {
     text-align: left;
 }
 
-
-#description{
-    width: 50%;
-}
-#bottomHalf{
+#bottomHalf {
     clear: left;
 }
 
@@ -93,7 +200,7 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     height: 150px;
-    resize: none; 
+    resize: none;
     word-break: break-all;
 }
 
@@ -121,13 +228,14 @@ ul {
 
 li {
     float: left;
-    
+
 }
 
 #username {
     font-size: 40pt;
-
-
+    padding-top: 2%;
+    margin-bottom: 2%;
+    text-shadow: 2px 2px #252958;
 }
 
 li a {

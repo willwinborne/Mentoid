@@ -218,7 +218,7 @@ app.post('/checkUsername', (req, res) => {
   connection.connect();
 
   // check for existing usernames
-  connection.query(`SELECT mentorUsername FROM mentorsTable WHERE mentorUsername = '${req.body.username}';`, function (err, results) {
+  connection.query(`SELECT ${req.body.role}Username FROM ${req.body.role}sTable WHERE ${req.body.role}Username = '${req.body.username}';`, function (err, results) {
     if (err) throw err.code;
     if (typeof results[0] !== 'undefined') {
       res.json({ usernameTaken: 'true' });
