@@ -66,14 +66,19 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
     } catch (TypeError) {
       connection.query(`SELECT Password from menteesTable WHERE menteeUsername ='${req.body.username}'`, function (err, results) {
         if (err) throw err.code;
-        if (results[0].Password == req.body.password) {
-          req.session.profileType = "mentee";
-          res.locals.username = req.body.username;
-          req.session.loggedIn = true;
-          req.session.username = res.locals.username;
-          res.redirect("http://localhost:3000/mentoidSwipe.html");
-        } else {
-          res.writeHead(302, { 'Location': `http://localhost:3000/mentoidLogin.html?passwordIncorrect=true&attemptedLogin=${req.body.username}`, });
+        try {
+          if (results[0].Password == req.body.password) {
+            req.session.profileType = "mentee";
+            res.locals.username = req.body.username;
+            req.session.loggedIn = true;
+            req.session.username = res.locals.username;
+            res.redirect("http://localhost:3000/mentoidSwipe.html");
+          } else {
+            res.writeHead(302, { 'Location': `http://localhost:3000/mentoidLogin.html?passwordIncorrect=true&attemptedLogin=${req.body.username}`, });
+            res.end();
+          }
+        } catch (TypeError) {
+          res.writeHead(302, { 'Location': `http://localhost:3000/mentoidLogin.html?noUsername=true&attemptedLogin=${req.body.username}`, });
           res.end();
         }
       });

@@ -77,8 +77,13 @@ h1 {
 
   #passwordRemind {
       color: red;
-      visibility:hidden
+      display: none;
   }
+
+  #usernameRemind {
+    color: red;
+    display: none;
+}
 
   .profileButtons {
     display: inline-block;

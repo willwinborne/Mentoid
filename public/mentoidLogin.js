@@ -4,7 +4,11 @@ const loginButton = document.getElementById("login");
 const username = document.getElementById("username");
 const password = document.getElementById("password");
 const passwordRemind = document.getElementById("passwordRemind");
+const usernameRemind = document.getElementById("usernameRemind");
 const togglePassword = document.getElementById("togglePassword");
+
+passwordRemind.style.display = "none";
+usernameRemind.style.display = "none";
 
 function check(position) {
 
@@ -29,10 +33,16 @@ function passwordReminder() {
     const urlParams = new URLSearchParams(queryString);
     // todo: trycatch
     const password = urlParams.get('passwordIncorrect');
+    const usernameNotFound = urlParams.get('noUsername');
     const usernameAttempt = urlParams.get('attemptedLogin');
+
     if (password != undefined) {
         username.value = usernameAttempt;
-        passwordRemind.style.visibility = "visible"
+        passwordRemind.style.display = "block";
+    }
+    if (usernameNotFound != undefined) {
+        username.value = usernameAttempt;
+        usernameRemind.style.display = "block";
     }
 
 }
