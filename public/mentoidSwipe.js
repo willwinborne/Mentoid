@@ -89,6 +89,14 @@ async function fetchMentors() {
 
 // draw the current profile "top of stack" as the provided mentor 
 function drawCurrentProfile(mentor) {
+    if (mentorIndex == mentors.length) {
+        console.log("ran out of matches. (line 93: mentoidSwipe.js");
+        profile.style.visibility = "hidden";
+        profileInfoDiv.style.visibility = "hidden";
+        buttonDiv.style.visibility = "hidden";
+        nextProfile.style.visibility = "hidden";
+        noMatches.style.display = "block";
+    }
     currentFName.innerHTML = `${mentor.FName} ${mentor.LName}`;
     if (clientProfileType == "mentor") {
         currentUsername.innerHTML = mentor.menteeUsername;
