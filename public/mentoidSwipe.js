@@ -90,7 +90,6 @@ async function fetchMentors() {
 // draw the current profile "top of stack" as the provided mentor 
 function drawCurrentProfile(mentor) {
     if (mentorIndex == mentors.length + 1) {
-        console.log("ran out of matches. (line 93: mentoidSwipe.js");
         profile.style.visibility = "hidden";
         profileInfoDiv.style.visibility = "hidden";
         buttonDiv.style.visibility = "hidden";

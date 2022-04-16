@@ -73,8 +73,7 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
   connection.end();
 });
 
-// TODO: only show people whose interest match
-// WIP: only show people that do not have the client in any matchingTable records
+// TODO: only show people whose interests match the client's
 // login is required for this. 
 app.get('/getmentors', (req, res) => {
 
@@ -148,6 +147,7 @@ app.get('/getmentors', (req, res) => {
           }
           console.log(exclusionQuery);
         }
+        // final query with exclusions and potential matches
         connection.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
           if (err) throw err.code;
           res.send(results);
