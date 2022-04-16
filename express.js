@@ -73,15 +73,15 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
   connection.end();
 });
 
-// currently gets ALL mentors, we need to eventually change this to only retrieve the mentors the user "matched" with
-// TODO: only show people that do not have the client in their Skips
-// TODO: only show people that the client does NOT have in their Matches
-// TODO: dont show the client
+// TODO: only show people whose interest match
+// WIP: only show people that do not have the client in any matchingTable records
 // login is required for this. 
 app.get('/getmentors', (req, res) => {
 
   //check if this user is logged in (standard for most functions!)
   if (req.session.loggedIn) {
+
+    exclusionQuery = "";
 
     const connection = mysql.createConnection({
       host: '107.180.1.16',
@@ -99,20 +99,46 @@ app.get('/getmentors', (req, res) => {
       desiredType = "mentor";
     }
 
-    // WHERE interests ???
-    connection.query(`SELECT * FROM ${desiredType}sTable`, function (err, results) {
+    connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}'`, function (err, results) {
       if (err) throw err.code;
+      if (results.length > 0) {
+        // generate SQL query string to exclude everyone user has matched with
+        for (let i = 0; i < results.length; i++) {
+          if (desiredType = "mentee") {
+            if (i == results.length - 1) {
+              exclusionQuery += `${desiredType}Username != '${results[i].menteeUsername}';`
+            } else {
+              exclusionQuery += `${desiredType}Username != '${results[i].menteeUsername}' AND `
+            }
+          } else {
+            if (i == results.length - 1) {
+              exclusionQuery += `${desiredType}Username != '${results[i].mentorUsername}';`
+            } else {
+              exclusionQuery += `${desiredType}Username != '${results[i].mentorUsername}' AND `
+            }
+          }
+          console.log(exclusionQuery);
+        }
+        connection.query(`SELECT * FROM ${desiredType}sTable WHERE ${exclusionQuery}`, function (err, results) {
+          if (err) throw err.code;
+          res.send(results);
+        });
+      } else {
+        // this else means there were no matches, so just pull everyone
+        connection.query(`SELECT * FROM ${desiredType}sTable`, function (err, results) {
+          if (err) throw err.code;
+          res.send(results);
 
-      res.send(results);
-
+        });
+      }
+      connection.end();
     });
-
-    connection.end();
 
   } else {
     console.log("user is not logged in")
   }
 
+  
 });
 
 app.get('/getUser', (req, res) => {
@@ -191,7 +217,7 @@ app.post('/sendChat', (req, res) => {
   connection.connect();
 
   // check for existing usernames
-   console.log(`NEW CHAT QUERY: INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`)
+  console.log(`NEW CHAT QUERY: INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`)
   connection.query(`INSERT INTO ChatTable (Content, SenderUsername, ReceiverUsername) VALUES ('${req.body.chat}', '${req.body.client}', '${req.body.target}');`, function (err, results) {
     if (err) throw err.code;
     res.json({});
@@ -445,10 +471,10 @@ app.post('/getClientData', (req, res) => {
       if (err) throw err.code;
       let values = {};
       if (req.session.profileType == "mentee") {
-        values = { menteeUsername: "", FName: "", LName: "", Password: "", Email: "", Interests: "", Description: "", profilePictureID: ""};
+        values = { menteeUsername: "", FName: "", LName: "", Password: "", Email: "", Interests: "", Description: "", profilePictureID: "" };
         values.menteeUsername = results[0].menteeUsername;
       } else {
-        values = { mentorUsername: "", FName: "", LName: "", Password: "", Email: "", Interests: "", Description: "", profilePictureID: ""};
+        values = { mentorUsername: "", FName: "", LName: "", Password: "", Email: "", Interests: "", Description: "", profilePictureID: "" };
         values.mentorUsername = results[0].mentorUsername;
       }
       values.FName = results[0].FName;
@@ -614,20 +640,20 @@ app.post('/editprofile', upload.single('img'), async (req, res) => {
 
   connection.connect();
   if (req.body.updatePicture == undefined) {
-  
+
     connection.query(`UPDATE ${req.session.profileType}sTable SET FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}' WHERE ${req.session.profileType}Username = '${req.session.username}';`, (err) => {
       if (err) throw err.code;
-  
+
       connection.end();
     });
   } else {
     connection.query(`UPDATE ${req.session.profileType}sTable SET FName = '${req.body.fname}', LName = '${req.body.lname}', Password = '${req.body.password}', Email = '${req.body.email}', Interests = '${interestsString}', Description = '${req.body.description}', profilePictureID = '${req.file.filename}' WHERE ${req.session.profileType}Username = '${req.session.username}';`, (err) => {
       if (err) throw err.code;
-  
+
       connection.end();
     });
   }
-  
+
   // redirect after creation of the account
   res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidSwipe.html', });
   res.end();
