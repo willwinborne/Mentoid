@@ -11,6 +11,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 const upload = multer({ dest: 'profile_pictures/' });
 const mysql = require('mysql');
+const path = require('path');
 const app = express();
 const port = 3000;
 // middleware init
@@ -55,7 +56,15 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
 
   connection.query(`SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
-
+    if (results[0].Password == undefined) {
+      connection.query(`SELECT Password FROM ${table}sTable WHERE ${table}Username ='${req.body.username}'`, function (err, results) {
+        if (err) throw err.code;
+        if (results[0].Password == undefined) {
+          res.writeHead(302, { 'Location': `http://localhost:3000/mentoidLogin.html?usernameNotFound=true&attemptedLogin=${req.body.username}`, });
+          res.end();
+        }
+      });
+    }
     if (results[0].Password == req.body.password) {
       console.log("Authenticate: password check passed.")
       res.locals.username = req.body.username;
