@@ -53,14 +53,12 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
     if (err) throw err.code;
     try {
       if (results[0].Password == req.body.password) {
-        console.log("Authenticate: password check passed.");
         req.session.profileType = "mentor";
         res.locals.username = req.body.username;
         req.session.loggedIn = true;
         req.session.username = res.locals.username;
         res.redirect("http://localhost:3000/mentoidSwipe.html");
       } else {
-        console.log("Authenticate: password check failed.");
         res.writeHead(302, { 'Location': `http://localhost:3000/mentoidLogin.html?passwordIncorrect=true&attemptedLogin=${req.body.username}`, });
         res.end();
       }
@@ -68,16 +66,13 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
     } catch (TypeError) {
       connection.query(`SELECT Password from menteesTable WHERE menteeUsername ='${req.body.username}'`, function (err, results) {
         if (err) throw err.code;
-        console.log("Authenticate: User not found in mentors... checking mentees.");
         if (results[0].Password == req.body.password) {
-          console.log("Authenticate: password check passed.");
           req.session.profileType = "mentee";
           res.locals.username = req.body.username;
           req.session.loggedIn = true;
           req.session.username = res.locals.username;
           res.redirect("http://localhost:3000/mentoidSwipe.html");
         } else {
-          console.log("Authenticate: password check failed.");
           res.writeHead(302, { 'Location': `http://localhost:3000/mentoidLogin.html?passwordIncorrect=true&attemptedLogin=${req.body.username}`, });
           res.end();
         }
@@ -85,9 +80,7 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
       connection.end();
     }
   });
-  
 });
-
 
 // TODO: only show people whose interests match the client's
 // login is required for this. 
