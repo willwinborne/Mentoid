@@ -7,31 +7,12 @@ const passwordRemind = document.getElementById("passwordRemind");
 const usernameRemind = document.getElementById("usernameRemind");
 const togglePassword = document.getElementById("togglePassword");
 
-passwordRemind.style.display = "none";
-usernameRemind.style.display = "none";
-
-function check(position) {
-
-    if (position == mentor) {
-        mentee.checked = false;
-    } else {
-        mentor.checked = false;
-    }
-
-    if (mentor.checked == false && mentee.checked == false) {
-        loginButton.disabled = true;
-        loginButton.style.color = "gray";
-    } else {
-        loginButton.disabled = false;
-        loginButton.style.color = "white";
-    }
-
-}
-
+// show relevant reminders on a login error
+// URL parameters are added by the server upon login error
 function passwordReminder() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    // todo: trycatch
+
     const password = urlParams.get('passwordIncorrect');
     const usernameNotFound = urlParams.get('noUsername');
     const usernameAttempt = urlParams.get('attemptedLogin');
@@ -40,13 +21,14 @@ function passwordReminder() {
         username.value = usernameAttempt;
         passwordRemind.style.display = "block";
     }
+
     if (usernameNotFound != undefined) {
         username.value = usernameAttempt;
         usernameRemind.style.display = "block";
     }
-
 }
 
+// show or hide password
 togglePassword.addEventListener('click', function() {
     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
     password.setAttribute('type', type);
