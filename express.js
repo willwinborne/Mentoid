@@ -351,40 +351,31 @@ app.post('/swipeRight', async (req, res) => {
   const options = { connectionLimit: 4, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
 
-  // swipe right pseudocode
-
-  // check for swipe history: only possible case -> desired type has swiped 1 AND client type has NULL
-  // if swipe history is found,
-    // UPDATE matchingTable change client type swipe to 1
-    // notify client of new match with res.json
-  // else no swipe history is found,
-    // INSERT INTO matchingTable client type swipe = 1, target type swipe = NULL
-
   let desiredType = "mentor";
 
   if (req.session.profileType == "mentor") {
     desiredType = "mentee";
   }
 
-
   // try to get any swipe history
   pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Username = '${req.body.match}' AND ${desiredType}Swipe = '1' AND ${req.body.profileType}Swipe IS NULL;`, function (err, results) {
     if (err) throw err.code;
     try {
       if (results[0].matchID != undefined) {
+        // a potential match was found. update it so the client swipe is 1 
         console.log(`UPDATE matchingTable SET ${req.session.profileType}Swipe = '1' WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.match}';`);
         pool.query(`UPDATE matchingTable SET ${req.session.profileType}Swipe = '1' WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.match}';`, function (err, results) {
           if (err) throw err.code;
         });
       }
     } catch (TypeError) {
+      // a potential match was not found. create one with the client swipe as 1, target swipe is NULL
       console.log(`INSERT INTO matchingTable (${req.session.profileType}Swipe, ${req.session.profileType}Username, ${desiredType}Username) VALUES ('1', '${req.session.username}', '${req.body.match}');`);
       pool.query(`INSERT INTO matchingTable (${req.session.profileType}Swipe, ${req.session.profileType}Username, ${desiredType}Username) VALUES ('1', '${req.session.username}', '${req.body.match}');`, function (err, results) {
         if (err) throw err.code;
       });
     }
   });
-
 });
 
 // dynamically check for a match between two people
