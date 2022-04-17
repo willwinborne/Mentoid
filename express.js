@@ -350,6 +350,13 @@ app.post('/swipeRight', async (req, res) => {
   // try to get any swipe history
   pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Username = '${req.body.match}'`, function (err, results) {
     if (err) throw err.code;
+    try {
+      if (results[0].matchID != undefined) {
+        console.log("found an existing record (possible match)");
+      }
+    } catch (TypeError) {
+      console.log("did not find an existing record");
+    }
 
 
 
