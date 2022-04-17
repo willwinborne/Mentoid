@@ -111,7 +111,11 @@ app.get('/getmentors', (req, res) => {
     let actualMatches = 0;
 
     console.log();
-    console.log("---------MAIN QUERY----------");
+    console.log("-------------------------------MAIN QUERY-----------------------------------");
+    console.log("Skips are when desired type swipe is 0 OR client type swipe is 0");
+    console.log("Potential matches are when desired type swipe is 0 AND client type swipe is 1");
+    console.log("Actual matches are when desired type swipe is 1 AND client type swipe is 1");
+    console.log("----------------------------------------------------------------------------");
 
     // first, get all skips (people who have swiped left on us, OR people we have swiped left on)
     //console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' OR ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Swipe = '0';`)
@@ -199,9 +203,9 @@ app.get('/getmentors', (req, res) => {
           //console.log(`final query: SELECT * FROM ${desiredType}sTable${exclusionQuery}`);
           pool.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
             if (err) throw err.code;
-            console.log("-----------------------------");
+            console.log("----------------------------------------------------------------------------");
             console.log(`${results.length} possible matche(s) for ${req.session.username}`);
-            console.log("-----------------------------");
+            console.log("----------------------------------------------------------------------------");
             console.log();
             res.send(results);
           });
@@ -330,12 +334,12 @@ app.post('/swipeLeft', (req, res) => {
   // insert a skip record
   if (req.session.profileType == "mentor") {
     // insert a record with mentorSwipe = 0
-    pool.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.session.username}', '${req.body.match}', '0', '');`, function (err, results) {
+    pool.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe) VALUES ('${req.session.username}', '${req.body.match}', '0');`, function (err, results) {
       if (err) throw err.code;
     });
   } else {
     // insert a record with menteeSwipe = 0
-    pool.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.match}', '${req.session.username}', '', '0');`, function (err, results) {
+    pool.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, menteeSwipe) VALUES ('${req.body.match}', '${req.session.username}', '0');`, function (err, results) {
       if (err) throw err.code;
     });
   }
