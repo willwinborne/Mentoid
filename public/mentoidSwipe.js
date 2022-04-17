@@ -2,6 +2,7 @@ const profile = document.getElementById("currentProfileID");
 const nextProfile = document.getElementById("nextProfileID");
 const buttonDiv = document.getElementById("buttonDiv");
 const profileInfoDiv = document.getElementById("profileInfoDiv");
+const username = document.getElementById("username");
 // set the time the swipe animation takes
 profile.style.animationDuration = "1s";
 
@@ -27,7 +28,6 @@ let clientProfileType = "";
 function start() {
     fetchMentors();
     getUsername();
-
 }
 
 // remove the top profile, then re-draw the "next profile" as the top profile, 
@@ -79,8 +79,8 @@ async function fetchMentors() {
             profileInfoDiv.style.visibility = "visible";
             buttonDiv.style.visibility = "visible";
             nextProfile.style.visibility = "visible";
+            username.style.display = "block";
         }
-        
     }
     // hardcode: draw the first two available profiles
     drawCurrentProfile(mentors[0]);
@@ -94,17 +94,21 @@ function drawCurrentProfile(mentor) {
         profileInfoDiv.style.visibility = "hidden";
         buttonDiv.style.visibility = "hidden";
         nextProfile.style.visibility = "hidden";
+        username.style.display = "none";
         noMatches.style.display = "block";
     }
     currentFName.innerHTML = `${mentor.FName} ${mentor.LName}`;
     if (clientProfileType == "mentor") {
         currentUsername.innerHTML = mentor.menteeUsername;
+        username.innerHTML = mentor.menteeUsername;
     } else {
         currentUsername.innerHTML = mentor.mentorUsername;
+        username.innerHTML = mentor.mentorUsername;
     }
     currentInterests.innerHTML = mentor.Interests;
     currentDescription.innerHTML = mentor.Description;
     profile.style.backgroundImage = `url(${mentor.profilePictureID})`;
+
     mentorIndex++;
 }
 
@@ -121,7 +125,6 @@ async function getUsername() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
     })
-
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
             if (data.username == undefined) {
@@ -129,7 +132,6 @@ async function getUsername() {
             }
             clientUsername = data.username;
             clientProfileType = data.profileType;
-
         });
 }
 
@@ -190,21 +192,25 @@ function hideDialog() {
 
 // next 4 methods are for button animation
 function mouseDownLeft() {
+    console.log("mouseDownLeft()");
     let left = document.getElementById("swipeLeft");
     left.style.backgroundColor = "white";
 }
 
 function mouseUpLeft() {
+    console.log("mouseUpLeft()");
     let left = document.getElementById("swipeLeft");
     left.style.backgroundColor = "red";
 }
 
 function mouseDownRight() {
+    console.log("mouseDownRight()");
     let right = document.getElementById("swipeRight");
     right.style.backgroundColor = "white";
 }
 
 function mouseUpRight() {
+    console.log("mouseUpRight()");
     let right = document.getElementById("swipeRight");
     right.style.backgroundColor = "green";
 }

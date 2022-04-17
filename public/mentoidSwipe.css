@@ -144,6 +144,14 @@ li a:hover {
     text-shadow: 2px 2px #252958;
 }
 
+
+#username {
+    font-size: 40pt;
+    text-align: center;
+    margin-top: 30px;
+    display: none;
+}
+
 #currentUsername {
     text-align: center;
 }
