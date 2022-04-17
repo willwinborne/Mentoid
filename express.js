@@ -113,7 +113,7 @@ app.get('/getmentors', (req, res) => {
     console.log();
     console.log("-------------------------------MAIN QUERY-----------------------------------");
     console.log("Skips are when desired type swipe is 0 OR client type swipe is 0");
-    console.log("Potential matches are when desired type swipe is 0 AND client type swipe is 1");
+    console.log("Potential matches are when desired type swipe is NULL AND client type swipe is 1");
     console.log("Actual matches are when desired type swipe is 1 AND client type swipe is 1");
     console.log("----------------------------------------------------------------------------");
 
@@ -134,8 +134,8 @@ app.get('/getmentors', (req, res) => {
       }
 
       // get all potential matches (client has already swiped right, waiting on target)
-      //console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' AND ${req.session.profileType}Swipe = '1'`)
-      pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
+      //console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe IS NULL AND ${req.session.profileType}Swipe = '1'`)
+      pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe IS NULL AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
         if (err) throw err.code;
         if (results.length > 0) {
           for (let i = 0; i < results.length; i++) {
