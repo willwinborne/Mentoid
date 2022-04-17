@@ -331,18 +331,26 @@ app.post('/swipeLeft', (req, res) => {
   const options = { connectionLimit: 4, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
 
+  
+  console.log();
+  console.log("-----------------------------SWIPE LEFT QUERY-------------------------------");
+
   // insert a skip record
   if (req.session.profileType == "mentor") {
     // insert a record with mentorSwipe = 0
+    console.log(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe) VALUES ('${req.session.username}', '${req.body.match}', '0');`);
     pool.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe) VALUES ('${req.session.username}', '${req.body.match}', '0');`, function (err, results) {
       if (err) throw err.code;
     });
   } else {
     // insert a record with menteeSwipe = 0
+    console.log(`INSERT INTO matchingTable (mentorUsername, menteeUsername, menteeSwipe) VALUES ('${req.body.match}', '${req.session.username}', '0');`);
     pool.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, menteeSwipe) VALUES ('${req.body.match}', '${req.session.username}', '0');`, function (err, results) {
       if (err) throw err.code;
     });
   }
+  console.log("----------------------------------------------------------------------------");
+  console.log();
   res.end();
 });
 
@@ -357,8 +365,12 @@ app.post('/swipeRight', async (req, res) => {
     desiredType = "mentee";
   }
 
+  console.log();
+  console.log("----------------------------SWIPE RIGHT QUERY-------------------------------");
+
   // try to get any swipe history
-  pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Username = '${req.body.match}' AND ${desiredType}Swipe = '1' AND ${req.body.profileType}Swipe IS NULL;`, function (err, results) {
+  console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Username = '${req.body.match}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe IS NULL;`)
+  pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Username = '${req.body.match}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe IS NULL;`, function (err, results) {
     if (err) throw err.code;
     try {
       if (results[0].matchID != undefined) {
@@ -366,6 +378,8 @@ app.post('/swipeRight', async (req, res) => {
         console.log(`UPDATE matchingTable SET ${req.session.profileType}Swipe = '1' WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.match}';`);
         pool.query(`UPDATE matchingTable SET ${req.session.profileType}Swipe = '1' WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.match}';`, function (err, results) {
           if (err) throw err.code;
+          console.log("New match! Sending notification to client.");
+          res.send({ newMatch: true });
         });
       }
     } catch (TypeError) {
@@ -375,6 +389,8 @@ app.post('/swipeRight', async (req, res) => {
         if (err) throw err.code;
       });
     }
+    console.log("----------------------------------------------------------------------------");
+    console.log();
   });
 });
 
