@@ -182,7 +182,7 @@ app.get('/getmentors', (req, res) => {
           if (exclusion.length > 0) {
             exclusionQuery = " WHERE ";
           }
-          // make a query to skip all the excluded people
+          // generate WHERE clause of the query to skip all excluded people
           for (let i = 0; i < exclusion.length; i++) {
             if (desiredType == "mentee") {
               if (i == exclusion.length - 1) {
@@ -199,12 +199,12 @@ app.get('/getmentors', (req, res) => {
             }
           }
 
-          // run exclusion query
+          // run query with WHERE clause
           //console.log(`final query: SELECT * FROM ${desiredType}sTable${exclusionQuery}`);
           pool.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
             if (err) throw err.code;
             console.log("----------------------------------------------------------------------------");
-            console.log(`${results.length} possible matche(s) for ${req.session.username}`);
+            console.log(`Main query found ${results.length} possible matche(s) for ${req.session.username}`);
             console.log("----------------------------------------------------------------------------");
             console.log();
             res.send(results);
@@ -350,6 +350,15 @@ app.post('/swipeLeft', (req, res) => {
 app.post('/swipeRight', async (req, res) => {
   const options = { connectionLimit: 4, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
+
+  // swipe right pseudocode
+
+  // check for swipe history: only possible case -> desired type has swiped 1
+  // if swipe history is found,
+    // UPDATE matchingTable change client type swipe to 1
+  // else no swipe history is found,
+    // INSERT INTO matchingTable client type swipe = 1, target type swipe = NULL
+
 
   // try to get any swipe history
   pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Username = '${req.body.match}'`, function (err, results) {
