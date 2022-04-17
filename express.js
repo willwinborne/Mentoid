@@ -372,14 +372,17 @@ app.post('/swipeRight', async (req, res) => {
     if (err) throw err.code;
     try {
       if (results[0].matchID != undefined) {
-        console.log("found an existing record (possible match). UPDATE record...");
+        console.log(`UPDATE matchingTable SET ${req.session.profileType}Swipe = '1' WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.match}';`);
+        pool.query(`UPDATE matchingTable SET ${req.session.profileType}Swipe = '1' WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.match}';`, function (err, results) {
+          if (err) throw err.code;
+        });
       }
     } catch (TypeError) {
-      console.log("did not find an existing record. INSERT record...");
+      console.log(`INSERT INTO matchingTable (${req.session.profileType}Swipe, ${req.session.profileType}Username, ${desiredType}Username) VALUES ('1', '${req.session.username}', '${req.body.match}');`);
+      pool.query(`INSERT INTO matchingTable (${req.session.profileType}Swipe, ${req.session.profileType}Username, ${desiredType}Username) VALUES ('1', '${req.session.username}', '${req.body.match}');`, function (err, results) {
+        if (err) throw err.code;
+      });
     }
-
-
-
   });
 
 });
