@@ -92,14 +92,14 @@ app.get('/getmentors', (req, res) => {
   let exclusionQuery = "";
   let exclusion = [];
   let desiredType = "mentee";
-  const options = { connectionLimit: 3, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
+  const options = { connectionLimit: 4, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
 
   //check if this user is logged in (standard for most functions!)
   if (req.session.loggedIn) {
 
     // pool.on('release', function (connection) {
-    //   console.log('getMentors: connection %d released (3)', connection.threadId);
+    //   console.log('getMentors: connection %d released (4)', connection.threadId);
     // });
 
     if (req.session.profileType == "mentee") {
@@ -107,6 +107,7 @@ app.get('/getmentors', (req, res) => {
     }
 
     // first, get all skips (people who have swiped left on us, OR people we have swiped left on)
+    console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' OR ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Swipe = '0';`)
     pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' OR ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Swipe = '0';`, function (err, results) {
       if (err) throw err.code;
       if (results.length > 0) {
@@ -118,54 +119,84 @@ app.get('/getmentors', (req, res) => {
           }
         }
       }
-    });
 
-    // next, get all actual matches (we have swiped right on each other)
-    pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
-      if (err) throw err.code;
-      if (results.length > 0) {
-        for (let i = 0; i < results.length; i++) {
-          if (desiredType == "mentor") {
-            exclusion.push(results[i].mentorUsername)
-          } else {
-            exclusion.push(results[i].menteeUsername)
-          }
-        }
-      }
 
-      console.log(`Main query develop reached. exclusions length: ${exclusion.length}`);
-      // then, get all mentors minus the ones we have matched with, ones we skipped, or ones that skipped us
-      if (exclusion.length > 0) {
-        exclusionQuery = " WHERE ";
-      }
-      // make a query to skip all the excluded people
-      for (let i = 0; i < exclusion.length; i++) {
-        if (desiredType == "mentee") {
-          if (i == exclusion.length - 1) {
-            exclusionQuery += `${desiredType}Username != '${exclusion[i]}';`
-          } else {
-            exclusionQuery += `${desiredType}Username != '${exclusion[i]}' AND `
-          }
-        } else {
-          if (i == exclusion.length - 1) {
-            exclusionQuery += `${desiredType}Username != '${exclusion[i]}';`
-          } else {
-            exclusionQuery += `${desiredType}Username != '${exclusion[i]}' AND `
-          }
-        }
-      }
-      // run exclusion query
-      pool.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
+
+      // get all potential matches (client has already swiped right, waiting on target)
+      console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' AND ${req.session.profileType}Swipe = '1'`)
+      pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
         if (err) throw err.code;
-        console.log(`Found ${results.length} possible matches for ${req.session.username}`)
-        res.send(results);
+        if (results.length > 0) {
+          for (let i = 0; i < results.length; i++) {
+            if (desiredType == "mentor") {
+              if (!exclusion.includes(results[i].mentorUsername)) {
+                exclusion.push(results[i].mentorUsername)
+              }
+            } else {
+              if (!exclusion.includes(results[i].menteeUsername)) {
+                exclusion.push(results[i].menteeUsername)
+              }
+            }
+          }
+        }
+
+        console.log(`Initial query: found ${exclusion.length} potential matches`);
+
+        // next, get all actual matches (we have swiped right on each other)
+        console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`)
+        pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
+          if (err) throw err.code;
+          if (results.length > 0) {
+            for (let i = 0; i < results.length; i++) {
+              if (desiredType == "mentor") {
+                if (!exclusion.includes(results[i].mentorUsername)) {
+                  exclusion.push(results[i].mentorUsername)
+                }
+              } else {
+                if (!exclusion.includes(results[i].menteeUsername)) {
+                  exclusion.push(results[i].menteeUsername)
+                }
+              }
+            }
+          }
+
+
+          console.log(`Main query develop reached. exclusions length: ${exclusion.length}`);
+          // then, get all mentors minus the ones we have matched with, ones we skipped, or ones that skipped us
+          if (exclusion.length > 0) {
+            exclusionQuery = " WHERE ";
+          }
+          // make a query to skip all the excluded people
+          for (let i = 0; i < exclusion.length; i++) {
+            if (desiredType == "mentee") {
+              if (i == exclusion.length - 1) {
+                exclusionQuery += `${desiredType}Username != '${exclusion[i]}';`
+              } else {
+                exclusionQuery += `${desiredType}Username != '${exclusion[i]}' AND `
+              }
+            } else {
+              if (i == exclusion.length - 1) {
+                exclusionQuery += `${desiredType}Username != '${exclusion[i]}';`
+              } else {
+                exclusionQuery += `${desiredType}Username != '${exclusion[i]}' AND `
+              }
+            }
+          }
+
+          // run exclusion query
+          console.log(`final query: SELECT * FROM ${desiredType}sTable${exclusionQuery}`);
+          pool.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
+            if (err) throw err.code;
+            console.log(`Found ${results.length} possible matches for ${req.session.username}`)
+            res.send(results);
+          });
+        });
       });
     });
 
   } else {
     console.log("user is not logged in");
   }
-
 });
 
 app.get('/getUser', (req, res) => {
@@ -279,6 +310,7 @@ app.get('/getChats', (req, res) => {
 // a user swiped left.
 app.post('/swipeLeft', (req, res) => {
 
+
   console.log(`${req.body.username} swiped left on ${req.body.match}!`)
   let matchType = "mentor";
 
@@ -286,29 +318,25 @@ app.post('/swipeLeft', (req, res) => {
     matchType = "mentee";
   }
 
-  const connection = mysql.createConnection({
-    host: '107.180.1.16',
-    user: 'springog2022team',
-    password: 'springog2022team4',
-    database: 'springog2022team4',
-    port: 3306,
-  });
-
-  connection.connect();
+  const options = { connectionLimit: 5, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
+  const pool = mysql.createPool(options);
 
   // first, try to find a match for this client and this target
-  connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.body.username}' AND ${matchType}Username = '${req.body.match}'`, function (err, results) {
+  console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.body.username}' AND ${matchType}Username = '${req.body.match}'`)
+  pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.body.username}' AND ${matchType}Username = '${req.body.match}'`, function (err, results) {
     if (err) throw err.code;
     // if a match is not found,
     if (results[0] == undefined) {
       console.log("no match found. creating one with the client swipe as 0, target swipe as null.")
       // create one with the client having swiped on the target, but the target swipe is still zero
       if (matchType == "mentee") {
-        connection.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '0', '')`, function (err, results) {
+        console.log(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '0', '')`);
+        pool.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '0', '')`, function (err, results) {
           if (err) throw err.code;
         });
       } else {
-        connection.query(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '', '0')`, function (err, results) {
+        console.log(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '', '0')`)
+        pool.query(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '', '0')`, function (err, results) {
           if (err) throw err.code;
         });
       }
@@ -316,20 +344,20 @@ app.post('/swipeLeft', (req, res) => {
     }
     // if we DO find a match, & target has already matched,set both swipes to 0
     if (matchType == "mentee" && results[0] != undefined && results[0].menteeSwipe == 1) {
-      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 0.");
-      connection.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
+      console.log(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`)
+      pool.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
       });
       res.json({ newMatch: 'false' });
     }
 
     if (matchType == "mentor" && results[0] != undefined && results[0].mentorSwipe == 1) {
-      console.log("found a match, the target has already swiped. Updated match for client and target swipe as 0.");
-      connection.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
+      console.log(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`)
+      pool.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
       });
       res.json({ newMatch: 'false' });
     }
-    connection.end();
   });
+  res.json({ newMatch: 'false' });
 
 });
 
@@ -343,29 +371,22 @@ app.post('/swipeRight', async (req, res) => {
     matchType = "mentee";
   }
 
-  const connection = mysql.createConnection({
-    host: '107.180.1.16',
-    user: 'springog2022team',
-    password: 'springog2022team4',
-    database: 'springog2022team4',
-    port: 3306,
-  });
-
-  connection.connect();
+  const options = { connectionLimit: 5, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
+  const pool = mysql.createPool(options);
 
   // first, try to find a match for this client and this target
-  connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.body.username}' AND ${matchType}Username = '${req.body.match}'`, function (err, results) {
+  pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.body.username}' AND ${matchType}Username = '${req.body.match}'`, function (err, results) {
     if (err) throw err.code;
     // if a match is not found,
     if (results[0] == undefined) {
       console.log("no match found. creating one with the client swipe as 1, target swipe as 0.")
       // create one with the client having swiped on the target, but the target swipe is still zero
       if (matchType == "mentee") {
-        connection.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`, function (err, results) {
+        pool.query(`INSERT INTO matchingTable (mentorUsername, menteeUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '1', '')`, function (err, results) {
           if (err) throw err.code;
         });
       } else {
-        connection.query(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '', '1')`, function (err, results) {
+        pool.query(`INSERT INTO matchingTable (menteeUsername, mentorUsername, mentorSwipe, menteeSwipe) VALUES ('${req.body.username}', '${req.body.match}', '', '1')`, function (err, results) {
           if (err) throw err.code;
         });
       }
@@ -374,19 +395,20 @@ app.post('/swipeRight', async (req, res) => {
     // if we DO find a match, & target has already matched, give the user feedback and set both swipes to 1
     if (matchType == "mentee" && results[0] != undefined && results[0].menteeSwipe == 1) {
       console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
-      connection.query(`UPDATE matchingTable SET mentorSwipe = '1', menteeSwipe = '1' WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
+      pool.query(`UPDATE matchingTable SET mentorSwipe = '1', menteeSwipe = '1' WHERE mentorUsername = '${req.body.username}' AND menteeUsername = '${req.body.match}'`, function (err, results) {
       });
       res.json({ newMatch: 'true' });
     }
 
     if (matchType == "mentor" && results[0] != undefined && results[0].mentorSwipe == 1) {
       console.log("found a match, the target has already swiped. Updated match for client and target swipe as 1.");
-      connection.query(`UPDATE matchingTable SET mentorSwipe = '1', menteeSwipe = '1' WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
+      pool.query(`UPDATE matchingTable SET mentorSwipe = '1', menteeSwipe = '1' WHERE mentorUsername = '${req.body.match}' AND menteeUsername = '${req.body.username}'`, function (err, results) {
       });
       res.json({ newMatch: 'true' });
     }
-    connection.end();
+
   });
+  res.json({ newMatch: 'false' });
 
 });
 
