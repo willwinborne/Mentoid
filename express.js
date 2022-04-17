@@ -356,6 +356,7 @@ app.post('/swipeRight', async (req, res) => {
   // check for swipe history: only possible case -> desired type has swiped 1 AND client type has NULL
   // if swipe history is found,
     // UPDATE matchingTable change client type swipe to 1
+    // notify client of new match with res.json
   // else no swipe history is found,
     // INSERT INTO matchingTable client type swipe = 1, target type swipe = NULL
 
@@ -371,10 +372,10 @@ app.post('/swipeRight', async (req, res) => {
     if (err) throw err.code;
     try {
       if (results[0].matchID != undefined) {
-        console.log("found an existing record (possible match)");
+        console.log("found an existing record (possible match). UPDATE record...");
       }
     } catch (TypeError) {
-      console.log("did not find an existing record");
+      console.log("did not find an existing record. INSERT record...");
     }
 
 
