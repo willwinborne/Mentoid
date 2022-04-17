@@ -38,18 +38,11 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
 
   req.session.profileType = "mentor";
 
-  const connection = mysql.createConnection({
-    host: '107.180.1.16',
-    user: 'springog2022team',
-    password: 'springog2022team4',
-    database: 'springog2022team4',
-    port: 3306
-  });
-
-  connection.connect();
+  const options = { connectionLimit: 3, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
+  const pool = mysql.createPool(options);
 
   // try to find the account as a mentor first
-  connection.query(`SELECT Password from mentorsTable WHERE mentorUsername ='${req.body.username}'`, function (err, results) {
+  pool.query(`SELECT Password from mentorsTable WHERE mentorUsername ='${req.body.username}'`, function (err, results) {
     if (err) throw err.code;
     try {
       if (results[0].Password == req.body.password) {
@@ -64,7 +57,7 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
       }
       // this will happen if the account is not found as a mentor
     } catch (TypeError) {
-      connection.query(`SELECT Password from menteesTable WHERE menteeUsername ='${req.body.username}'`, function (err, results) {
+      pool.query(`SELECT Password from menteesTable WHERE menteeUsername ='${req.body.username}'`, function (err, results) {
         if (err) throw err.code;
         try {
           if (results[0].Password == req.body.password) {
@@ -82,7 +75,6 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
           res.end();
         }
       });
-      connection.end();
     }
   });
 });
@@ -94,19 +86,17 @@ app.get('/getmentors', (req, res) => {
   //check if this user is logged in (standard for most functions!)
   if (req.session.loggedIn) {
 
+    const options = { connectionLimit: 3, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
+    const pool = mysql.createPool(options);
+
+    pool.on('release', function (connection) {
+      console.log('Connection %d released', connection.threadId);
+    });
+
+
     exclusionQuery = ";";
     potentialMatches = [];
     actualMatches = [];
-
-    const connection = mysql.createConnection({
-      host: '107.180.1.16',
-      user: 'springog2022team',
-      password: 'springog2022team4',
-      database: 'springog2022team4',
-      port: 3306
-    });
-
-    connection.connect();
 
     let desiredType = "mentee";
 
@@ -116,7 +106,7 @@ app.get('/getmentors', (req, res) => {
 
     // first, get all potential matches (meaning, people who have swiped right on us)
     console.log(`getmentors: SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '0'`)
-    connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '0'`, function (err, results) {
+    pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '0'`, function (err, results) {
       if (err) throw err.code;
       if (results.length > 0) {
         for (let i = 0; i < results.length; i++) {
@@ -129,11 +119,11 @@ app.get('/getmentors', (req, res) => {
           }
         }
       }
-    });
+  });
 
     // next, get all actual matches (we have swiped right on each other)
     console.log(`getmentors: SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`)
-    connection.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
+    pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
       if (err) throw err.code;
       if (results.length > 0) {
         for (let i = 0; i < results.length; i++) {
@@ -145,64 +135,16 @@ app.get('/getmentors', (req, res) => {
             actualMatches.push(results[i].menteeUsername)
           }
         }
-        console.log()
-        console.log("ACTUAL MATCHES")
-        for (let i = 0; i < actualMatches.length; i++) {
-          console.log(actualMatches[i]);
-        }
-        console.log()
-
-        console.log(`SELECT * FROM ${desiredType}sTable;`);
-        connection.query(`SELECT * FROM ${desiredType}sTable;`, function (err, results) {
-          if (err) throw err.code;
-
-          console.log()
-          console.log(`found ${results.length} results`)
-          console.log("RESULTS")
-          for (let i = 0; i < results.length; i++) {
-            if (desiredType == "mentor") {
-              console.log(results[i].mentorUsername);
-            } else {
-              console.log(results[i].menteeUsername);
-            }
-          }
-          console.log()
-
-          for (let i = 0; i < results.length; i++) {
-            if (desiredType == "mentor") {
-              for (let x = 0; x < actualMatches.length; x++) {
-                if (results[i].mentorUsername == actualMatches[x]) {
-                  console.log(`removing ${results[x].mentorUsername}`)
-                  results.splice(i, 1);
-                }
-              }
-
-            } else {
-              for (let y = 0; y < actualMatches.length; y++) {
-                if (results[i].menteeUsername == actualMatches[y]) {
-                  console.log(`removing ${results[i].menteeUsername}`)
-                  results.splice(i, 1);
-                }
-              }
-            }
-          }
-
-          console.log("FINAL RESULTS")
-          for (let i = 0; i < results.length; i++) {
-            if (desiredType == "mentor") {
-              console.log(results[i].mentorUsername);
-            } else {
-              console.log(results[i].menteeUsername);
-            }
-          }
-
-          res.send(results);
-        });
       }
+  });
+
+    console.log(`getmentors: exclusion query required. final query:`);
+    console.log(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`);
+    pool.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
+      if (err) throw err.code;
+      res.send(results);
+      res.end();
     });
-
-
-
 
   } else {
     console.log("user is not logged in")
