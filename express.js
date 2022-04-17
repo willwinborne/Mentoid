@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const upload = multer({ dest: 'profile_pictures/' });
 const mysql = require('mysql');
 const path = require('path');
+const { redirect } = require('express/lib/response');
 const app = express();
 const port = 3000;
 // middleware init
@@ -41,11 +42,10 @@ app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req,
   const options = { connectionLimit: 2, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
 
-  pool.on('release', function (connection) {
-    console.log(" it's okay if authenticate doesn't release two connections");
-    console.log('authenticate: connection %d released (2)', connection.threadId);
-  });
-
+  // pool.on('release', function (connection) {
+  //   console.log(" it's okay if authenticate doesn't release two connections");
+  //   console.log('authenticate: connection %d released (2)', connection.threadId);
+  // });
 
   // try to find the account as a mentor first
   pool.query(`SELECT Password from mentorsTable WHERE mentorUsername ='${req.body.username}'`, function (err, results) {
@@ -91,34 +91,29 @@ app.get('/getmentors', (req, res) => {
 
   let exclusionQuery = "";
   let exclusion = [];
-  let finalResults = [];
   let desiredType = "mentee";
-  const options = { connectionLimit: 4, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
+  const options = { connectionLimit: 3, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
 
   //check if this user is logged in (standard for most functions!)
   if (req.session.loggedIn) {
 
-    pool.on('release', function (connection) {
-      console.log('getMentors: connection %d released (4)', connection.threadId);
-    });
-
+    // pool.on('release', function (connection) {
+    //   console.log('getMentors: connection %d released (3)', connection.threadId);
+    // });
 
     if (req.session.profileType == "mentee") {
       desiredType = "mentor";
     }
 
     // first, get all skips (people who have swiped left on us, OR people we have swiped left on)
-    console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' OR ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Swipe = '0';`)
     pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' OR ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Swipe = '0';`, function (err, results) {
       if (err) throw err.code;
       if (results.length > 0) {
         for (let i = 0; i < results.length; i++) {
           if (desiredType == "mentor") {
-            console.log("pushing exclusion")
             exclusion.push(results[i].mentorUsername)
           } else {
-            console.log("pushing exclusion")
             exclusion.push(results[i].menteeUsername)
           }
         }
@@ -126,7 +121,6 @@ app.get('/getmentors', (req, res) => {
     });
 
     // next, get all actual matches (we have swiped right on each other)
-    console.log(`getmentors: SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`)
     pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
       if (err) throw err.code;
       if (results.length > 0) {
@@ -143,43 +137,30 @@ app.get('/getmentors', (req, res) => {
       // then, get all mentors minus the ones we have matched with, ones we skipped, or ones that skipped us
       if (exclusion.length > 0) {
         exclusionQuery = " WHERE ";
-        // make a query to skip all the excluded people
-        for (let i = 0; i < exclusion.length; i++) {
-          if (desiredType == "mentee") {
-            if (i == exclusion.length - 1) {
-              exclusionQuery += `${desiredType}Username != '${exclusion[i]}';`
-            } else {
-              exclusionQuery += `${desiredType}Username != '${exclusion[i]}' AND `
-            }
+      }
+      // make a query to skip all the excluded people
+      for (let i = 0; i < exclusion.length; i++) {
+        if (desiredType == "mentee") {
+          if (i == exclusion.length - 1) {
+            exclusionQuery += `${desiredType}Username != '${exclusion[i]}';`
           } else {
-            if (i == exclusion.length - 1) {
-              exclusionQuery += `${desiredType}Username != '${exclusion[i]}';`
-            } else {
-              exclusionQuery += `${desiredType}Username != '${exclusion[i]}' AND `
-            }
+            exclusionQuery += `${desiredType}Username != '${exclusion[i]}' AND `
+          }
+        } else {
+          if (i == exclusion.length - 1) {
+            exclusionQuery += `${desiredType}Username != '${exclusion[i]}';`
+          } else {
+            exclusionQuery += `${desiredType}Username != '${exclusion[i]}' AND `
           }
         }
-        // run exclusion query
-        console.log(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`);
-        pool.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
-          if (err) throw err.code;
-          for (let i = 0; i < results.length; i++) {
-            finalResults.push(results[i]);
-          }
-        });
-      } else {
-        // this else means there were no skips, so just pull everyone
-        console.log("getmentors: WARNING: pulling everyone.");
-        pool.query(`SELECT * FROM ${desiredType}sTable`, function (err, results) {
-          if (err) throw err.code;
-          for (let i = 0; i < results.length; i++) {
-            finalResults.push(results[i])
-          }
-        });
       }
+      // run exclusion query
+      pool.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
+        if (err) throw err.code;
+        console.log(`Found ${results.length} possible matches for ${req.session.username}`)
+        res.send(results);
+      });
     });
-
-    res.send(finalResults);
 
   } else {
     console.log("user is not logged in");
