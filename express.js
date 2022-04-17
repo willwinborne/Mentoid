@@ -353,15 +353,21 @@ app.post('/swipeRight', async (req, res) => {
 
   // swipe right pseudocode
 
-  // check for swipe history: only possible case -> desired type has swiped 1
+  // check for swipe history: only possible case -> desired type has swiped 1 AND client type has NULL
   // if swipe history is found,
     // UPDATE matchingTable change client type swipe to 1
   // else no swipe history is found,
     // INSERT INTO matchingTable client type swipe = 1, target type swipe = NULL
 
+  let desiredType = "mentor";
+
+  if (req.session.profileType == "mentor") {
+    desiredType = "mentee";
+  }
+
 
   // try to get any swipe history
-  pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Username = '${req.body.match}'`, function (err, results) {
+  pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Username = '${req.body.match}' AND ${desiredType}Swipe = '1' AND ${req.body.profileType}Swipe IS NULL;`, function (err, results) {
     if (err) throw err.code;
     try {
       if (results[0].matchID != undefined) {
