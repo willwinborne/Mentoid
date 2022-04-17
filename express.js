@@ -106,44 +106,51 @@ app.get('/getmentors', (req, res) => {
       desiredType = "mentor";
     }
 
+    let skipExclusions = 0;
+    let potentialMatches = 0;
+    let actualMatches = 0;
+
+    console.log();
+    console.log("---------MAIN QUERY----------");
+
     // first, get all skips (people who have swiped left on us, OR people we have swiped left on)
-    console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' OR ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Swipe = '0';`)
+    //console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' OR ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Swipe = '0';`)
     pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' OR ${req.session.profileType}Username = '${req.session.username}' AND ${req.session.profileType}Swipe = '0';`, function (err, results) {
       if (err) throw err.code;
       if (results.length > 0) {
         for (let i = 0; i < results.length; i++) {
           if (desiredType == "mentor") {
-            exclusion.push(results[i].mentorUsername)
+            exclusion.push(results[i].mentorUsername);
+            skipExclusions++;
           } else {
-            exclusion.push(results[i].menteeUsername)
+            exclusion.push(results[i].menteeUsername);
+            skipExclusions++;
           }
         }
       }
 
-
-
       // get all potential matches (client has already swiped right, waiting on target)
-      console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' AND ${req.session.profileType}Swipe = '1'`)
+      //console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' AND ${req.session.profileType}Swipe = '1'`)
       pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '0' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
         if (err) throw err.code;
         if (results.length > 0) {
           for (let i = 0; i < results.length; i++) {
             if (desiredType == "mentor") {
               if (!exclusion.includes(results[i].mentorUsername)) {
-                exclusion.push(results[i].mentorUsername)
+                exclusion.push(results[i].mentorUsername);
+                potentialMatches++;
               }
             } else {
               if (!exclusion.includes(results[i].menteeUsername)) {
-                exclusion.push(results[i].menteeUsername)
+                exclusion.push(results[i].menteeUsername);
+                potentialMatches++;
               }
             }
           }
         }
 
-        console.log(`Initial query: found ${exclusion.length} potential matches`);
-
         // next, get all actual matches (we have swiped right on each other)
-        console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`)
+        //console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`)
         pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe = '1'`, function (err, results) {
           if (err) throw err.code;
           if (results.length > 0) {
@@ -151,17 +158,22 @@ app.get('/getmentors', (req, res) => {
               if (desiredType == "mentor") {
                 if (!exclusion.includes(results[i].mentorUsername)) {
                   exclusion.push(results[i].mentorUsername)
+                  actualMatches++;
                 }
               } else {
                 if (!exclusion.includes(results[i].menteeUsername)) {
-                  exclusion.push(results[i].menteeUsername)
+                  exclusion.push(results[i].menteeUsername);
+                  actualMatches++;
                 }
               }
             }
           }
 
+          console.log(`           skip exclusions: ${skipExclusions}` );
+          console.log(`potential match exclusions: ${potentialMatches}`);
+          console.log(`   actual match exclusions: ${actualMatches}`); 
+          console.log(`          total exclusions: ${exclusion.length}`);
 
-          console.log(`Main query develop reached. exclusions length: ${exclusion.length}`);
           // then, get all mentors minus the ones we have matched with, ones we skipped, or ones that skipped us
           if (exclusion.length > 0) {
             exclusionQuery = " WHERE ";
@@ -184,10 +196,13 @@ app.get('/getmentors', (req, res) => {
           }
 
           // run exclusion query
-          console.log(`final query: SELECT * FROM ${desiredType}sTable${exclusionQuery}`);
+          //console.log(`final query: SELECT * FROM ${desiredType}sTable${exclusionQuery}`);
           pool.query(`SELECT * FROM ${desiredType}sTable${exclusionQuery}`, function (err, results) {
             if (err) throw err.code;
-            console.log(`Found ${results.length} possible matches for ${req.session.username}`)
+            console.log("-----------------------------");
+            console.log(`${results.length} possible matche(s) for ${req.session.username}`);
+            console.log("-----------------------------");
+            console.log();
             res.send(results);
           });
         });
