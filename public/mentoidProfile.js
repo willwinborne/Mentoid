@@ -39,10 +39,12 @@ async function checkUsername() {
             if (data.usernameTaken == 'false' && document.getElementById("username").value.length > 0) {
                 document.getElementById("usernameCheck").innerHTML = '&#10003;'
                 document.getElementById("usernameCheck").style.color = "green";
+                submitButton.enabled = true;
 
             } else {
                 document.getElementById("usernameCheck").innerHTML = '&#10008;'
                 document.getElementById("usernameCheck").style.color = "red";
+                submitButton.enabled = false;
             }
         })
 }

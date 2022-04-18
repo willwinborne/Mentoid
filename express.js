@@ -173,9 +173,9 @@ app.get('/getmentors', (req, res) => {
             }
           }
 
-          console.log(`           skip exclusions: ${skipExclusions}` );
+          console.log(`           skip exclusions: ${skipExclusions}`);
           console.log(`potential match exclusions: ${potentialMatches}`);
-          console.log(`   actual match exclusions: ${actualMatches}`); 
+          console.log(`   actual match exclusions: ${actualMatches}`);
           console.log(`          total exclusions: ${exclusion.length}`);
 
           // then, get all mentors minus the ones we have matched with, ones we skipped, or ones that skipped us
@@ -254,30 +254,33 @@ app.get('/getUser', (req, res) => {
 // dynamically check a given username's availability
 // no login check required
 app.post('/checkUsername', (req, res) => {
+  let usernameTaken = true;
+  const options = { connectionLimit: 4, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
+  const pool = mysql.createPool(options);
+  
+  let roleOpposite = "mentee";
 
-  const connection = mysql.createConnection({
-    host: '107.180.1.16',
-    user: 'springog2022team',
-    password: 'springog2022team4',
-    database: 'springog2022team4',
-    port: 3306
-  });
+  if (req.body.role == "mentee") {
+    let roleOpposite = "mentor";
+  }
 
-  connection.connect();
-
-  // check for existing usernames
-  connection.query(`SELECT ${req.body.role}Username FROM ${req.body.role}sTable WHERE ${req.body.role}Username = '${req.body.username}';`, function (err, results) {
+  // check for existing usernames in BOTH tables
+  pool.query(`SELECT ${req.body.role}Username FROM ${req.body.role}sTable WHERE ${req.body.role}Username = '${req.body.username}';`, function (err, results) {
     if (err) throw err.code;
     if (typeof results[0] !== 'undefined') {
-      res.json({ usernameTaken: 'true' });
+      usernameTaken = true;
     } else {
-      res.json({ usernameTaken: 'false' });
+      pool.query(`SELECT ${roleOpposite}Username FROM ${roleOpposite}sTable WHERE ${roleOpposite}Username = '${req.body.username}';`, function (err, results) {
+        if (typeof results[0] !== 'undefined') {
+          usernameTaken = true;
+        } else {
+          usernameTaken = false;
+        }
+
+      });
     }
-
   });
-
-  connection.end();
-
+  res.json({ usernameTaken: usernameTaken });
 });
 
 // send a chat to the database
@@ -331,7 +334,7 @@ app.post('/swipeLeft', (req, res) => {
   const options = { connectionLimit: 4, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
 
-  
+
   console.log();
   console.log("-----------------------------SWIPE LEFT QUERY-------------------------------");
 
@@ -577,6 +580,8 @@ app.post('/getSpecificClientData', (req, res) => {
 // upload.single('img') uploads the file input with the name 'img' to the /profile_pictures directory on the webserver (multer)
 app.post('/makenewprofile', upload.single('img'), async (req, res) => {
 
+  console.log("trying to add a new profile")
+
   let interestsString = "";
   if (req.body.interest1 != undefined) {
     interestsString += "accounting, "
@@ -694,4 +699,27 @@ app.post('/editprofile', upload.single('img'), async (req, res) => {
 // don't mess with this
 app.listen(port, () => {
   console.log(`Mentoid app listening on port ${port}. Visit http://localhost:${port}/`);
+  console.log(`
+  ,__                                                 _,
+    ~~---___              ,                          | \\
+   |      / |   ~~~~~~~|~~~~~| ~~---,                  _/,  >
+  /~-_--__| |          |     \\     / ~\\~~/          /~| ||,'
+  |       /  \\         |------|   {    / /~)     __-  ',|_\\,
+ /       |    |~~~~~~~~|      \\    \\   | | '~\\  |_____,|~,-'
+ |~~--__ |    |        |____  |~~~~~|--| |__ /_-'     {,~
+ |   |  ~~~|~~|        |    ~~\\     /  '-' |'~ |~_____{/
+ |   |     |  '---------,      \\----|   |  |  ,' ~/~\\,|'
+ ',  \\     |    |       |~~~~~~~|    \\  | ,'~~\\  /    |
+  |   \\    |    |       |       |     \\_-~    /'~___--\\
+  ',   \\  ,-----|-------+-------'_____/__----~~/      /
+   '_   '\\|MADE |      |~~~|     |    |      _/-,~~-,/
+     \\    | AT  |      |   |_    |    /~~|~~\\    \\,/
+      ~~~-'  ASU|      |     '~~~\\___|   |   |    /
+          '-,_  | _____|          |  /   | ,-'---~\\
+              '~'~  \\             |  '--,~~~~-~~,  \\
+                     \\/~\\      /~~~'---'         |  \\
+                         \\    /                   \\  |
+                          \\  |                     '\\'
+                           '~'
+ `);
 });
