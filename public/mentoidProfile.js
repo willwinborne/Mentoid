@@ -36,7 +36,7 @@ async function checkUsername() {
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
             console.log(data.usernameTaken);
-            if (data.usernameTaken == 'false' && document.getElementById("username").value.length > 0) {
+            if (data.usernameTaken == false && document.getElementById("username").value.length > 0) {
                 document.getElementById("usernameCheck").innerHTML = '&#10003;'
                 document.getElementById("usernameCheck").style.color = "green";
                 submitButton.enabled = true;
