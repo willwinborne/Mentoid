@@ -261,7 +261,7 @@ app.post('/checkUsername', (req, res) => {
   let roleOpposite = "mentee";
 
   if (req.body.role == "mentee") {
-    let roleOpposite = "mentor";
+    roleOpposite = "mentor";
   }
 
   // check for existing usernames in BOTH tables
