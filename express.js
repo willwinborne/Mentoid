@@ -254,7 +254,7 @@ app.get('/getUser', (req, res) => {
 // dynamically check a given username's availability
 // no login check required
 app.post('/checkUsername', (req, res) => {
-  let usernameTaken = true;
+  let usernameTaken = 'true';
   const options = { connectionLimit: 4, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
 
@@ -267,25 +267,21 @@ app.post('/checkUsername', (req, res) => {
   // check for existing usernames in BOTH tables
   pool.query(`SELECT ${req.body.role}Username FROM ${req.body.role}sTable WHERE ${req.body.role}Username = '${req.body.username}';`, function (err, results) {
     if (err) throw err.code;
-    
-    console.log(`typeof results query1 -> ${typeof results[0]}`)
     if (typeof results[0] !== 'undefined') {
-      usernameTaken = true;
+      usernameTaken = 'true';
+      res.json({ usernameTaken: usernameTaken });
     } else {
       pool.query(`SELECT ${roleOpposite}Username FROM ${roleOpposite}sTable WHERE ${roleOpposite}Username = '${req.body.username}';`, function (err, results) {
-        console.log(`typeof results query2 -> ${typeof results[0]}`)
         if (typeof results[0] !== 'undefined') {
-          usernameTaken = true;
+          usernameTaken = 'true';
+          res.json({ usernameTaken: usernameTaken });
         } else {
-          console.log('username not taken')
-          usernameTaken = false;
+          usernameTaken = 'false';
+          res.json({ usernameTaken: usernameTaken });
         }
-        res.json({ usernameTaken: usernameTaken });
       });
     }
   });
-  console.log(usernameTaken)
-  
 });
 
 // send a chat to the database
