@@ -49,6 +49,6 @@ async function checkUsername() {
 }
 
 function radioChanged() {
-    checkUsername();
+    //checkUsername();
 }
 
