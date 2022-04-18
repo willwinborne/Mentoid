@@ -134,7 +134,7 @@ h1 {
 }
 
 
-#submitButton {
+/* #submitButton {
     margin-bottom: 25px;
     margin-left: 50px;
     height: 80px;
@@ -145,7 +145,7 @@ h1 {
     outline: none;
     border-radius: 25px;
     color: white;
-}
+} */
 
 #clearButton {
     margin-bottom: 25px;
