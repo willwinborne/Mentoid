@@ -100,10 +100,10 @@ function drawCurrentProfile(mentor) {
     currentFName.innerHTML = `${mentor.FName} ${mentor.LName}`;
     if (clientProfileType == "mentor") {
         currentUsername.innerHTML = mentor.menteeUsername;
-        username.innerHTML = mentor.menteeUsername;
+
     } else {
         currentUsername.innerHTML = mentor.mentorUsername;
-        username.innerHTML = mentor.mentorUsername;
+
     }
     currentInterests.innerHTML = mentor.Interests;
     currentDescription.innerHTML = mentor.Description;
@@ -169,7 +169,7 @@ async function sendRightSwipe() {
         // in this case, I am triggering the new match dialog to show 
         .then(response => response.json()).then(data => {
             console.log(data.newMatch);
-            if (data.newMatch == "true") {
+            if (data.newMatch == true) {
                 newMatch(); 
                 profilePicOverlay.style.backgroundImage = `url(${mentors[mentorIndex - 3].profilePictureID})`;
             }

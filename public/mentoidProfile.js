@@ -2,7 +2,7 @@
 // written by William Winborne (wwinborn)
 const submitButton = document.getElementById("submitButton");
 const password = document.getElementById("password");
-
+let date = "";
 const form = document.querySelector("createProfileForm");
 
 // a function that dynamically (on-page) check to see if a username is available
@@ -35,6 +35,8 @@ async function checkUsername() {
     })
         // handle the DOM based on the server's response
         .then(response => response.json()).then(data => {
+
+
             if (data.usernameTaken == 'false') {
                 document.getElementById("usernameCheck").innerHTML = '&#10003;'
                 document.getElementById("usernameCheck").style.color = "green";
@@ -45,6 +47,9 @@ async function checkUsername() {
                 document.getElementById("usernameCheck").style.color = "red";
                 submitButton.disabled = true;
             }
+
+
+
         })
 }
 
