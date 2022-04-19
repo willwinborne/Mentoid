@@ -25,6 +25,13 @@ app.use(express.static('public'));
 // this will make all profile pictures seperate, but also public and visible to the client so we can download them
 app.use(express.static('profile_pictures'));
 
+// root redirect
+app.get('/', (req, res) => {
+  // redirect to login
+  res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidLogin.html', });
+  res.end();
+});
+
 // logout of the app
 // not accessible without login, so no check required
 app.get('/logout', (req, res) => {
@@ -32,7 +39,7 @@ app.get('/logout', (req, res) => {
   // redirect after logout
   res.writeHead(302, { 'Location': 'http://localhost:3000/mentoidLogin.html', });
   res.end();
-})
+});
 
 // login to the app
 app.post('/authenticate', bodyParser.urlencoded({ extended: true }), async (req, res, next) => {
@@ -254,7 +261,6 @@ app.get('/getUser', (req, res) => {
 // dynamically check a given username's availability
 // no login check required
 app.post('/checkUsername', (req, res) => {
-  console.log('checking a username')
   let usernameTaken = 'true';
   const options = { connectionLimit: 50, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);
@@ -610,7 +616,7 @@ app.post('/makenewprofile', upload.single('img'), async (req, res) => {
     interestsString += "supplyChain, "
   }
   if (req.body.interest9 != undefined) {
-    interestsString += "marketing"
+    interestsString += "marketing, "
   }
 
   const connection = mysql.createConnection({
