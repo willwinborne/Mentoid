@@ -398,11 +398,13 @@ app.post('/swipeRight', async (req, res) => {
       console.log(`INSERT INTO matchingTable (${req.session.profileType}Swipe, ${req.session.profileType}Username, ${desiredType}Username) VALUES ('1', '${req.session.username}', '${req.body.match}');`);
       pool.query(`INSERT INTO matchingTable (${req.session.profileType}Swipe, ${req.session.profileType}Username, ${desiredType}Username) VALUES ('1', '${req.session.username}', '${req.body.match}');`, function (err, results) {
         if (err) throw err.code;
+        res.send({ newMatch: false });
       });
     }
     console.log("----------------------------------------------------------------------------");
     console.log();
   });
+  
 });
 
 // dynamically check for a match between two people
