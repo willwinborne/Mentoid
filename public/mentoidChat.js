@@ -376,7 +376,13 @@ async function fetchMentor() {
         });
 }
 
-// delete this person from matches and skip them
+// delete this person from matches and skip them, then refresh the page
 async function unmatch() {
-
+    const data = { unmatch: `${activeChat}` }
+    const response = await fetch("http://localhost:3000/unmatch", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+    location.reload();
 }

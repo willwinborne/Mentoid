@@ -703,6 +703,32 @@ app.post('/editprofile', upload.single('img'), async (req, res) => {
 
 });
 
+app.post('/unmatch', (req, res) => {
+
+  const connection = mysql.createConnection({
+    host: '107.180.1.16',
+    user: 'springog2022team',
+    password: 'springog2022team4',
+    database: 'springog2022team4',
+    port: 3306
+  });
+
+  let desiredType = "mentee";
+
+  if (req.session.profileType == "mentee") {
+    desiredType = "mentor";
+  }
+
+  console.log(`Unmatching ${req.body.unmatch} from ${req.session.username}`);
+  connection.connect();
+  console.log(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.unmatch}';`);
+  connection.query(`UPDATE matchingTable SET mentorSwipe = '0', menteeSwipe = '0' WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.unmatch}';`, (err) => {
+    if (err) throw err.code;
+    connection.end();
+    res.end();
+  });
+});
+
 // don't mess with this
 app.listen(port, () => {
   console.log(`Mentoid app listening on port ${port}. Visit http://localhost:${port}/`);
