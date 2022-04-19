@@ -316,7 +316,7 @@ function drawProfile(mentor) {
                 myInterestsString += "Marketing";
                 myInterestsString += ", "
                 continue;
-            }    
+            }
         } else {
             if (mentor.Interests.includes("accounting") && !myInterestsString.includes("Accounting")) {
                 myInterestsString += "Accounting";
@@ -353,9 +353,9 @@ function drawProfile(mentor) {
             if (mentor.Interests.includes("marketing") && !myInterestsString.includes("Marketing")) {
                 myInterestsString += "Marketing";
                 continue;
-            }    
+            }
         }
-        
+
     }
 
     interests.innerHTML = myInterestsString;
@@ -366,12 +366,17 @@ async function fetchMentor() {
     const data = { target: `${activeChat}` }
     // get the desired user's profile
     const response = await fetch("http://localhost:3000/getSpecificClientData", {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-      
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+
     })
-      .then(response => response.json()).then(data => {
-        drawProfile(data);
-      });
-  }
+        .then(response => response.json()).then(data => {
+            drawProfile(data);
+        });
+}
+
+// delete this person from matches and skip them
+async function unmatch() {
+
+}

@@ -380,7 +380,7 @@ app.post('/swipeRight', async (req, res) => {
   console.log("----------------------------SWIPE RIGHT QUERY-------------------------------");
 
   // try to get any swipe history
-  console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}}Username = '${req.body.match}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe IS NULL;`)
+  console.log(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.match}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe IS NULL;`)
   pool.query(`SELECT * FROM matchingTable WHERE ${req.session.profileType}Username = '${req.session.username}' AND ${desiredType}Username = '${req.body.match}' AND ${desiredType}Swipe = '1' AND ${req.session.profileType}Swipe IS NULL;`, function (err, results) {
     if (err) throw err.code;
     try {
