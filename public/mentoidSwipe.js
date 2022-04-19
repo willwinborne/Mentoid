@@ -109,6 +109,7 @@ function drawCurrentProfile(mentor) {
         nextProfileDummy.style.visibility = "hidden";
         username.style.display = "none";
         noMatches.style.display = "block";
+        return;
     }
     currentFName.innerHTML = `${mentor.FName} ${mentor.LName}`;
     if (clientProfileType == "mentor") {
