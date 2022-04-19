@@ -28,7 +28,7 @@ body {
     width: 85%;
     border-radius: 10px;
     height: fit-content;
-    background-color: #3F72AF;
+    background-color: #CCCCCC;
     border-radius: 25px;
     text-align: center;
     color: #1b1e3f;
@@ -38,7 +38,7 @@ body {
 
 #matches {
     border-radius: 25px;
-    border: 2px solid #3F72AF;
+    border: 2px solid #CCCCCC;
     box-shadow: 5px 5px #252958;
     background-color: #252958;
     height: 85%;
@@ -53,7 +53,7 @@ body {
 
 #chat {
     border-radius: 25px;
-    border: 2px solid #3F72AF;
+    border: 2px solid #CCCCCC;
     box-shadow: 5px 5px #252958;
     background-color: #252958;
     height: 89%;
@@ -88,7 +88,7 @@ body {
     border: 2px solid #8cabe6;
     font-size: 15pt;
     color:#1b1e3f;
-    background-color:#3F72AF;
+    background-color:#CCCCCC;
 }
 
 #name {
@@ -96,20 +96,23 @@ body {
     width: fit-content;
     display: inline-block;
     font-size: 25pt;
-    margin-bottom: 10px;
+    
 }
 
 #interests {
+    margin-bottom: 10px;
     margin-top: 10px;
     text-align: center;
     font-size: 16pt;
 }
 
 #description {
-    margin-left: 20px;
+    margin-top: 35px;
+    margin-left: 35px;
     text-align: left;
     margin-right: 20px;
-    height: 22%;
+    height: 10%;
+    font-size: 17pt;
 }
 
 /* a div that pops up to allow new post entry */
@@ -121,7 +124,7 @@ body {
     margin-left: auto; 
     margin-right: auto; 
     visibility: hidden;
-    background: #3F72AF;
+    background: #CCCCCC;
     width: 45%;
     height: 65%;
     /* offset-x | offset-y | blur-radius | color */
@@ -153,8 +156,8 @@ ul {
     padding: 0;
     overflow: hidden;
     border-radius: 25px;
-    box-shadow: 2px 2px #3F72AF;
-    background: linear-gradient(270deg, #8cabe6, #3f72af);
+    box-shadow: 2px 2px #CCCCCC;
+    background: #CCCCCC;
     margin-top: 10px;
     margin-left: 15%;
     margin-right: 15%;
@@ -193,7 +196,7 @@ li a:hover {
     margin-right: auto;
     margin-top: 2%;
     margin-bottom: 0px;
-    background-color: #3F72AF;
+    background-color: #CCCCCC;
     border-radius: 25px;
     text-align: center;
     color: #1b1e3f;
@@ -253,7 +256,7 @@ li a:hover {
 
 .senderChat {
     font-size: 16pt;
-    background-color: #3F72AF;
+    background-color: #CCCCCC;
     width: fit-content;
     padding-left: 20px;
     padding-right: 20px;
@@ -289,7 +292,7 @@ li a:hover {
 
 #remainingCharContent {
     margin-left: 1.25%;
-    color: #8cabe6;
+    color: #CCCCCC;
     font-size: 15pt;
 }
 
@@ -300,7 +303,7 @@ li a:hover {
     color: white;
     font-size: 25pt;
     width: 65%;
-    border: 2px solid #8cabe6;
+    border: 2px solid #CCCCCC
 }
 
 #chatSend {
@@ -308,10 +311,10 @@ li a:hover {
     height: 50px;
     width: 15%;
     border-radius: 25px;
-    border: 2px solid #8cabe6;
+    border: 2px solid #1b1e3f;
     font-size: 18pt;
     color:#1b1e3f;
-    background-color:#3F72AF;
+    background-color:#CCCCCC;
 }
 
 /* width */
@@ -327,7 +330,7 @@ li a:hover {
    
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #3F72AF; 
+    background: #CCCCCC; 
     border-radius: 10px;
   }
   

@@ -20,10 +20,11 @@
 
     <div id="newPostDiv">
         <p id="name"></p>
-        
-        <div id="profilePicDiv"></div>
         <p id="interests"></p>
+        <div id="profilePicDiv"></div>
         <p id="description"></p>
+        
+        
         <button id="exit" onclick="hideProfile()">Exit</button>
         
     </div>
@@ -44,7 +45,7 @@
             </div>
             <div id="chatDiv">
                 <input type="text" id="chatEntry" name="chat" class="blur" maxlength="50">
-                <label id="remainingCharContent">(0/50)</label>
+                <label class="blur" id="remainingCharContent">0/50</label>
                 <button onclick="sendChat()" id="chatSend" class="blur">Send</button>
             </div>
         </div>

@@ -84,7 +84,7 @@ function drawCurrentProfile(client) {
 
     for (let i = 0; i < interestsLength; i++) {
         console.log(`interestsLength i: ${i}`)
-        if (i < interestsLength - 3) {
+        if (i < interestsLength - 1) {
             if (client.Interests.includes("accounting") && !myInterestsString.includes("Accounting")) {
                 myInterestsString += "Accounting";
                 myInterestsString += ", "
@@ -128,51 +128,15 @@ function drawCurrentProfile(client) {
             if (client.Interests.includes("marketing") && !myInterestsString.includes("Marketing")) {
                 myInterestsString += "Marketing";
                 myInterestsString += ", "
-                continue;
-            }    
-        } else {
-            if (client.Interests.includes("accounting") && !myInterestsString.includes("Accounting")) {
-                myInterestsString += "Accounting";
-                continue;
-            }
-            if (client.Interests.includes("entrepreneurship") && !myInterestsString.includes("Entrepreneurship")) {
-                myInterestsString += "Entrepreneurship";
-                continue;
-            }
-            if (client.Interests.includes("businessStrategy") && !myInterestsString.includes("Business Strategy")) {
-                myInterestsString += "Business Strategy";
-                continue;
-            }
-            if (client.Interests.includes("informationSystems") && !myInterestsString.includes("Information Systems")) {
-                myInterestsString += "Information Systems";
-                continue;
-            }
-            if (client.Interests.includes("humanResources") && !myInterestsString.includes("Human Resources")) {
-                myInterestsString += "Human Resources";
-                continue;
-            }
-            if (client.Interests.includes("talentAcq") && !myInterestsString.includes("Talent Acquisition")) {
-                myInterestsString += "Talent Acquisition";
-                continue;
-            }
-            if (client.Interests.includes("performanceManagement") && !myInterestsString.includes("Performance Management")) {
-                myInterestsString += "Performance Management";
-                continue;
-            }
-            if (client.Interests.includes("supplyChain") && !myInterestsString.includes("Supply Chain")) {
-                myInterestsString += "Supply Chain";
-                continue;
-            }
-            if (client.Interests.includes("marketing") && !myInterestsString.includes("Marketing")) {
-                myInterestsString += "Marketing";
                 continue;
             }    
         }
-        
+          
     }
-
+    // remove the space and comma from the end
+    myInterestsString = myInterestsString.substring(0, myInterestsString.length - 2);
     currentInterests.innerHTML = myInterestsString;
     currentDescription.innerHTML = client.Description;  
     profile.style.backgroundImage = `url(${client.profilePictureID})`;   
-    console.log('GOT THROUGH');
+
 }

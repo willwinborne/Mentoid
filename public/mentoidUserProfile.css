@@ -19,12 +19,25 @@ ul {
     padding: 0;
     overflow: hidden;
     border-radius: 25px;
-    box-shadow: 2px 2px #3F72AF;
-    background: linear-gradient(270deg, #8cabe6, #3f72af);
+    box-shadow: 2px 2px black;
+    background: #CCCCCC;
     margin-top: 10px;
     margin-left: 15%;
     margin-right: 15%;
     box-shadow: 3px 3px #252958;
+}
+
+
+#infoContainer {
+    background-color: #CCCCCC;
+    border: 2px solid #112D4E;
+    border-radius: 10px;
+    box-shadow: 3px 5px #252958;
+    width: 100%;
+    margin-top: 25px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 li {
@@ -53,8 +66,8 @@ li a:hover {
 }
 
 .infoDiv {
-    background: linear-gradient(270deg, #8296bd, #3f72af);
-    border: 2px solid #3F72AF;
+    background-color: #CCCCCC;
+    border: 2px solid black;
     border-radius: 10px;
     box-shadow: 3px 5px #252958;
     width: 100%;
@@ -124,9 +137,9 @@ li a:hover {
     /* what */
     /* z-index: 9; */
     background-color: white;
-    border: 15px solid #070921;
+    border: 15px solid #CCCCCC;
     border-radius: 10px;
-    box-shadow: 5px 5px #252958;
+    box-shadow: 5px 5px black;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -136,6 +149,15 @@ li a:hover {
 body {
     overflow-x: hidden;
     background-color: #67809f
+}
+
+#currentInterests {
+    margin-left: 25px;
+}
+
+#currentDescription {
+    margin-left: 25px;
+    margin-bottom: 15px;
 }
 
 /* class for swipe buttons at the bottom */
@@ -178,7 +200,7 @@ body {
 
 /* Information for each profile Box */
 #profileInfoDiv {
-    width: 80%;
+    width: fit-content;
     margin-top: 25px;
     margin-left: auto;
     margin-right: auto;
@@ -187,7 +209,7 @@ body {
 #currentFName {
     font-size: 3em;
     display: inline;
-    margin-left: 10px;
+    margin-left: 25px;
 }
 
 #currentUsername {
@@ -209,7 +231,7 @@ body {
     width: 23%;
     text-align: center;
     /* offset-x | offset-y | blur-radius | color */
-    border: 15px solid #070921;
+    border: 15px solid #CCCCCC;
     border-radius: 10px;
     box-shadow: 5px 5px #252958;
     background-color: #252958;
@@ -263,13 +285,14 @@ html {
 #info {
     font-size: 20pt;
     text-align: center;
-    margin-top: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 #username {
     font-size: 40pt;
     text-align: center;
-    margin-top: 30px;
+
 }
 
 #x {

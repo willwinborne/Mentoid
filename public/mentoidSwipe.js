@@ -1,5 +1,6 @@
 const profile = document.getElementById("currentProfileID");
 const nextProfile = document.getElementById("nextProfileID");
+const nextProfileDummy = document.getElementById("nextProfileIDDummy");
 const buttonDiv = document.getElementById("buttonDiv");
 const profileInfoDiv = document.getElementById("profileInfoDiv");
 const username = document.getElementById("username");
@@ -30,10 +31,19 @@ function start() {
     getUsername();
 }
 
+profile.addEventListener('animationend', () => {
+    console.log('Animation ended');
+});
+
+nextProfile.addEventListener('animationend', () => {
+    console.log('Nextprofile animation ended');
+});
+
 // remove the top profile, then re-draw the "next profile" as the top profile, 
 // and bring in the next person to fill the new "next profile."
 // do not trigger a "match"
 function swipeLeft() {
+
     sendLeftSwipe();
     if (profile.style.animationName != "left") {
         profile.style.animationName = "left";
@@ -41,6 +51,7 @@ function swipeLeft() {
         profile.style.animation = "none";
         // trigger DOM reflow (idk, it works)
         void profile.offsetWidth;
+
         profile.style.animation = "left 1s";
     }
     drawCurrentProfile(mentors[mentorIndex - 1]);
@@ -79,6 +90,7 @@ async function fetchMentors() {
             profileInfoDiv.style.visibility = "visible";
             buttonDiv.style.visibility = "visible";
             nextProfile.style.visibility = "visible";
+            nextProfileDummy.style.visibility = "visible";
             username.style.display = "block";
         }
     }
@@ -94,6 +106,7 @@ function drawCurrentProfile(mentor) {
         profileInfoDiv.style.visibility = "hidden";
         buttonDiv.style.visibility = "hidden";
         nextProfile.style.visibility = "hidden";
+        nextProfileDummy.style.visibility = "hidden";
         username.style.display = "none";
         noMatches.style.display = "block";
     }
@@ -158,52 +171,17 @@ function drawCurrentProfile(mentor) {
                 myInterestsString += "Marketing";
                 myInterestsString += ", "
                 continue;
-            }    
-        } else {
-            if (mentor.Interests.includes("accounting") && !myInterestsString.includes("Accounting")) {
-                myInterestsString += "Accounting";
-                continue;
             }
-            if (mentor.Interests.includes("entrepreneurship") && !myInterestsString.includes("Entrepreneurship")) {
-                myInterestsString += "Entrepreneurship";
-                continue;
-            }
-            if (mentor.Interests.includes("businessStrategy") && !myInterestsString.includes("Business Strategy")) {
-                myInterestsString += "Business Strategy";
-                continue;
-            }
-            if (mentor.Interests.includes("informationSystems") && !myInterestsString.includes("Information Systems")) {
-                myInterestsString += "Information Systems";
-                continue;
-            }
-            if (mentor.Interests.includes("humanResources") && !myInterestsString.includes("Human Resources")) {
-                myInterestsString += "Human Resources";
-                continue;
-            }
-            if (mentor.Interests.includes("talentAcq") && !myInterestsString.includes("Talent Acquisition")) {
-                myInterestsString += "Talent Acquisition";
-                continue;
-            }
-            if (mentor.Interests.includes("performanceManagement") && !myInterestsString.includes("Performance Management")) {
-                myInterestsString += "Performance Management";
-                continue;
-            }
-            if (mentor.Interests.includes("supplyChain") && !myInterestsString.includes("Supply Chain")) {
-                myInterestsString += "Supply Chain";
-                continue;
-            }
-            if (mentor.Interests.includes("marketing") && !myInterestsString.includes("Marketing")) {
-                myInterestsString += "Marketing";
-                continue;
-            }    
+
+
         }
-        
     }
 
+    // remove the space and comma from the end
+    myInterestsString = myInterestsString.substring(0, myInterestsString.length - 2);
     currentInterests.innerHTML = myInterestsString;
     currentDescription.innerHTML = mentor.Description;
     profile.style.backgroundImage = `url(${mentor.profilePictureID})`;
-
     mentorIndex++;
 }
 
@@ -232,7 +210,7 @@ async function getUsername() {
 
 async function sendLeftSwipe() {
     console.log(clientUsername);
-   
+
     let match = currentUsername.innerHTML;
     console.log(match);
     const matchData = { match: `${match}`, username: `${clientUsername}` }
@@ -242,15 +220,12 @@ async function sendLeftSwipe() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(matchData),
     })
-        // handle the DOM based on the server's response
-        .then(response => response.json()).then(data => {
-            // nothing really needs to be done here
-        })
+
 }
 
 async function sendRightSwipe() {
     console.log(clientUsername);
-   
+
     let match = currentUsername.innerHTML;
     console.log(match);
     const matchData = { match: `${match}`, username: `${clientUsername}` }
@@ -265,7 +240,7 @@ async function sendRightSwipe() {
         .then(response => response.json()).then(data => {
             console.log(data.newMatch);
             if (data.newMatch == true) {
-                newMatch(); 
+                newMatch();
                 profilePicOverlay.style.backgroundImage = `url(${mentors[mentorIndex - 3].profilePictureID})`;
             }
         })

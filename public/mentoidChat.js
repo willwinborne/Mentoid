@@ -130,6 +130,7 @@ async function getUsername() {
 
 // send the chat to the database
 async function sendChat() {
+    remainingCharContent.innerHTML = "0/50";
     if (input.value != "") {
         const data = { chat: `${input.value}`, client: `${clientUsername}`, target: `${activeChat}` };
         // send the chat to the database chat table
@@ -156,22 +157,24 @@ function chatWith(user) {
         chatWithLabel.innerHTML = `Select a chat`
         const oldButtonReference1 = document.getElementById(`${activeChat}Div`);
         oldButtonReference1.style.color = "#1b1e3f";
-        oldButtonReference1.style.backgroundColor = "#3F72AF"
+        oldButtonReference1.style.backgroundColor = "#FFFFFF"
         activeChat = "";
         input.setAttribute("class", "blur");
         chatSend.setAttribute("class", "blur");
+        remainingCharContent.setAttribute("class", "blur");
         return;
     }
 
     if (activeChat != "") {
         const oldButtonReference = document.getElementById(`${activeChat}Div`);
         oldButtonReference.style.color = "#1b1e3f";
-        oldButtonReference.style.backgroundColor = "#3F72AF"
+        oldButtonReference.style.backgroundColor = "#FFFFFF"
     }
 
     chatSend.setAttribute("class", "");
     input.setAttribute("class", "");
     messages.setAttribute("class", "");
+    remainingCharContent.setAttribute("class", "");
     messages.innerHTML = "";
     lastChatLength = 0;
 
@@ -259,9 +262,104 @@ function hideProfile() {
 
 function drawProfile(mentor) {
     profilePicDiv.style.backgroundImage = `url(${mentor.profilePictureID})`;
-    nameP.innerHTML = `${mentor.FName} ${mentor.LName}`;
-    interests.innerHTML = mentor.Interests;
-    description.innerHTML = mentor.description;
+    nameP.innerHTML = `${mentor.FName} ${mentor.LName} (${mentor.Email})`;
+    let myInterestsString = "";
+    let splitString = mentor.Interests;
+    splitString = splitString.split(",").length - 1
+    console.log(splitString)
+    let interestsLength = splitString + 1;
+
+    for (let i = 0; i < interestsLength; i++) {
+        console.log(`interestsLength i: ${i}`)
+        if (i < interestsLength - 1) {
+            if (mentor.Interests.includes("accounting") && !myInterestsString.includes("Accounting")) {
+                myInterestsString += "Accounting";
+                myInterestsString += ", "
+                continue;
+            }
+            if (mentor.Interests.includes("entrepreneurship") && !myInterestsString.includes("Entrepreneurship")) {
+                myInterestsString += "Entrepreneurship";
+                myInterestsString += ", "
+                continue;
+            }
+            if (mentor.Interests.includes("businessStrategy") && !myInterestsString.includes("Business Strategy")) {
+                myInterestsString += "Business Strategy";
+                myInterestsString += ", "
+                continue;
+            }
+            if (mentor.Interests.includes("informationSystems") && !myInterestsString.includes("Information Systems")) {
+                myInterestsString += "Information Systems";
+                myInterestsString += ", "
+                continue;
+            }
+            if (mentor.Interests.includes("humanResources") && !myInterestsString.includes("Human Resources")) {
+                myInterestsString += "Human Resources";
+                myInterestsString += ", "
+                continue;
+            }
+            if (mentor.Interests.includes("talentAcq") && !myInterestsString.includes("Talent Acquisition")) {
+                myInterestsString += "Talent Acquisition";
+                myInterestsString += ", "
+                continue;
+            }
+            if (mentor.Interests.includes("performanceManagement") && !myInterestsString.includes("Performance Management")) {
+                myInterestsString += "Performance Management";
+                myInterestsString += ", "
+                continue;
+            }
+            if (mentor.Interests.includes("supplyChain") && !myInterestsString.includes("Supply Chain")) {
+                myInterestsString += "Supply Chain";
+                myInterestsString += ", "
+                continue;
+            }
+            if (mentor.Interests.includes("marketing") && !myInterestsString.includes("Marketing")) {
+                myInterestsString += "Marketing";
+                myInterestsString += ", "
+                continue;
+            }    
+        } else {
+            if (mentor.Interests.includes("accounting") && !myInterestsString.includes("Accounting")) {
+                myInterestsString += "Accounting";
+                continue;
+            }
+            if (mentor.Interests.includes("entrepreneurship") && !myInterestsString.includes("Entrepreneurship")) {
+                myInterestsString += "Entrepreneurship";
+                continue;
+            }
+            if (mentor.Interests.includes("businessStrategy") && !myInterestsString.includes("Business Strategy")) {
+                myInterestsString += "Business Strategy";
+                continue;
+            }
+            if (mentor.Interests.includes("informationSystems") && !myInterestsString.includes("Information Systems")) {
+                myInterestsString += "Information Systems";
+                continue;
+            }
+            if (mentor.Interests.includes("humanResources") && !myInterestsString.includes("Human Resources")) {
+                myInterestsString += "Human Resources";
+                continue;
+            }
+            if (mentor.Interests.includes("talentAcq") && !myInterestsString.includes("Talent Acquisition")) {
+                myInterestsString += "Talent Acquisition";
+                continue;
+            }
+            if (mentor.Interests.includes("performanceManagement") && !myInterestsString.includes("Performance Management")) {
+                myInterestsString += "Performance Management";
+                continue;
+            }
+            if (mentor.Interests.includes("supplyChain") && !myInterestsString.includes("Supply Chain")) {
+                myInterestsString += "Supply Chain";
+                continue;
+            }
+            if (mentor.Interests.includes("marketing") && !myInterestsString.includes("Marketing")) {
+                myInterestsString += "Marketing";
+                continue;
+            }    
+        }
+        
+    }
+
+    interests.innerHTML = myInterestsString;
+    description.innerHTML = mentor.Description;
 }
 
 async function fetchMentor() {
