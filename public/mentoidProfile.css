@@ -120,7 +120,40 @@ form {
     width: 50%;
 } 
 
-
+/* hourglass loading.io/css */
+#lds-hourglass {
+    display: none;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    width: 10px;
+    height: 10px;
+  }
+  #lds-hourglass:after {
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 10px solid #fff;
+    border-color: #252958 transparent #252958 transparent;
+    animation: lds-hourglass 1.2s infinite;
+  }
+  @keyframes lds-hourglass {
+    0% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+      transform: rotate(900deg);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+      transform: rotate(1800deg);
+    }
+  }
+  
 
 
 .Ldiv {
@@ -131,6 +164,20 @@ h1 {
     color: white;
     text-align: center;
     margin-bottom: 20px;
+}
+
+#checkButton {
+    border: none;
+    background: linear-gradient(90deg, #252958, #67809f);
+    outline: none;
+    border-radius: 25px;
+    color: white;
+    height: 35px;
+    width: 175px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 
@@ -181,6 +228,7 @@ h1 {
     padding-left: 10px;
     margin-left: 1vw;
     color: white;
+    margin-bottom: 10px;
 }
 
 #password {
@@ -295,7 +343,7 @@ h1 {
 
 #usernameCheck {
     display: inline;
-    font-size: 15pt;
+    font-size: 20pt;
     color: red;
 }
 

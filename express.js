@@ -254,6 +254,7 @@ app.get('/getUser', (req, res) => {
 // dynamically check a given username's availability
 // no login check required
 app.post('/checkUsername', (req, res) => {
+  console.log('checking a username')
   let usernameTaken = 'true';
   const options = { connectionLimit: 50, user: 'springog2022team', password: 'springog2022team4', database: 'springog2022team4', host: '107.180.1.16', port: 3306 }
   const pool = mysql.createPool(options);

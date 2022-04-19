@@ -27,8 +27,11 @@
             <label for="email">Email:</label><br>
             <input type="email" id="email" name="email" placeholder="johnDoe@yahoo.com"><br><br>
             <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" placeholder="user1" oninput="checkUsername()">
+            <input type="text" id="username" name="username" placeholder="user1">
             <p id="usernameCheck">&#10008;</p>
+            <div id="lds-hourglass"></div><br>
+            <label id="checkButton" onclick="checkUsername()">Check availability</label>
+            
             <br><br>
             <label for="password">Password:</label><br>
             <input type="password" id="password" name="password" placeholder="iLuvCatz81"><br><br>
@@ -74,9 +77,9 @@
             <!-- Look at this weird thing going on -->
             <input type="file" id="img" name="img" accept="image/*"><br><br>
             <div id="radioDiv">
-                <input type="radio" id="mentor" name="profileType" value="mentorsTable" checked onchange="radioChanged()">
+                <input type="radio" id="mentor" name="profileType" value="mentorsTable" checked>
                 <label for="mentor" id="mentorLabel">Mentor</label>
-                <input id="mentee" type="radio" name="profileType" value="menteesTable" onchange="radioChanged()">
+                <input id="mentee" type="radio" name="profileType" value="menteesTable">
                 <label for="mentee" id="menteeLabel">Mentee</label>
             </div>
             <br>
